@@ -1,6 +1,6 @@
 # kubernetes-hetzner
 
-see [kubeadm/README.md]()
+see [kubeadm/README.md](kubeadm/README.md)
 
 
 
