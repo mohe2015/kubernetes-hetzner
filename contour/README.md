@@ -21,12 +21,18 @@ kubectl get -n projectcontour service envoy -o wide
 http://kube-apiserver.selfmade4u.de/
 
 # we need the beta
-curl -OL https://github.com/jetstack/cert-manager/releases/download/master/cert-manager.yaml
+curl -OL https://github.com/jetstack/cert-manager/releases/download/v1.4.3/cert-manager.yaml
 kubectl apply -f cert-manager.yaml
 
 # REMEMBER TO CHANGE THE EMAIL-ADRESS IN letsencrypt-staging.yaml
 
-kubectl apply -f letsencrypt-staging.yaml
+#kubectl apply -f letsencrypt-staging.yaml
+#kubectl delete certificate httpbin
+#kubectl delete secret httpbin
+
+# REMEMBER TO CHANGE THE EMAIL-ADRESS IN letsencrypt-prod.yaml
+
+kubectl apply -f letsencrypt-prod.yaml
 
 kubectl -n cert-manager logs -l app=cert-manager -c cert-manager
 
@@ -36,7 +42,19 @@ kubectl get pod -l app=httpbin
 
 kubectl apply -f service.yaml
 
+kubectl get service httpbin
+
 kubectl apply -f ingress.yaml
+
+kubectl get ingress httpbin
+
+kubectl describe certificate httpbin | tail -n 12
+
+kubectl describe certificate httpbin | grep -C3 "Certificate is up to date"
+
+kubectl get secret httpbin
+
+kubectl delete -f ingress.yaml -f service.yaml -f deployment.yaml -f letsencrypt-staging.yaml
 
 # https://github.com/jetstack/cert-manager/issues/3682
 
