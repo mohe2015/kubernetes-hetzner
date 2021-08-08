@@ -1,0 +1,343 @@
+#cloud-config
+# https://cloudinit.readthedocs.io/en/latest/topics/examples.html
+# https://cloudinit.readthedocs.io/en/latest/topics/modules.html
+resize_rootfs: false
+# TODO FIXME create unprivileged user for local kubectl etc.
+bootcmd:
+  - "cloud-init-per once setup1 sgdisk -d 1 /dev/sda"
+  - "cloud-init-per once setup2 sgdisk -n 1:0:+20GiB -t 1:8300 /dev/sda"
+  - "cloud-init-per once setup3 sgdisk -n 2:0:0      -t 2:8300 /dev/sda"
+  #- "hdparm -z /dev/sda"
+  #- "sgdisk -R /dev/sda" # https://fixyacloud.wordpress.com/2020/01/26/reread-partition-table-without-rebooting/
+  - "cloud-init-per once setup4 partx -u /dev/sda" # cat /proc/partitions
+write_files:
+  - content: |
+        # any text
+    path: /etc/growroot-disabled
+  - path: /etc/modules-load.d/k8s.conf
+    content: |
+        br_netfilter
+  - path: /etc/sysctl.d/k8s.conf
+    content: |
+        net.bridge.bridge-nf-call-ip6tables = 1
+        net.bridge.bridge-nf-call-iptables = 1
+  - path: /etc/modules-load.d/containerd.conf
+    content: |
+        overlay
+        br_netfilter
+  - path: /etc/sysctl.d/99-kubernetes-cri.conf
+    content: |
+        net.bridge.bridge-nf-call-iptables  = 1
+        net.ipv4.ip_forward                 = 1
+        net.bridge.bridge-nf-call-ip6tables = 1
+  - path: /etc/containerd/config.toml
+    content: |
+        version = 2
+        root = "/var/lib/containerd"
+        state = "/run/containerd"
+        plugin_dir = ""
+        disabled_plugins = []
+        required_plugins = []
+        oom_score = 0
+
+        [grpc]
+          address = "/run/containerd/containerd.sock"
+          tcp_address = ""
+          tcp_tls_cert = ""
+          tcp_tls_key = ""
+          uid = 0
+          gid = 0
+          max_recv_message_size = 16777216
+          max_send_message_size = 16777216
+
+        [ttrpc]
+          address = ""
+          uid = 0
+          gid = 0
+
+        [debug]
+          address = ""
+          uid = 0
+          gid = 0
+          level = ""
+
+        [metrics]
+          address = ""
+          grpc_histogram = false
+
+        [cgroup]
+          path = ""
+
+        [timeouts]
+          "io.containerd.timeout.shim.cleanup" = "5s"
+          "io.containerd.timeout.shim.load" = "5s"
+          "io.containerd.timeout.shim.shutdown" = "3s"
+          "io.containerd.timeout.task.state" = "2s"
+
+        [plugins]
+          [plugins."io.containerd.gc.v1.scheduler"]
+            pause_threshold = 0.02
+            deletion_threshold = 0
+            mutation_threshold = 100
+            schedule_delay = "0s"
+            startup_delay = "100ms"
+          [plugins."io.containerd.grpc.v1.cri"]
+            disable_tcp_service = true
+            stream_server_address = "127.0.0.1"
+            stream_server_port = "0"
+            stream_idle_timeout = "4h0m0s"
+            enable_selinux = false
+            selinux_category_range = 1024
+            sandbox_image = "k8s.gcr.io/pause:3.2"
+            stats_collect_period = 10
+            systemd_cgroup = false
+            enable_tls_streaming = false
+            max_container_log_line_size = 16384
+            disable_cgroup = false
+            disable_apparmor = false
+            restrict_oom_score_adj = false
+            max_concurrent_downloads = 3
+            disable_proc_mount = false
+            unset_seccomp_profile = ""
+            tolerate_missing_hugetlb_controller = true
+            disable_hugetlb_controller = true
+            ignore_image_defined_volumes = false
+            [plugins."io.containerd.grpc.v1.cri".containerd]
+              snapshotter = "overlayfs"
+              default_runtime_name = "runc"
+              no_pivot = false
+              disable_snapshot_annotations = true
+              discard_unpacked_layers = false
+              [plugins."io.containerd.grpc.v1.cri".containerd.default_runtime]
+                runtime_type = ""
+                runtime_engine = ""
+                runtime_root = ""
+                privileged_without_host_devices = false
+                base_runtime_spec = ""
+              [plugins."io.containerd.grpc.v1.cri".containerd.untrusted_workload_runtime]
+                runtime_type = ""
+                runtime_engine = ""
+                runtime_root = ""
+                privileged_without_host_devices = false
+                base_runtime_spec = ""
+              [plugins."io.containerd.grpc.v1.cri".containerd.runtimes]
+                [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc]
+                  runtime_type = "io.containerd.runc.v2"
+                  runtime_engine = ""
+                  runtime_root = ""
+                  privileged_without_host_devices = false
+                  base_runtime_spec = ""
+                  [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+                    SystemdCgroup = true
+            [plugins."io.containerd.grpc.v1.cri".cni]
+              bin_dir = "/opt/cni/bin"
+              conf_dir = "/etc/cni/net.d"
+              max_conf_num = 1
+              conf_template = ""
+            [plugins."io.containerd.grpc.v1.cri".registry]
+              [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+                [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
+                  endpoint = ["https://registry-1.docker.io"]
+            [plugins."io.containerd.grpc.v1.cri".image_decryption]
+              key_model = ""
+            [plugins."io.containerd.grpc.v1.cri".x509_key_pair_streaming]
+              tls_cert_file = ""
+              tls_key_file = ""
+          [plugins."io.containerd.internal.v1.opt"]
+            path = "/opt/containerd"
+          [plugins."io.containerd.internal.v1.restart"]
+            interval = "10s"
+          [plugins."io.containerd.metadata.v1.bolt"]
+            content_sharing_policy = "shared"
+          [plugins."io.containerd.monitor.v1.cgroups"]
+            no_prometheus = false
+          [plugins."io.containerd.runtime.v1.linux"]
+            shim = "containerd-shim"
+            runtime = "runc"
+            runtime_root = ""
+            no_shim = false
+            shim_debug = false
+          [plugins."io.containerd.runtime.v2.task"]
+            platforms = ["linux/amd64"]
+          [plugins."io.containerd.service.v1.diff-service"]
+            default = ["walking"]
+          [plugins."io.containerd.snapshotter.v1.devmapper"]
+            root_path = ""
+            pool_name = ""
+            base_image_size = ""
+            async_remove = false
+      # containerd config default
+      # [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
+      #   SystemdCgroup = true
+  - path: /root/kubeadm-config.yaml
+    content: |
+        kind: InitConfiguration
+        apiVersion: kubeadm.k8s.io/v1beta3
+        ---
+        kind: ClusterConfiguration
+        apiVersion: kubeadm.k8s.io/v1beta3
+        kubernetesVersion: v1.22.0
+        controlPlaneEndpoint: "kube-apiserver.selfmade4u.de:6443"
+        networking:
+          podSubnet: "10.244.0.0/16"
+        featureGates:
+          RootlessControlPlane: true
+        ---
+        kind: KubeletConfiguration
+        apiVersion: kubelet.config.k8s.io/v1beta1
+        cgroupDriver: systemd
+        #failSwapOn: false
+        featureGates:
+          MemoryQoS: true
+        #  NodeSwapEnabled: true # https://github.com/kubernetes/enhancements/pull/2602/files https://github.com/kubernetes/kubernetes/pull/102823/files
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+apt:
+  sources:
+    docker:
+      source: "deb [arch=amd64] https://download.docker.com/linux/debian buster stable"
+      key: |
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+          mQINBFit2ioBEADhWpZ8/wvZ6hUTiXOwQHXMAlaFHcPH9hAtr4F1y2+OYdbtMuth
+          lqqwp028AqyY+PRfVMtSYMbjuQuu5byyKR01BbqYhuS3jtqQmljZ/bJvXqnmiVXh
+          38UuLa+z077PxyxQhu5BbqntTPQMfiyqEiU+BKbq2WmANUKQf+1AmZY/IruOXbnq
+          L4C1+gJ8vfmXQt99npCaxEjaNRVYfOS8QcixNzHUYnb6emjlANyEVlZzeqo7XKl7
+          UrwV5inawTSzWNvtjEjj4nJL8NsLwscpLPQUhTQ+7BbQXAwAmeHCUTQIvvWXqw0N
+          cmhh4HgeQscQHYgOJjjDVfoY5MucvglbIgCqfzAHW9jxmRL4qbMZj+b1XoePEtht
+          ku4bIQN1X5P07fNWzlgaRL5Z4POXDDZTlIQ/El58j9kp4bnWRCJW0lya+f8ocodo
+          vZZ+Doi+fy4D5ZGrL4XEcIQP/Lv5uFyf+kQtl/94VFYVJOleAv8W92KdgDkhTcTD
+          G7c0tIkVEKNUq48b3aQ64NOZQW7fVjfoKwEZdOqPE72Pa45jrZzvUFxSpdiNk2tZ
+          XYukHjlxxEgBdC/J3cMMNRE1F4NCA3ApfV1Y7/hTeOnmDuDYwr9/obA8t016Yljj
+          q5rdkywPf4JF8mXUW5eCN1vAFHxeg9ZWemhBtQmGxXnw9M+z6hWwc6ahmwARAQAB
+          tCtEb2NrZXIgUmVsZWFzZSAoQ0UgZGViKSA8ZG9ja2VyQGRvY2tlci5jb20+iQI3
+          BBMBCgAhBQJYrefAAhsvBQsJCAcDBRUKCQgLBRYCAwEAAh4BAheAAAoJEI2BgDwO
+          v82IsskP/iQZo68flDQmNvn8X5XTd6RRaUH33kXYXquT6NkHJciS7E2gTJmqvMqd
+          tI4mNYHCSEYxI5qrcYV5YqX9P6+Ko+vozo4nseUQLPH/ATQ4qL0Zok+1jkag3Lgk
+          jonyUf9bwtWxFp05HC3GMHPhhcUSexCxQLQvnFWXD2sWLKivHp2fT8QbRGeZ+d3m
+          6fqcd5Fu7pxsqm0EUDK5NL+nPIgYhN+auTrhgzhK1CShfGccM/wfRlei9Utz6p9P
+          XRKIlWnXtT4qNGZNTN0tR+NLG/6Bqd8OYBaFAUcue/w1VW6JQ2VGYZHnZu9S8LMc
+          FYBa5Ig9PxwGQOgq6RDKDbV+PqTQT5EFMeR1mrjckk4DQJjbxeMZbiNMG5kGECA8
+          g383P3elhn03WGbEEa4MNc3Z4+7c236QI3xWJfNPdUbXRaAwhy/6rTSFbzwKB0Jm
+          ebwzQfwjQY6f55MiI/RqDCyuPj3r3jyVRkK86pQKBAJwFHyqj9KaKXMZjfVnowLh
+          9svIGfNbGHpucATqREvUHuQbNnqkCx8VVhtYkhDb9fEP2xBu5VvHbR+3nfVhMut5
+          G34Ct5RS7Jt6LIfFdtcn8CaSas/l1HbiGeRgc70X/9aYx/V/CEJv0lIe8gP6uDoW
+          FPIZ7d6vH+Vro6xuWEGiuMaiznap2KhZmpkgfupyFmplh0s6knymuQINBFit2ioB
+          EADneL9S9m4vhU3blaRjVUUyJ7b/qTjcSylvCH5XUE6R2k+ckEZjfAMZPLpO+/tF
+          M2JIJMD4SifKuS3xck9KtZGCufGmcwiLQRzeHF7vJUKrLD5RTkNi23ydvWZgPjtx
+          Q+DTT1Zcn7BrQFY6FgnRoUVIxwtdw1bMY/89rsFgS5wwuMESd3Q2RYgb7EOFOpnu
+          w6da7WakWf4IhnF5nsNYGDVaIHzpiqCl+uTbf1epCjrOlIzkZ3Z3Yk5CM/TiFzPk
+          z2lLz89cpD8U+NtCsfagWWfjd2U3jDapgH+7nQnCEWpROtzaKHG6lA3pXdix5zG8
+          eRc6/0IbUSWvfjKxLLPfNeCS2pCL3IeEI5nothEEYdQH6szpLog79xB9dVnJyKJb
+          VfxXnseoYqVrRz2VVbUI5Blwm6B40E3eGVfUQWiux54DspyVMMk41Mx7QJ3iynIa
+          1N4ZAqVMAEruyXTRTxc9XW0tYhDMA/1GYvz0EmFpm8LzTHA6sFVtPm/ZlNCX6P1X
+          zJwrv7DSQKD6GGlBQUX+OeEJ8tTkkf8QTJSPUdh8P8YxDFS5EOGAvhhpMBYD42kQ
+          pqXjEC+XcycTvGI7impgv9PDY1RCC1zkBjKPa120rNhv/hkVk/YhuGoajoHyy4h7
+          ZQopdcMtpN2dgmhEegny9JCSwxfQmQ0zK0g7m6SHiKMwjwARAQABiQQ+BBgBCAAJ
+          BQJYrdoqAhsCAikJEI2BgDwOv82IwV0gBBkBCAAGBQJYrdoqAAoJEH6gqcPyc/zY
+          1WAP/2wJ+R0gE6qsce3rjaIz58PJmc8goKrir5hnElWhPgbq7cYIsW5qiFyLhkdp
+          YcMmhD9mRiPpQn6Ya2w3e3B8zfIVKipbMBnke/ytZ9M7qHmDCcjoiSmwEXN3wKYI
+          mD9VHONsl/CG1rU9Isw1jtB5g1YxuBA7M/m36XN6x2u+NtNMDB9P56yc4gfsZVES
+          KA9v+yY2/l45L8d/WUkUi0YXomn6hyBGI7JrBLq0CX37GEYP6O9rrKipfz73XfO7
+          JIGzOKZlljb/D9RX/g7nRbCn+3EtH7xnk+TK/50euEKw8SMUg147sJTcpQmv6UzZ
+          cM4JgL0HbHVCojV4C/plELwMddALOFeYQzTif6sMRPf+3DSj8frbInjChC3yOLy0
+          6br92KFom17EIj2CAcoeq7UPhi2oouYBwPxh5ytdehJkoo+sN7RIWua6P2WSmon5
+          U888cSylXC0+ADFdgLX9K2zrDVYUG1vo8CX0vzxFBaHwN6Px26fhIT1/hYUHQR1z
+          VfNDcyQmXqkOnZvvoMfz/Q0s9BhFJ/zU6AgQbIZE/hm1spsfgvtsD1frZfygXJ9f
+          irP+MSAI80xHSf91qSRZOj4Pl3ZJNbq4yYxv0b1pkMqeGdjdCYhLU+LZ4wbQmpCk
+          SVe2prlLureigXtmZfkqevRz7FrIZiu9ky8wnCAPwC7/zmS18rgP/17bOtL4/iIz
+          QhxAAoAMWVrGyJivSkjhSGx1uCojsWfsTAm11P7jsruIL61ZzMUVE2aM3Pmj5G+W
+          9AcZ58Em+1WsVnAXdUR//bMmhyr8wL/G1YO1V3JEJTRdxsSxdYa4deGBBY/Adpsw
+          24jxhOJR+lsJpqIUeb999+R8euDhRHG9eFO7DRu6weatUJ6suupoDTRWtr/4yGqe
+          dKxV3qQhNLSnaAzqW/1nA3iUB4k7kCaKZxhdhDbClf9P37qaRW467BLCVO/coL3y
+          Vm50dwdrNtKpMBh3ZpbB1uJvgi9mXtyBOMJ3v8RZeDzFiG8HdCtg9RvIt/AIFoHR
+          H3S+U79NT6i0KPzLImDfs8T7RlpyuMc4Ufs8ggyg9v3Ae6cN3eQyxcK3w0cbBwsh
+          /nQNfsA6uu+9H7NhbehBMhYnpNZyrHzCmzyXkauwRAqoCbGCNykTRwsur9gS41TQ
+          M8ssD1jFheOJf3hODnkKU+HKjvMROl1DK7zdmLdNzA1cvtZH/nCC9KPj1z8QC47S
+          xx+dTZSx4ONAhwbS/LN3PoKtn8LPjY9NP9uDWI+TWYquS2U+KHDrBDlsgozDbs/O
+          jCxcpDzNmXpWQHEtHU7649OXHP7UeNST1mCUCH5qdank0V1iejF6/CfTFU4MfcrG
+          YT90qFF93M3v01BbxP+EIY2/9tiIPbrd
+          =0YYh
+          -----END PGP PUBLIC KEY BLOCK-----
+        # https://download.docker.com/linux/debian/gpg
+    kubernetes:
+      source: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+      key: |
+          -----BEGIN PGP PUBLIC KEY BLOCK-----
+
+          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
+          =pRoV
+          -----END PGP PUBLIC KEY BLOCK-----
+        # https://packages.cloud.google.com/apt/doc/apt-key.gpg.asc
+#swap:
+#  filename: /swapfile
+#  size: 1G
+packages:
+  - containerd.io
+  - kubelet
+  - kubeadm
+  - kubectl
+  - apparmor-utils # https://github.com/rancher/k3os/issues/702
+runcmd:
+  - "sudo resize2fs /dev/sda1"
+  - "sudo modprobe br_netfilter"
+  - "sudo modprobe overlay"
+  - "sudo sysctl --system"
+  - "sudo apt-mark hold kubelet kubeadm kubectl"
+  - "sudo systemctl restart containerd"
+final_message: "The system is finally up, after $UPTIME seconds"
+power_state:
+  mode: "reboot"
