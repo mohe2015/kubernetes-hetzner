@@ -1,4 +1,6 @@
 ```bash
+# CURRENTLY NOT USABLE AS IT'S NOT COMPATIBLE WITH kubernetes 1.22
+
 https://projectcontour.io/getting-started/
 
 # https://projectcontour.io/docs/v1.18.0/deploy-options/#running-without-a-kubernetes-loadbalancer
