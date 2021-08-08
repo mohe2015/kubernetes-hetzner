@@ -35,6 +35,7 @@ ceph df
 kubectl -n rook-ceph delete deploy/rook-ceph-tools
 
 
+# TODO FIXME deploy contour first and use it
 https://rook.io/docs/rook/v1.7/ceph-dashboard.html
 kubectl create -f rook/dashboard-external-https.yaml
 kubectl -n rook-ceph get service
