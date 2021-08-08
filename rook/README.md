@@ -1,8 +1,8 @@
 ```bash
 
 https://rook.io/docs/rook/v1.7/ceph-quickstart.html
-git clone --single-branch --branch v1.7.0 https://github.com/rook/rook.git
-cd rook/cluster/examples/kubernetes/ceph
+git clone --single-branch --branch v1.7.0 https://github.com/rook/rook.git repos/rook
+cd repos/rook/cluster/examples/kubernetes/ceph
 kubectl create -f crds.yaml -f common.yaml -f operator.yaml
 # wait for operator to start
 kubectl -n rook-ceph get pod
@@ -21,7 +21,7 @@ https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class
 #kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
 #kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
-
+cd ../../../../../..
 https://rook.io/docs/rook/v1.7/ceph-toolbox.html
 kubectl create -f rook/toolbox.yaml 
 kubectl -n rook-ceph rollout status deploy/rook-ceph-tools
@@ -38,8 +38,8 @@ kubectl -n rook-ceph delete deploy/rook-ceph-tools
 https://rook.io/docs/rook/v1.7/ceph-dashboard.html
 kubectl create -f rook/dashboard-external-https.yaml
 kubectl -n rook-ceph get service
-# any node use port 31396
-# https://kubernetes-node-1.selfmade4u.de:31396/
+# any node use port 31226
+# https://kubernetes-node-1.selfmade4u.de:31226/
 # TODO FIXME undo this about:config network.stricttransportsecurity.preloadlist
 # TODO use ingress
 # username: admin
@@ -127,6 +127,9 @@ ceph config set mon mon_data_avail_warn 15
 
 
 https://rook.io/docs/rook/v1.7/ceph-common-issues.html
+
+
+https://github.com/rook/rook/issues/5028
 
 
 
