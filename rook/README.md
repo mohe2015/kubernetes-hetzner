@@ -4,6 +4,8 @@ https://rook.io/docs/rook/v1.7/ceph-quickstart.html
 git clone --single-branch --branch v1.7.0 https://github.com/rook/rook.git
 cd rook/cluster/examples/kubernetes/ceph
 kubectl create -f crds.yaml -f common.yaml -f operator.yaml
+# wait for operator to start
+kubectl -n rook-ceph get pod
 #kubectl create -f cluster-test.yaml # don't do this this is probably fucking dangerous as it's trying to use all devices
 kubectl create -f cluster.yaml
 kubectl -n rook-ceph get pod
@@ -36,8 +38,8 @@ kubectl -n rook-ceph delete deploy/rook-ceph-tools
 https://rook.io/docs/rook/v1.7/ceph-dashboard.html
 kubectl create -f rook/dashboard-external-https.yaml
 kubectl -n rook-ceph get service
-# any node use port 32599
-# https://kubernetes-node-1.selfmade4u.de:32599/
+# any node use port 31396
+# https://kubernetes-node-1.selfmade4u.de:31396/
 # TODO FIXME undo this about:config network.stricttransportsecurity.preloadlist
 # TODO use ingress
 # username: admin

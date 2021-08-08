@@ -46,6 +46,14 @@ hcloud server enable-protection node-1 delete rebuild
 hcloud server enable-protection node-2 delete rebuild
 hcloud server enable-protection node-3 delete rebuild
 
+
+
+# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#create-load-balancer-for-kube-apiserver
+
+# create hetzner load balancer
+
+
+
 # now see kubernetes-dashboard, rook, sonobuoy, harbor, keycloak, vitess
 
 
@@ -84,13 +92,6 @@ kubectl exec etcd-kubernetes-node-1 -n kube-system -- etcdctl --cacert /etc/kube
 
 kubectl logs -n kube-system kube-flannel-ds-6z5cf
 
-https://github.com/cncf/k8s-conformance/blob/master/instructions.md
-# this only works with a non-master node
-sonobuoy run --mode=certified-conformance
-sonobuoy status
-sonobuoy logs
-outfile=$(sonobuoy retrieve)
-sonobuoy delete
 
 # maintenance
 kubectl drain kubernetes-node-1 --ignore-daemonsets --delete-emptydir-data
