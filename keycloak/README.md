@@ -1,3 +1,4 @@
+```bash
 
 https://github.com/ory/kratos
 https://github.com/ory/k8s
@@ -32,3 +33,5 @@ maybe use roles?
 https://www.keycloak.org/app/
 
 https://stackoverflow.com/questions/42186537/resources-scopes-permissions-and-policies-in-keycloak
+
+```

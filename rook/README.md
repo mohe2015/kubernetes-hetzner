@@ -1,10 +1,4 @@
-
-
-https://nixos.wiki/wiki/Kubernetes
-boot.kernelModules = [ "ceph" ];
-sudo modprobe rbd
-
-sudo apt-get install -y lvm2
+```bash
 
 https://rook.io/docs/rook/v1.7/ceph-quickstart.html
 git clone --single-branch --branch v1.7.0 https://github.com/rook/rook.git
@@ -135,3 +129,5 @@ https://rook.io/docs/rook/v1.7/ceph-common-issues.html
 
 
 # Move and resize disk
+
+```

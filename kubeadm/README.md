@@ -1,3 +1,5 @@
+```bash
+
 # https://kubernetes.io/docs/reference/setup-tools/kubeadm/
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
@@ -94,3 +96,5 @@ sonobuoy delete
 kubectl drain kubernetes-node-1 --ignore-daemonsets --delete-emptydir-data
 # do maintenance
 kubectl uncordon kubernetes-node-1
+
+```

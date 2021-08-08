@@ -1,4 +1,4 @@
-
+```bash
 
 helm repo add harbor https://helm.goharbor.io
 helm fetch harbor/harbor --untar
@@ -35,3 +35,4 @@ trivy --clear-cache
 helm --namespace harbor uninstall harbor
 kubectl delete namespace harbor
 
+```

@@ -1,3 +1,4 @@
+```bash
 
 # https://github.com/kubernetes/dashboard
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.3.1/aio/deploy/recommended.yaml
@@ -11,3 +12,5 @@ kubectl -n kubernetes-dashboard get secret $(kubectl -n kubernetes-dashboard get
 kubectl proxy
 
 # http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy
+
+```

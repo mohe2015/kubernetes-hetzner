@@ -1,3 +1,4 @@
+```bash
 
 git clone https://github.com/vitessio/vitess.git
 kubectl apply -f vitess/examples/operator/operator.yaml
@@ -28,3 +29,4 @@ https://vitess.io/docs/user-guides/schema-changes/unmanaged-schema-changes/
 
 https://github.com/github/gh-ost/blob/master/doc/why-triggerless.md
 
+```
