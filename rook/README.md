@@ -46,29 +46,47 @@ kubectl -n rook-ceph get service
 kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['data']['password']}" | base64 --decode && echo
 
 
-https://rook.io/docs/rook/v1.7/ceph-object.html
-this only seems to work with 3 nodes...
-kubectl create -f docs/kubernetes/rook/object.yaml
-kubectl -n rook-ceph get pod -l app=rook-ceph-rgw
-kubectl create -f docs/kubernetes/rook/bucket.yaml
-kubectl create -f docs/kubernetes/rook/bucket-claim.yaml
-
-
-
 https://rook.io/docs/rook/v1.7/ceph-block.html
-#kubectl create -f rook/cluster/examples/kubernetes/ceph/csi/rbd/storageclass-test.yaml
-kubectl create -f rook/cluster/examples/kubernetes/ceph/csi/rbd/storageclass.yaml
+#kubectl create -f repos/rook/cluster/examples/kubernetes/ceph/csi/rbd/storageclass-test.yaml
+kubectl create -f repos/rook/cluster/examples/kubernetes/ceph/csi/rbd/storageclass.yaml
 
 
 
 https://rook.io/docs/rook/v1.7/ceph-filesystem.html
 #kubectl create -f rook/cluster/examples/kubernetes/ceph/filesystem-test.yaml
-kubectl create -f rook/cluster/examples/kubernetes/ceph/filesystem.yaml
+kubectl create -f repos/rook/cluster/examples/kubernetes/ceph/filesystem.yaml
 kubectl -n rook-ceph get pod -l app=rook-ceph-mds
-kubectl create -f rook/cluster/examples/kubernetes/ceph/csi/cephfs/storageclass.yaml
+kubectl create -f repos/rook/cluster/examples/kubernetes/ceph/csi/cephfs/storageclass.yaml
 
 
 
+
+
+https://rook.io/docs/rook/v1.7/ceph-object.html
+cd repos/rook/cluster/examples/kubernetes/ceph
+kubectl create -f object-user.yaml -f object.yaml
+kubectl -n rook-ceph get pod -l app=rook-ceph-rgw
+kubectl create -f storageclass-bucket-retain.yaml
+kubectl create -f object-bucket-claim-retain.yaml
+
+export AWS_HOST=$(kubectl -n default get cm ceph-retain-bucket -o jsonpath='{.data.BUCKET_HOST}') # withouth .svc?
+# AWS_ENDPOINT
+kubectl -n rook-ceph get svc rook-ceph-rgw-my-store
+export AWS_ACCESS_KEY_ID=$(kubectl -n default get secret ceph-retain-bucket -o jsonpath='{.data.AWS_ACCESS_KEY_ID}' | base64 --decode)
+export AWS_SECRET_ACCESS_KEY=$(kubectl -n default get secret ceph-retain-bucket -o jsonpath='{.data.AWS_SECRET_ACCESS_KEY}' | base64 --decode)
+echo "export AWS_HOST=$AWS_HOST"
+echo "export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID"
+echo "export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY"
+
+
+kubectl -n rook-ceph exec -it deploy/rook-ceph-tools -- bash
+# set the four env vars
+yum --assumeyes install s3cmd
+echo "Hello Rook" > /tmp/rookObj
+s3cmd put /tmp/rookObj --no-ssl --host=${AWS_HOST} --host-bucket= s3://ceph-bkt-63c510f8-513f-4ad1-9896-42e227ee159f
+s3cmd get s3://ceph-bkt-63c510f8-513f-4ad1-9896-42e227ee159f/rookObj /tmp/rookObj-download --no-ssl --host=${AWS_HOST} --host-bucket=
+cat /tmp/rookObj-download
+s3cmd ls s3://ceph-bkt-63c510f8-513f-4ad1-9896-42e227ee159f --no-ssl --host=${AWS_HOST} --host-bucket=
 
 # TODO FIXME make the other one default as some nodes seem to want to attach the disk to multiple pods
 kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
@@ -120,9 +138,9 @@ kubectl delete deployment -n rook-ceph rook-ceph-osd-<ID>
 
 
 
+ceph config set mon mon_allow_pool_delete true
 
-
-ceph config set mon mon_data_avail_warn 15
+#ceph config set mon mon_data_avail_warn 15
 
 
 
