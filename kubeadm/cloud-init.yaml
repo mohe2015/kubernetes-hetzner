@@ -176,19 +176,19 @@ write_files:
         ---
         kind: ClusterConfiguration
         apiVersion: kubeadm.k8s.io/v1beta3
-        kubernetesVersion: v1.22.0
+        kubernetesVersion: v1.21.3
         controlPlaneEndpoint: "kube-apiserver.selfmade4u.de:6443"
         networking:
           podSubnet: "10.244.0.0/16"
-        featureGates:
-          RootlessControlPlane: true
+        #featureGates:
+        #  RootlessControlPlane: true
         ---
         kind: KubeletConfiguration
         apiVersion: kubelet.config.k8s.io/v1beta1
         cgroupDriver: systemd
         #failSwapOn: false
-        featureGates:
-          MemoryQoS: true
+        #featureGates:
+        #  MemoryQoS: true
         #  NodeSwapEnabled: true # https://github.com/kubernetes/enhancements/pull/2602/files https://github.com/kubernetes/kubernetes/pull/102823/files
 package_update: true
 package_upgrade: true
@@ -327,9 +327,9 @@ apt:
 #  size: 1G
 packages:
   - containerd.io
-  - kubelet
-  - kubeadm
-  - kubectl
+  - kubelet=1.21.3-00
+  - kubeadm=1.21.3-00
+  - kubectl=1.21.3-00
   - apparmor-utils # https://github.com/rancher/k3os/issues/702
 runcmd:
   - "sudo resize2fs /dev/sda1"
