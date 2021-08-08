@@ -14,19 +14,25 @@ hcloud context create kubernetes
 
 create three servers of type cx21 (min 40GB disk, min 4G RAM)
 
-hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file docs/kubernetes/kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3
-hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file docs/kubernetes/kubeadm/cloud-init.yaml --name node-2 --datacenter hel1-dc2
-hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file docs/kubernetes/kubeadm/cloud-init.yaml --name node-3 --datacenter fsn1-dc14
-# wait until all nodes have booted and then rebooted
+# these three can be done in parallel
+hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3
+hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-2 --datacenter hel1-dc2
+hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-3 --datacenter fsn1-dc14
 
-# TEMPORARY attempt to fix iptables segfault https://github.com/flannel-io/flannel/issues/1408
-apt install iptables/buster-backports ebtables/buster-backports
+# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#create-load-balancer-for-kube-apiserver
+# create hetzner load balancer
+hcloud load-balancer add-target load-balancer --server node-1
+hcloud load-balancer add-target load-balancer --server node-2
+hcloud load-balancer add-target load-balancer --server node-3
+
+# wait until all nodes have booted and then rebooted
 
 hcloud server ssh node-1
 
 kubeadm init --config /root/kubeadm-config.yaml --upload-certs #--ignore-preflight-errors=Swap
+mkdir -p /root/.kube/
 cp /etc/kubernetes/admin.conf ~/.kube/config
-https://raw.githubusercontent.com/coreos/flannel/v0.14.0/Documentation/kube-flannel.yml
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.14.0/Documentation/kube-flannel.yml
 kubectl get pod -n kube-system -w
 
 https://github.com/flannel-io/flannel/issues/1408
@@ -38,9 +44,13 @@ scp root@kubernetes-node-1.selfmade4u.de:/etc/kubernetes/admin.conf ~/.kube/conf
 
 hcloud server ssh node-2
 # use join command from above
+mkdir -p /root/.kube/
+cp /etc/kubernetes/admin.conf ~/.kube/config
 
 hcloud server ssh node-3
 # use join command from above
+mkdir -p /root/.kube/
+cp /etc/kubernetes/admin.conf ~/.kube/config
 
 kubectl get nodes
 
@@ -54,13 +64,10 @@ hcloud server enable-protection node-3 delete rebuild
 
 
 
-# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#create-load-balancer-for-kube-apiserver
-
-# create hetzner load balancer
 
 
 
-# now see kubernetes-dashboard, rook, sonobuoy, harbor, keycloak, vitess
+# now see kubernetes-dashboard, rook, sonobuoy, harbor, keycloak, vitess, contour
 
 
 
