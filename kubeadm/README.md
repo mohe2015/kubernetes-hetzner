@@ -12,20 +12,26 @@ https://github.com/hetznercloud/hcloud-cloud-controller-manager
 # install hcloud https://github.com/hetznercloud/cli
 hcloud context create kubernetes
 
-create three servers of type cpx11 (min 40GB disk)
+create three servers of type cx21 (min 40GB disk, min 4G RAM)
 
-hcloud server create --type cpx11 --image debian-10 --ssh-key moritz@nixos --user-data-from-file docs/kubernetes/kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3
-hcloud server create --type cpx11 --image debian-10 --ssh-key moritz@nixos --user-data-from-file docs/kubernetes/kubeadm/cloud-init.yaml --name node-2 --datacenter hel1-dc2
-hcloud server create --type cpx11 --image debian-10 --ssh-key moritz@nixos --user-data-from-file docs/kubernetes/kubeadm/cloud-init.yaml --name node-3 --datacenter fsn1-dc14
+hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file docs/kubernetes/kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3
+hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file docs/kubernetes/kubeadm/cloud-init.yaml --name node-2 --datacenter hel1-dc2
+hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file docs/kubernetes/kubeadm/cloud-init.yaml --name node-3 --datacenter fsn1-dc14
 # wait until all nodes have booted and then rebooted
 
+# TEMPORARY attempt to fix iptables segfault https://github.com/flannel-io/flannel/issues/1408
+apt install iptables/buster-backports ebtables/buster-backports
 
 hcloud server ssh node-1
 
 kubeadm init --config /root/kubeadm-config.yaml --upload-certs #--ignore-preflight-errors=Swap
 cp /etc/kubernetes/admin.conf ~/.kube/config
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+https://raw.githubusercontent.com/coreos/flannel/v0.14.0/Documentation/kube-flannel.yml
 kubectl get pod -n kube-system -w
+
+https://github.com/flannel-io/flannel/issues/1408
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=968457
+
 
 scp root@kubernetes-node-1.selfmade4u.de:/etc/kubernetes/admin.conf ~/.kube/config
 
