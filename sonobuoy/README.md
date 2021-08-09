@@ -5,4 +5,4 @@ sonobuoy run --mode=certified-conformance
 sonobuoy status
 sonobuoy logs
 outfile=$(sonobuoy retrieve)
-sonobuoy delete
+#sonobuoy delete

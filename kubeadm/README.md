@@ -20,7 +20,11 @@ hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user
 hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-3 --datacenter fsn1-dc14
 
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#create-load-balancer-for-kube-apiserver
-# create hetzner load balancer
+# create hetzner load balancer (use tcp forwarding but https health checks)
+# curl -v --insecure https://kube-apiserver.selfmade4u.de:6443/livez?verbose
+# body: "livez check passed"
+# with that you get way more reliable load balancing
+
 hcloud load-balancer add-target load-balancer --server node-1
 hcloud load-balancer add-target load-balancer --server node-2
 hcloud load-balancer add-target load-balancer --server node-3
