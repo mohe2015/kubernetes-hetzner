@@ -1,16 +1,16 @@
 ```bash
 
 # https://goharbor.io/
+# https://helm.sh/docs/intro/quickstart/
 
 helm repo add harbor https://helm.goharbor.io
-# TODO FIXME use the method where you just have an override values.yaml
-cd repos
-helm fetch harbor/harbor --untar
-cd harbor
+helm repo update
 kubectl create namespace harbor
-nano values.yaml
-helm --namespace harbor install harbor .
+helm --namespace harbor install harbor/harbor --values values.yaml
 
+helm show values
+helm list
+helm status harbor
 
 #helm --namespace harbor upgrade harbor harbor/harbor --values values.yaml
 
