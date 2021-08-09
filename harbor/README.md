@@ -1,18 +1,19 @@
 ```bash
 
-# https://goharbor.io/
 # https://helm.sh/docs/intro/quickstart/
+# https://goharbor.io/docs/2.3.0/install-config/harbor-ha-helm/
+# https://goharbor.io/docs/2.3.0/install-config/configure-https/
 
 helm repo add harbor https://helm.goharbor.io
 helm repo update
 kubectl create namespace harbor
-helm --namespace harbor install harbor/harbor --values values.yaml
+helm --namespace harbor install harbor harbor/harbor --values values.yaml
 
 helm show values
 helm list
 helm status harbor
 
-#helm --namespace harbor upgrade harbor harbor/harbor --values values.yaml
+helm --namespace harbor upgrade harbor harbor/harbor --values values.yaml
 
 
 \# wait
