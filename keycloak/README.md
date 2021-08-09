@@ -6,12 +6,16 @@ https://github.com/ory/k8s
 https://www.keycloak.org/getting-started/getting-started-kube
 \# also has an operator
 
-wget -q -O - https://raw.githubusercontent.com/keycloak/keycloak-quickstarts/latest/kubernetes-examples/keycloak-ingress.yaml | \
-sed "s/KEYCLOAK_HOST/keycloak.local/" | \
-kubectl create -f -
+kubectl create -f https://raw.githubusercontent.com/keycloak/keycloak-quickstarts/latest/kubernetes-examples/keycloak.yaml
+
+# https://raw.githubusercontent.com/keycloak/keycloak-quickstarts/latest/kubernetes-examples/keycloak-ingress.yaml
+
+kubectl apply -f keycloak/keycloak-ingress.yaml
 
 username: admin
 password: admin
+
+# change password
 
 http://keycloak.local/auth/realms/not-grocy/account/#/
 

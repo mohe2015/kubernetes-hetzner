@@ -30,6 +30,10 @@ https://goharbor.io/docs/2.3.0/working-with-projects/create-projects/
 
 docker login https://harbor.selfmade4u.de/
 
+docker pull debian
+docker tag debian:latest harbor.selfmade4u.de/library/debian
+docker push harbor.selfmade4u.de/library/debian
+
 
 docker build -t not-grocy-server .
 docker tag not-grocy-server:latest harbor.selfmade4u.de/library/not-grocy-server

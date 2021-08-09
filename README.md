@@ -2,9 +2,13 @@
 
 see [kubeadm/README.md](kubeadm/README.md)
 
+## currently available services
 
+https://rook-ceph.selfmade4u.de/
 
+https://harbor.selfmade4u.de/
 
+https://sso.selfmade4u.de/
 
 
 for later: https://kubernetes.io/docs/tasks/debug-application-cluster/audit/
