@@ -56,6 +56,8 @@ kubectl get secret httpbin
 
 kubectl delete -f ingress.yaml -f service.yaml -f deployment.yaml -f letsencrypt-staging.yaml
 
+# https://projectcontour.io/docs/v1.16.0/config/annotations/
+
 # https://github.com/jetstack/cert-manager/issues/3682
 
 ```

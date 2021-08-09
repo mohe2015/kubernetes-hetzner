@@ -20,7 +20,9 @@ helm --namespace harbor upgrade harbor harbor/harbor --values values.yaml
 
 https://harbor.selfmade4u.de
 
-username admin password Harbor12345
+admin Harbor12345
+
+# change password
 
 https://goharbor.io/docs/2.3.0/administration/configure-authentication/db-auth/
 

@@ -2,12 +2,12 @@
 
 https://rook.io/docs/rook/v1.7/ceph-quickstart.html
 git clone --single-branch --branch v1.7.0 https://github.com/rook/rook.git repos/rook
-cd repos/rook/cluster/examples/kubernetes/ceph
-kubectl create -f crds.yaml -f common.yaml -f operator.yaml
+kubectl create -f repos/rook/cluster/examples/kubernetes/ceph/crds.yaml -f repos/rook/cluster/examples/kubernetes/ceph/common.yaml -f repos/rook/cluster/examples/kubernetes/ceph/operator.yaml
 # wait for operator to start
 kubectl -n rook-ceph get pod
-#kubectl create -f cluster-test.yaml # don't do this this is probably fucking dangerous as it's trying to use all devices
-kubectl create -f cluster.yaml
+
+cp repos/rook/cluster/examples/kubernetes/ceph/cluster.yaml rook/cluster.yaml
+kubectl create -f rook/cluster.yaml # warning: this will try to use all unformatted partitions and devices of your host for rook storage.
 kubectl -n rook-ceph get pod
 
 https://rook.io/docs/rook/v1.7/ceph-osd-mgmt.html
@@ -35,15 +35,12 @@ ceph df
 kubectl -n rook-ceph delete deploy/rook-ceph-tools
 
 
-# TODO FIXME deploy contour first and use it
 https://rook.io/docs/rook/v1.7/ceph-dashboard.html
-kubectl create -f rook/dashboard-external-https.yaml
-kubectl -n rook-ceph get service
-# any node use port 31226
-# https://kubernetes-node-1.selfmade4u.de:31226/
-# TODO FIXME undo this about:config network.stricttransportsecurity.preloadlist
-# TODO use ingress
-# username: admin
+kubectl apply -f rook/dashboard-ingress-https.yaml
+kubectl -n rook-ceph get ingress
+
+https://rook-ceph.selfmade4u.de/
+
 kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['data']['password']}" | base64 --decode && echo
 
 

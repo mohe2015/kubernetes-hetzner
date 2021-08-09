@@ -1,3 +1,5 @@
+use contour for now.
+
 https://github.com/emissary-ingress/emissary
 
 https://www.getambassador.io/docs/emissary/latest/topics/install
