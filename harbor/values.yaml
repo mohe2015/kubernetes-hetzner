@@ -2,7 +2,10 @@ expose:
   type: ingress
   tls:
     enabled: true
-    certSource: auto
+    certSource: secret
+    secret:
+      secretName: "harbor"
+      notarySecretName: "notary-harbor"
   ingress:
     hosts:
       core: harbor.selfmade4u.de

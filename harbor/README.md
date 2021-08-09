@@ -9,7 +9,7 @@ helm repo update
 kubectl create namespace harbor
 helm --namespace harbor install harbor harbor/harbor --values values.yaml
 
-helm show values
+helm show values harbor/harbor
 helm list
 helm status harbor
 
