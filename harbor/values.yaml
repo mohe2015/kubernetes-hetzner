@@ -18,7 +18,7 @@ expose:
     # The tls certificate can be generated manually or by cert manager
     # 3) none: configure no tls certificate for the ingress. If the default
     # tls certificate is configured in the ingress controller, choose this option
-    certSource: auto
+    certSource: none
     auto:
       # The common name used to generate the certificate, it's necessary
       # when the type isn't "ingress"
@@ -50,6 +50,9 @@ expose:
       ingress.kubernetes.io/force-ssl-redirect: "true"
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
       nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      kubernetes.io/ingress.class: contour
+      kubernetes.io/tls-acme: "true"
     notary:
       # notary-specific annotations
       annotations: {}

@@ -1,5 +1,7 @@
 ```bash
 
+# https://goharbor.io/
+
 helm repo add harbor https://helm.goharbor.io
 # TODO FIXME use the method where you just have an override values.yaml
 cd repos
@@ -8,7 +10,14 @@ cd harbor
 kubectl create namespace harbor
 nano values.yaml
 helm --namespace harbor install harbor .
+
+
+#helm --namespace harbor upgrade harbor harbor/harbor --values values.yaml
+
+
 \# wait
+
+https://harbor.selfmade4u.de
 
 username admin password Harbor12345
 
