@@ -1,5 +1,7 @@
 ```bash
 
+# TODO FIXME properly save database
+
 https://github.com/ory/kratos
 https://github.com/ory/k8s
 

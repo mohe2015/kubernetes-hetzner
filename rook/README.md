@@ -138,7 +138,7 @@ kubectl delete deployment -n rook-ceph rook-ceph-osd-<ID>
 
 ceph config set mon mon_allow_pool_delete true
 
-#ceph config set mon mon_data_avail_warn 15
+ceph config set mon mon_data_avail_warn 15
 
 
 

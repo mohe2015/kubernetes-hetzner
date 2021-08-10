@@ -1,3 +1,5 @@
+```bash
+# WARNING: Don't run on production / staging - it will break everything
 
 https://github.com/cncf/k8s-conformance/blob/master/instructions.md
 # warning: probably needs more memory and not much else running at the same time
@@ -6,3 +8,4 @@ sonobuoy status
 sonobuoy logs
 outfile=$(sonobuoy retrieve)
 #sonobuoy delete
+```
