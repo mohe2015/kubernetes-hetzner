@@ -1,5 +1,6 @@
 ```bash
-# CURRENTLY NOT USABLE AS IT'S NOT COMPATIBLE WITH kubernetes 1.22
+# potentially buggy? envoy crashes quite often but maybe this is because of general node overload?
+
 
 https://projectcontour.io/getting-started/
 
@@ -59,5 +60,11 @@ kubectl delete -f ingress.yaml -f service.yaml -f deployment.yaml -f letsencrypt
 # https://projectcontour.io/docs/v1.16.0/config/annotations/
 
 # https://github.com/jetstack/cert-manager/issues/3682
+
+## FIXES
+
+kubectl -n projectcontour get pods -l app=envoy
+
+kubectl -n projectcontour delete pods -l app=envoy
 
 ```
