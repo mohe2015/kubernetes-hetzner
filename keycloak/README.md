@@ -80,7 +80,10 @@ https://sso.selfmade4u.de/auth/realms/not-grocy/account/#/
 https://sso.selfmade4u.de/auth/realms/not-grocy/.well-known/openid-configuration
 
 # secret from Client -> Credentials
-https://sso.selfmade4u.de/auth/realms/not-grocy/protocol/openid-connect/auth?response_type=code&client_id=not-grocy&client_secret=505f2a0c-2f5a-4f0f-960a-f397f342c651&redirect_url=https://test.selfmade4u.de
+# TODO FIXME state-parameter
+https://sso.selfmade4u.de/auth/realms/not-grocy/protocol/openid-connect/auth?response_type=code&client_id=not-grocy&redirect_url=https://test.selfmade4u.de
+
+# then get the token from that. as far as I understand this is only possible for the server as you need the client_secret for that
 
 # Realm -> Client Scopes -> Add for all permissions
 # clients->client scopes->setup add client scopes to default
