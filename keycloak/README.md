@@ -10,7 +10,15 @@ https://www.keycloak.org/getting-started/getting-started-kube
 
 kubectl create -f https://raw.githubusercontent.com/keycloak/keycloak-quickstarts/latest/kubernetes-examples/keycloak.yaml
 
+https://github.com/keycloak/keycloak-containers/blob/15.0.1/server/README.md#database
+
 # https://raw.githubusercontent.com/keycloak/keycloak-quickstarts/latest/kubernetes-examples/keycloak-ingress.yaml
+
+# DB_VENDOR=mariadb
+# DB_ADDR
+# DB_DATABASE
+# DB_USER
+# DB_PASSWORD
 
 kubectl apply -f keycloak/keycloak-ingress.yaml
 
