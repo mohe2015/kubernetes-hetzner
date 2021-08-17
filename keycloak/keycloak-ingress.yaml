@@ -1,11 +1,11 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: keycloak
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     ingress.kubernetes.io/force-ssl-redirect: "true"
-    kubernetes.io/ingress.class: contour
+    kubernetes.io/ingress.class: "nginx"
     kubernetes.io/tls-acme: "true"
 spec:
   tls:
@@ -16,7 +16,11 @@ spec:
   - host: sso.selfmade4u.de
     http:
       paths:
-      - backend:
-          serviceName: keycloak
-          servicePort: 8080
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: keycloak
+            port:
+              number: 8080
 

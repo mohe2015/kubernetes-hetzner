@@ -12,7 +12,8 @@ https://github.com/hetznercloud/hcloud-cloud-controller-manager
 # install hcloud https://github.com/hetznercloud/cli
 hcloud context create kubernetes
 
-create three servers of type cx21 (min 40GB disk, min 4G RAM)
+# create three servers of type cx21 (min 40GB disk, min 4G RAM)
+# may be useful to have some 8GB instances as it's still pretty hard to run a few things
 
 # these three can be done in parallel
 hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3

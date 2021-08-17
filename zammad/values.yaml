@@ -1,0 +1,32 @@
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    ingress.kubernetes.io/force-ssl-redirect: 'true'
+    kubernetes.io/tls-acme: 'true'
+  className: contour
+  hosts:
+    - host: support.selfmade4u.de
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: support.selfmade4u.de
+      hosts:
+        - support.selfmade4u.de
+
+persistence:
+  storageClass: rook-ceph-block
+
+elasticsearch:
+  volumeClaimTemplate:
+    storageClassName: rook-ceph-block
+
+postgresql:
+  storageClass: rook-ceph-block
+
+storageClass: rook-ceph-block
+
+# if this works this would be nice https://helm.sh/docs/chart_template_guide/subcharts_and_globals/
+global:
+  storageClass: rook-ceph-block
