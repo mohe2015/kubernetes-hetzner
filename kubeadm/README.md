@@ -71,6 +71,37 @@ hcloud server enable-protection node-3 delete rebuild
 
 
 
+TODO REALLY IMPORTANT https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/
+https://github.com/kubernetes/community/blob/master/contributors/design-proposals/node/node-allocatable.md#recommended-cgroups-setup
+
+https://kubernetes.io/docs/tasks/administer-cluster/kubelet-config-file/
+
+sudo systemctl status system.slice # 994.2M (TODO later move containerd, kubelet which should not be there to other control group)
+
+sudo systemctl status kubepods.slice # 6.1G limit 7.6
+
+https://kubernetes.io/docs/tasks/administer-cluster/reconfigure-kubelet/
+
+https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/
+apt update
+apt-get install -y --allow-change-held-packages kubeadm=1.22.0-00
+
+
+# for first node
+kubeadm upgrade plan # take note of required manual updates
+kubeadm upgrade apply --config /root/kubeadm-config.yaml v1.22.0
+
+
+# for other nodes
+sudo kubeadm upgrade node
+
+
+apt-get install -y --allow-change-held-packages kubelet=1.22.0-00 kubectl=1.22.0-00
+sudo systemctl daemon-reload
+sudo systemctl restart kubelet
+
+
+kubectl get nodes
 
 # now see kubernetes-dashboard, rook, sonobuoy, harbor, keycloak, vitess, contour
 
@@ -112,8 +143,8 @@ kubectl logs -n kube-system kube-flannel-ds-6z5cf
 
 
 # maintenance
-kubectl drain kubernetes-node-1 --ignore-daemonsets --delete-emptydir-data
+kubectl drain node-1 --ignore-daemonsets --delete-emptydir-data
 # do maintenance
-kubectl uncordon kubernetes-node-1
+kubectl uncordon node-1
 
 ```
