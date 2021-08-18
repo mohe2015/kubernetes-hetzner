@@ -15,24 +15,36 @@ hcloud context create kubernetes
 # create three servers of type cx21 (min 40GB disk, min 4G RAM)
 # may be useful to have some 8GB instances as it's still pretty hard to run a few things
 
+# hcloud server delete node-1
+# hcloud server delete node-2
+# hcloud server delete node-3
+
 # these three can be done in parallel
-hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3
-hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-2 --datacenter hel1-dc2
-hcloud server create --type cx21 --image debian-10 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-3 --datacenter fsn1-dc14
+hcloud server create --type cx21 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3
+hcloud server create --type cx21 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-2 --datacenter hel1-dc2
+hcloud server create --type cx21 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-3 --datacenter fsn1-dc14
 
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#create-load-balancer-for-kube-apiserver
-# create hetzner load balancer (use tcp forwarding but https health checks)
-# curl -v --insecure https://kube-apiserver.selfmade4u.de:6443/livez?verbose
-# body: "livez check passed"
-# with that you get way more reliable load balancing
+
+# hcloud load-balancer delete load-balancer
+hcloud load-balancer create --name load-balancer --type lb11 --location nbg1
+
+# UPDATE DNS (TODO AUTOMATE)
 
 hcloud load-balancer add-target load-balancer --server node-1
 hcloud load-balancer add-target load-balancer --server node-2
 hcloud load-balancer add-target load-balancer --server node-3
 
+
+hcloud load-balancer add-service load-balancer --listen-port 6443 --destination-port 6443 --protocol tcp
+hcloud load-balancer update-service load-balancer --listen-port 6443 --destination-port 6443 --protocol tcp --health-check-http-domain kube-apiserver.selfmade4u.de --health-check-http-path "/livez?verbose" --health-check-http-response "livez check passed" --health-check-http-status-codes 200 --health-check-interval 3s --health-check-protocol http --health-check-retries 0 --health-check-timeout 2s
+
 # wait until all nodes have booted and then rebooted
 
+ssh-keygen -R $(hcloud server ip node-1)
 hcloud server ssh node-1
+
+cat /var/log/cloud-init-output.log
 
 kubeadm init --config /root/kubeadm-config.yaml --upload-certs #--ignore-preflight-errors=Swap
 mkdir -p /root/.kube/
@@ -46,12 +58,13 @@ https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=968457
 
 scp root@kubernetes-node-1.selfmade4u.de:/etc/kubernetes/admin.conf ~/.kube/config
 
-
+ssh-keygen -R $(hcloud server ip node-2)
 hcloud server ssh node-2
 # use join command from above
 mkdir -p /root/.kube/
 cp /etc/kubernetes/admin.conf ~/.kube/config
 
+ssh-keygen -R $(hcloud server ip node-3)
 hcloud server ssh node-3
 # use join command from above
 mkdir -p /root/.kube/
@@ -67,6 +80,7 @@ hcloud server enable-protection node-1 delete rebuild
 hcloud server enable-protection node-2 delete rebuild
 hcloud server enable-protection node-3 delete rebuild
 
+hcloud load-balancer enable-protection load-balancer delete
 
 
 
