@@ -15,9 +15,9 @@ hcloud context create kubernetes
 # create three servers of type cx21 (min 40GB disk, min 4G RAM)
 # may be useful to have some 8GB instances as it's still pretty hard to run a few things
 
-# hcloud server delete node-1
-# hcloud server delete node-2
-# hcloud server delete node-3
+hcloud server delete node-1
+hcloud server delete node-2
+hcloud server delete node-3
 
 # these three can be done in parallel
 hcloud server create --type cx21 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3
@@ -44,9 +44,9 @@ hcloud load-balancer update-service load-balancer --listen-port 6443 --destinati
 ssh-keygen -R $(hcloud server ip node-1)
 hcloud server ssh node-1
 
-cat /var/log/cloud-init-output.log
+tail -f /var/log/cloud-init-output.log
 
-kubeadm init --config /root/kubeadm-config.yaml --upload-certs #--ignore-preflight-errors=Swap
+kubeadm init --config /root/kubeadm-config.yaml --upload-certs --ignore-preflight-errors=Swap
 mkdir -p /root/.kube/
 cp /etc/kubernetes/admin.conf ~/.kube/config
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.14.0/Documentation/kube-flannel.yml

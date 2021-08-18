@@ -202,24 +202,8 @@ write_files:
         featureGates:
           MemoryQoS: true
           NodeSwapEnabled: true
-package_update: true
-package_upgrade: true
-package_reboot_if_required: true
-apt:
-  sources_list: |
-        deb http://deb.debian.org/debian $RELEASE main
-        deb-src http://deb.debian.org/debian $RELEASE main
-        deb http://security.debian.org/ $RELEASE-security main
-        deb-src http://security.debian.org/ $RELEASE-security main
-        deb http://deb.debian.org/debian $RELEASE-updates main
-        deb-src http://deb.debian.org/debian $RELEASE-updates main
-        deb http://deb.debian.org/debian $RELEASE-backports main
-        deb-src http://deb.debian.org/debian $RELEASE-backports main
-      # bugfix for bullseye
-  sources:
-    docker:
-      source: "deb https://download.docker.com/linux/debian $RELEASE stable"
-      key: |
+  - path: /etc/apt/trusted.gpg.d/docker.asc
+    content: |
           -----BEGIN PGP PUBLIC KEY BLOCK-----
 
           mQINBFit2ioBEADhWpZ8/wvZ6hUTiXOwQHXMAlaFHcPH9hAtr4F1y2+OYdbtMuth
@@ -283,9 +267,8 @@ apt:
           =0YYh
           -----END PGP PUBLIC KEY BLOCK-----
         # https://download.docker.com/linux/debian/gpg
-    kubernetes:
-      source: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
-      key: |
+  - path: /etc/apt/trusted.gpg.d/kubernetes.asc
+    content: |
           -----BEGIN PGP PUBLIC KEY BLOCK-----
 
           xsBNBGA9EFkBCAC1ilzST0wns+uwZyEA5IVtYeyAuXTaQUEAd70SqIlQpDd4EyVi
@@ -344,6 +327,25 @@ apt:
           =pRoV
           -----END PGP PUBLIC KEY BLOCK-----
         # https://packages.cloud.google.com/apt/doc/apt-key.gpg.asc
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+apt:
+  sources_list: |
+        deb http://deb.debian.org/debian $RELEASE main
+        deb-src http://deb.debian.org/debian $RELEASE main
+        deb http://security.debian.org/ $RELEASE-security main
+        deb-src http://security.debian.org/ $RELEASE-security main
+        deb http://deb.debian.org/debian $RELEASE-updates main
+        deb-src http://deb.debian.org/debian $RELEASE-updates main
+        deb http://deb.debian.org/debian $RELEASE-backports main
+        deb-src http://deb.debian.org/debian $RELEASE-backports main
+      # bugfix for bullseye
+  sources:
+    docker:
+      source: "deb https://download.docker.com/linux/debian $RELEASE stable"
+    kubernetes:
+      source: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
 swap:
   filename: /swapfile
   size: 1G
