@@ -201,7 +201,7 @@ write_files:
         failSwapOn: false
         featureGates:
           MemoryQoS: true
-          NodeSwapEnabled: true
+          NodeSwap: true
   - path: /etc/apt/trusted.gpg.d/docker.asc
     content: |
           -----BEGIN PGP PUBLIC KEY BLOCK-----

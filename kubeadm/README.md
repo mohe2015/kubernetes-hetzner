@@ -18,6 +18,7 @@ hcloud context create kubernetes
 hcloud server delete node-1
 hcloud server delete node-2
 hcloud server delete node-3
+hcloud load-balancer delete load-balancer
 
 # these three can be done in parallel
 hcloud server create --type cx21 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3
@@ -26,7 +27,6 @@ hcloud server create --type cx21 --image debian-11 --ssh-key moritz@nixos --user
 
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#create-load-balancer-for-kube-apiserver
 
-# hcloud load-balancer delete load-balancer
 hcloud load-balancer create --name load-balancer --type lb11 --location nbg1
 
 # UPDATE DNS (TODO AUTOMATE)
@@ -35,20 +35,20 @@ hcloud load-balancer add-target load-balancer --server node-1
 hcloud load-balancer add-target load-balancer --server node-2
 hcloud load-balancer add-target load-balancer --server node-3
 
-
 hcloud load-balancer add-service load-balancer --listen-port 6443 --destination-port 6443 --protocol tcp
-hcloud load-balancer update-service load-balancer --listen-port 6443 --destination-port 6443 --protocol tcp --health-check-http-domain kube-apiserver.selfmade4u.de --health-check-http-path "/livez?verbose" --health-check-http-response "livez check passed" --health-check-http-status-codes 200 --health-check-interval 3s --health-check-protocol http --health-check-retries 0 --health-check-timeout 2s
 
 # wait until all nodes have booted and then rebooted
 
 ssh-keygen -R $(hcloud server ip node-1)
 hcloud server ssh node-1
 
-tail -f /var/log/cloud-init-output.log
+cat /var/log/cloud-init-output.log
 
 kubeadm init --config /root/kubeadm-config.yaml --upload-certs --ignore-preflight-errors=Swap
 mkdir -p /root/.kube/
 cp /etc/kubernetes/admin.conf ~/.kube/config
+
+https://github.com/flannel-io/flannel
 kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/v0.14.0/Documentation/kube-flannel.yml
 kubectl get pod -n kube-system -w
 
@@ -56,7 +56,7 @@ https://github.com/flannel-io/flannel/issues/1408
 https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=968457
 
 
-scp root@kubernetes-node-1.selfmade4u.de:/etc/kubernetes/admin.conf ~/.kube/config
+scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
 
 ssh-keygen -R $(hcloud server ip node-2)
 hcloud server ssh node-2
@@ -82,6 +82,7 @@ hcloud server enable-protection node-3 delete rebuild
 
 hcloud load-balancer enable-protection load-balancer delete
 
+hcloud load-balancer update-service load-balancer --listen-port 6443 --destination-port 6443 --protocol tcp --health-check-http-domain kube-apiserver.selfmade4u.de --health-check-http-path "/livez?verbose" --health-check-http-response "livez check passed" --health-check-http-status-codes 200 --health-check-interval 3s --health-check-port 6443 --health-check-protocol http --health-check-retries 0 --health-check-timeout 2s --health-check-http-tls
 
 
 
