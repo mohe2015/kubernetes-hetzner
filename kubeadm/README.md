@@ -109,6 +109,13 @@ kubectl get nodes
 
 
 
+
+https://kubernetes.io/docs/concepts/scheduling-eviction/node-pressure-eviction/
+
+
+https://kubernetes.io/docs/concepts/containers/runtime-class/#hahahugoshortcode-s3-hbhb
+
+
 # ----------------- old notes -------------------------
 
 # TODO https://www.hetzner.com/dns-console

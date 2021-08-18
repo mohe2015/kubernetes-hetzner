@@ -16,17 +16,12 @@ ingress:
         - support.selfmade4u.de
 
 persistence:
-  storageClass: rook-ceph-block
+  storageClass: rook-cephfs
 
 elasticsearch:
   volumeClaimTemplate:
-    storageClassName: rook-ceph-block
-
-postgresql:
-  storageClass: rook-ceph-block
-
-storageClass: rook-ceph-block
+    storageClassName: rook-cephfs
 
 # if this works this would be nice https://helm.sh/docs/chart_template_guide/subcharts_and_globals/
 global:
-  storageClass: rook-ceph-block
+  storageClass: rook-cephfs

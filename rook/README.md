@@ -1,5 +1,9 @@
 ```bash
 
+# TODO all nodes here should run "guaranteed" as this is a really essential service.
+# TODO https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/
+
+
 https://rook.io/docs/rook/v1.7/ceph-quickstart.html
 git clone --single-branch --branch v1.7.0 https://github.com/rook/rook.git repos/rook
 kubectl create -f repos/rook/cluster/examples/kubernetes/ceph/crds.yaml -f repos/rook/cluster/examples/kubernetes/ceph/common.yaml -f repos/rook/cluster/examples/kubernetes/ceph/operator.yaml

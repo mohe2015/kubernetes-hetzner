@@ -65,6 +65,8 @@ kubectl delete -f ingress.yaml -f service.yaml -f deployment.yaml -f letsencrypt
 
 kubectl -n projectcontour get pods -l app=envoy
 
+kubectl logs envoy-7tklv -n projectcontour envoy
+
 kubectl -n projectcontour delete pods -l app=envoy
 
 ```
