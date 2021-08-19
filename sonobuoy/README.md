@@ -1,11 +1,31 @@
 ```bash
 # WARNING: Don't run on production / staging - it will break everything
+# WARNING: this probably needs to run with at least 8GB of RAM? Also the alpha options may be a problem idk.
+
+sonobuoy gen
+https://sonobuoy.io/docs/v0.53.2/gen/
 
 https://github.com/cncf/k8s-conformance/blob/master/instructions.md
 # warning: probably needs more memory and not much else running at the same time
+sonobuoy run --mode quick --timeout=600000
+sonobuoy run --mode non-disruptive-conformance
 sonobuoy run --mode=certified-conformance
+# sonobuoy run --mode=certified-conformance --timeout=30000 # probably need to increase timeout
 sonobuoy status
-sonobuoy logs
-outfile=$(sonobuoy retrieve)
-#sonobuoy delete
+#  watch 'sonobuoy status --json | json_pp'
+sonobuoy logs -f
+export outfile=$(sonobuoy retrieve)
+sonobuoy results $outfile
+sonobuoy e2e $outfile # doesnt work so probably result reporting failed?
+sonobuoy results $outfile --plugin e2e # --mode=detailed
+
+# https://sonobuoy.io/simplified-results-reporting-with-sonobuoy/
+sonobuoy results $outfile --mode=detailed --node=node-x --plugin systemd-logs --skip-prefix
+# for me this showed that two of the nodes failed logging
+
+https://sonobuoy.io/docs/v0.52.0/faq/
+
+sonobuoy results --mode detailed --plugin e2e $outfile |  jq '.  | select(.status == "failed") | .details'
+
+sonobuoy delete --wait
 ```

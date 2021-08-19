@@ -1,5 +1,7 @@
 # kubernetes-hetzner
 
+maybe use calico?
+
 see [kubeadm/README.md](kubeadm/README.md)
 
 ## currently available services
