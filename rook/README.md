@@ -3,31 +3,26 @@
 # TODO all nodes here should run "guaranteed" as this is a really essential service.
 # TODO https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/
 
+# https://github.com/rook/rook
 
 https://rook.io/docs/rook/v1.7/ceph-quickstart.html
-git clone --single-branch --branch v1.7.0 https://github.com/rook/rook.git repos/rook
-kubectl create -f repos/rook/cluster/examples/kubernetes/ceph/crds.yaml -f repos/rook/cluster/examples/kubernetes/ceph/common.yaml -f repos/rook/cluster/examples/kubernetes/ceph/operator.yaml
-# wait for operator to start
-kubectl -n rook-ceph get pod
+git clone --single-branch --branch v1.7.1 https://github.com/rook/rook.git repos/rook
 
-cp repos/rook/cluster/examples/kubernetes/ceph/cluster.yaml rook/cluster.yaml
-kubectl create -f rook/cluster.yaml # warning: this will try to use all unformatted partitions and devices of your host for rook storage.
-kubectl -n rook-ceph get pod
+kubectl apply -f https://raw.githubusercontent.com/rook/rook/v1.7.1/cluster/examples/kubernetes/ceph/crds.yaml -f https://raw.githubusercontent.com/rook/rook/v1.7.1/cluster/examples/kubernetes/ceph/common.yaml -f https://raw.githubusercontent.com/rook/rook/v1.7.1/cluster/examples/kubernetes/ceph/operator.yaml
+
+# wait for operator to start
+kubectl -n rook-ceph get pod -w
+
+curl -OL https://raw.githubusercontent.com/rook/rook/v1.7.1/cluster/examples/kubernetes/ceph/cluster.yaml
+kubectl apply -f cluster.yaml # warning: this will try to use all unformatted partitions and devices of your host for rook storage.
+kubectl -n rook-ceph get pod -w
 
 https://rook.io/docs/rook/v1.7/ceph-osd-mgmt.html
 https://rook.io/docs/rook/v1.7/ceph-cluster-crd.html
-\# GPT is not supported as disk format use MSDOS
-#kubectl create -f rook/host-based-cluster.yaml
 
 
-https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/
-#kubectl get storageclass
-#kubectl patch storageclass local-path -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
-#kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-
-cd ../../../../../..
 https://rook.io/docs/rook/v1.7/ceph-toolbox.html
-kubectl create -f rook/toolbox.yaml 
+kubectl apply -f https://raw.githubusercontent.com/rook/rook/v1.7.1/cluster/examples/kubernetes/ceph/toolbox.yaml
 kubectl -n rook-ceph rollout status deploy/rook-ceph-tools
 kubectl -n rook-ceph exec -it deploy/rook-ceph-tools -- bash
 
@@ -61,6 +56,9 @@ kubectl -n rook-ceph get pod -l app=rook-ceph-mds
 kubectl create -f repos/rook/cluster/examples/kubernetes/ceph/csi/cephfs/storageclass.yaml
 
 
+https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/
+kubectl get storageclass
+kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}' # TODO FIXME change to filesystem
 
 
 
@@ -98,7 +96,8 @@ kubectl get storageclass
 
 
 
-
+# Restart operator (fixes anything ^^)
+kubectl -n rook-ceph delete pod -l app=rook-ceph-operator
 
 
 
@@ -115,6 +114,7 @@ kubectl get storageclass
 
 https://rook.io/docs/rook/v1.7/ceph-teardown.html
 
+shred -v -n 1 /dev/sdREMOVEa2
 rm -R /var/lib/rook
 
 

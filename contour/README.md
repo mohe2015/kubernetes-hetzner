@@ -42,4 +42,12 @@ kubectl logs envoy-7tklv -n projectcontour envoy
 
 kubectl -n projectcontour delete pods -l app=envoy
 
+hcloud load-balancer add-service load-balancer --listen-port 443 --destination-port 30443 --protocol tcp
+hcloud load-balancer update-service load-balancer --listen-port 443 --destination-port 30443 --protocol tcp --health-check-interval 3s --health-check-port 30443 --health-check-protocol tcp --health-check-retries 0 --health-check-timeout 2s
+
+hcloud load-balancer add-service load-balancer --listen-port 80 --destination-port 30080 --protocol tcp
+hcloud load-balancer update-service load-balancer --listen-port 80 --destination-port 30080 --protocol tcp --health-check-interval 3s --health-check-port 30080 --health-check-protocol tcp --health-check-retries 0 --health-check-timeout 2s
+
+# TODO FIXME pass ip forward
+
 ```

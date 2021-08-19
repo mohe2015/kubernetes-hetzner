@@ -357,6 +357,7 @@ packages:
   - apparmor-utils # https://github.com/rancher/k3os/issues/702
 runcmd:
   - "sudo resize2fs /dev/sda1"
+  - "shred -v -n 1 /dev/sda2" # unknown if this fixes anything
   - "sudo modprobe br_netfilter"
   - "sudo modprobe overlay"
   - "sudo sysctl --system"
