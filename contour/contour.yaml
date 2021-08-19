@@ -2936,10 +2936,12 @@ spec:
     name: http
     protocol: TCP
     targetPort: 8080
+    nodePort: 30080
   - port: 443
     name: https
     protocol: TCP
     targetPort: 8443
+    nodePort: 30443
   selector:
     app: envoy
   type: NodePort

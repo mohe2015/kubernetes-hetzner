@@ -1,8 +1,10 @@
 # kubernetes-hetzner
 
-maybe use calico?
-
 see [kubeadm/README.md](kubeadm/README.md)
+
+now optionally run sonobuoy for conformance tests
+
+now see kubernetes-dashboard, contour, rook, zammad, prometheus, harbor, keycloak, vitess
 
 ## currently available services
 

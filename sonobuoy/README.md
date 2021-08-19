@@ -50,11 +50,10 @@ sonobuoy results --mode detailed --plugin e2e $outfile |  jq '.  | select(.statu
 sonobuoy delete --wait
 
 
-kubectl --insecure-skip-tls-verify get nodes
+#kubectl --insecure-skip-tls-verify get nodes
+#https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/
 
-https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/
-
-kubeadm certs check-expiration
-kubeadm certs renew all
-kubeadm certs renew apiserver --config /root/kubeadm-config.yaml
+#kubeadm certs check-expiration
+#kubeadm certs renew all
+#kubeadm certs renew apiserver --config /root/kubeadm-config.yaml
 ```

@@ -133,7 +133,6 @@ sudo systemctl restart kubelet
 
 kubectl get nodes
 
-# now see kubernetes-dashboard, rook, sonobuoy, harbor, keycloak, vitess, contour
 
 
 
