@@ -21,6 +21,9 @@ hcloud server delete node-3
 hcloud load-balancer delete load-balancer
 
 # these three can be done in parallel
+
+# if you want to run more than a super-minimal amount of services (e.g. you want to run prometheus) then you need at least one node with 8GB e.g. cx31. Also CPU is really high so maybe better CPX31
+
 hcloud server create --type cx21 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3
 hcloud server create --type cx21 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-2 --datacenter hel1-dc2
 hcloud server create --type cx21 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-3 --datacenter fsn1-dc14

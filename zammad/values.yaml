@@ -9,7 +9,7 @@ ingress:
     - host: support.selfmade4u.de
       paths:
         - path: /
-          pathType: ImplementationSpecific
+          pathType: Prefix
   tls:
     - secretName: support.selfmade4u.de
       hosts:
@@ -17,10 +17,26 @@ ingress:
 
 persistence:
   storageClass: rook-cephfs
+  accessModes:
+    - ReadWriteMany
 
 elasticsearch:
+  enabled: false # EATS ALL RAM + CPU
+  enableInitialisation: false
   volumeClaimTemplate:
     storageClassName: rook-cephfs
+
+envConfig:
+  zammad:
+    rails:
+      livenessProbe: false
+      readinessProbe: false
+    nginx:
+      livenessProbe: false
+      readinessProbe: false
+    websocket:
+      livenessProbe: false
+      readinessProbe: false
 
 # if this works this would be nice https://helm.sh/docs/chart_template_guide/subcharts_and_globals/
 global:

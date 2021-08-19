@@ -11,7 +11,7 @@ helm repo add zammad https://zammad.github.io/zammad-helm
 helm upgrade --install zammad zammad/zammad --namespace=zammad --values zammad/values.yaml --create-namespace
 
 
-
+kubectl get pods -n zammad -w
 
 
 kubectl delete namespace zammad
