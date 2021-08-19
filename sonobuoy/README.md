@@ -8,8 +8,8 @@ https://sonobuoy.io/docs/v0.53.2/gen/
 https://github.com/cncf/k8s-conformance/blob/master/instructions.md
 # warning: probably needs more memory and not much else running at the same time
 sonobuoy run --mode quick --timeout=600000
-sonobuoy run --mode non-disruptive-conformance
-sonobuoy run --mode=certified-conformance
+sonobuoy run --mode non-disruptive-conformance --timeout=600000
+sonobuoy run --mode=certified-conformance --timeout=600000
 # sonobuoy run --mode=certified-conformance --timeout=30000 # probably need to increase timeout
 sonobuoy status
 #  watch 'sonobuoy status --json | json_pp'
@@ -28,4 +28,13 @@ https://sonobuoy.io/docs/v0.52.0/faq/
 sonobuoy results --mode detailed --plugin e2e $outfile |  jq '.  | select(.status == "failed") | .details'
 
 sonobuoy delete --wait
+
+
+kubectl --insecure-skip-tls-verify get nodes
+
+https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-certs/
+
+kubeadm certs check-expiration
+kubeadm certs renew all
+kubeadm certs renew apiserver --config /root/kubeadm-config.yaml
 ```
