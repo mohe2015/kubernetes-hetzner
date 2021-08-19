@@ -45,29 +45,28 @@ kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['dat
 
 https://rook.io/docs/rook/v1.7/ceph-block.html
 #kubectl create -f repos/rook/cluster/examples/kubernetes/ceph/csi/rbd/storageclass-test.yaml
-kubectl create -f repos/rook/cluster/examples/kubernetes/ceph/csi/rbd/storageclass.yaml
+kubectl create -f https://raw.githubusercontent.com/rook/rook/v1.7.1/cluster/examples/kubernetes/ceph/csi/rbd/storageclass.yaml
 
 
 
 https://rook.io/docs/rook/v1.7/ceph-filesystem.html
 #kubectl create -f rook/cluster/examples/kubernetes/ceph/filesystem-test.yaml
-kubectl create -f repos/rook/cluster/examples/kubernetes/ceph/filesystem.yaml
-kubectl -n rook-ceph get pod -l app=rook-ceph-mds
-kubectl create -f repos/rook/cluster/examples/kubernetes/ceph/csi/cephfs/storageclass.yaml
+kubectl create -f https://raw.githubusercontent.com/rook/rook/v1.7.1/cluster/examples/kubernetes/ceph/filesystem.yaml
+kubectl -n rook-ceph get pod -l app=rook-ceph-mds -w
+kubectl create -f https://raw.githubusercontent.com/rook/rook/v1.7.1/cluster/examples/kubernetes/ceph/csi/cephfs/storageclass.yaml
 
 
 https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/
 kubectl get storageclass
-kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}' # TODO FIXME change to filesystem
-
+kubectl patch storageclass rook-cephfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+kubectl get storageclass
 
 
 https://rook.io/docs/rook/v1.7/ceph-object.html
-cd repos/rook/cluster/examples/kubernetes/ceph
-kubectl create -f object-user.yaml -f object.yaml
-kubectl -n rook-ceph get pod -l app=rook-ceph-rgw
-kubectl create -f storageclass-bucket-retain.yaml
-kubectl create -f object-bucket-claim-retain.yaml
+kubectl create -f https://raw.githubusercontent.com/rook/rook/v1.7.1/cluster/examples/kubernetes/ceph/object-user.yaml -f https://raw.githubusercontent.com/rook/rook/v1.7.1/cluster/examples/kubernetes/ceph/object.yaml
+kubectl -n rook-ceph get pod -l app=rook-ceph-rgw -w
+kubectl create -f https://raw.githubusercontent.com/rook/rook/v1.7.1/cluster/examples/kubernetes/ceph/storageclass-bucket-retain.yaml
+kubectl create -f https://raw.githubusercontent.com/rook/rook/v1.7.1/cluster/examples/kubernetes/ceph/object-bucket-claim-retain.yaml
 
 export AWS_HOST=$(kubectl -n default get cm ceph-retain-bucket -o jsonpath='{.data.BUCKET_HOST}') # withouth .svc?
 # AWS_ENDPOINT
@@ -88,9 +87,6 @@ s3cmd get s3://ceph-bkt-63c510f8-513f-4ad1-9896-42e227ee159f/rookObj /tmp/rookOb
 cat /tmp/rookObj-download
 s3cmd ls s3://ceph-bkt-63c510f8-513f-4ad1-9896-42e227ee159f --no-ssl --host=${AWS_HOST} --host-bucket=
 
-# TODO FIXME make the other one default as some nodes seem to want to attach the disk to multiple pods
-kubectl patch storageclass rook-ceph-block -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-kubectl get storageclass
 
 
 
@@ -114,10 +110,12 @@ kubectl -n rook-ceph delete pod -l app=rook-ceph-operator
 
 https://rook.io/docs/rook/v1.7/ceph-teardown.html
 
+
+
+
+
 shred -v -n 1 /dev/sdREMOVEa2
 rm -R /var/lib/rook
-
-
 
 
 
