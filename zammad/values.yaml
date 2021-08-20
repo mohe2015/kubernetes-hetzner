@@ -1,7 +1,7 @@
 ingress:
   enabled: true
   annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-staging
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     ingress.kubernetes.io/force-ssl-redirect: 'true'
     kubernetes.io/tls-acme: 'true'
   className: contour
@@ -26,17 +26,17 @@ elasticsearch:
   volumeClaimTemplate:
     storageClassName: ceph-filesystem
 
-envConfig:
-  zammad:
-    rails:
-      livenessProbe: false
-      readinessProbe: false
-    nginx:
-      livenessProbe: false
-      readinessProbe: false
-    websocket:
-      livenessProbe: false
-      readinessProbe: false
+#envConfig:
+#  zammad:
+#    rails:
+#      livenessProbe: false
+#      readinessProbe: false
+#    nginx:
+#      livenessProbe: false
+#      readinessProbe: false
+#    websocket:
+#      livenessProbe: false
+#      readinessProbe: false
 
 # if this works this would be nice https://helm.sh/docs/chart_template_guide/subcharts_and_globals/
 global:

@@ -14,6 +14,14 @@ Priority classes and OOM
 
 kubectl get pods --all-namespaces -o custom-columns=NAME:.metadata.name,PRIORITY:.spec.priorityClassName
 
+
+cpu quota is usually wrong:
+
+kube-system: is 3 should be 1
+zammad: is 1.5 should be 0.5
+monitoring: is 1.33 should be 0.5
+rookceph: is 0.1 should be 0.5
+
 ## currently available services
 
 https://rook-ceph.selfmade4u.de/
