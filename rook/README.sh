@@ -4,6 +4,29 @@
 # TODO https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/
 # https://github.com/rook/rook/blob/fcf634e3b7808e4338e7fd261c047aae4793e99b/design/ceph/resource-constraints.md
 
+# TODO FIXME change to release
+helm repo add rook-master https://charts.rook.io/release
+
+# https://rook.io/docs/rook/v1.7/helm-operator.html
+helm install --create-namespace --namespace rook-ceph rook-ceph rook-master/rook-ceph
+
+# https://rook.io/docs/rook/v1.7/helm-ceph-cluster.html
+helm install --create-namespace --namespace rook-ceph rook-ceph-cluster --set operatorNamespace=rook-ceph rook-master/rook-ceph-cluster -f rook/values-override.yaml
+helm upgrade --create-namespace --namespace rook-ceph rook-ceph-cluster --set operatorNamespace=rook-ceph rook-master/rook-ceph-cluster -f rook/values-override.yaml
+
+# https://rook.io/docs/rook/v1.7/ceph-dashboard.html
+kubectl apply -f rook/dashboard-ingress-https.yaml
+kubectl -n rook-ceph get ingress
+
+https://rook-ceph.selfmade4u.de/
+
+kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['data']['password']}" | base64 --decode && echo
+
+
+
+
+
+
 # kubectl get priorityclasses.scheduling.k8s.io
 # priorityClassName: system-cluster-critical
 
@@ -41,14 +64,6 @@ ceph df
 kubectl -n rook-ceph delete deploy/rook-ceph-tools
 
 
-https://rook.io/docs/rook/v1.7/ceph-dashboard.html
-kubectl apply -f rook/dashboard-ingress-https.yaml
-kubectl -n rook-ceph get ingress
-
-https://rook-ceph.selfmade4u.de/
-
-kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['data']['password']}" | base64 --decode && echo
-
 
 https://rook.io/docs/rook/v1.7/ceph-block.html
 #kubectl create -f repos/rook/cluster/examples/kubernetes/ceph/csi/rbd/storageclass-test.yaml
@@ -65,7 +80,7 @@ kubectl create -f https://raw.githubusercontent.com/rook/rook/v1.7.1/cluster/exa
 
 https://kubernetes.io/docs/tasks/administer-cluster/change-default-storage-class/
 kubectl get storageclass
-kubectl patch storageclass rook-cephfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+kubectl patch storageclass ceph-filesystem -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 kubectl get storageclass
 
 

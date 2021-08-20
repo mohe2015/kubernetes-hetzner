@@ -26,26 +26,26 @@ persistence:
   resourcePolicy: "keep"
   persistentVolumeClaim:
     registry:
-      storageClass: "rook-cephfs"
+      storageClass: "ceph-filesystem"
       accessMode: ReadWriteMany
       size: 5Gi
     chartmuseum:
-      storageClass: "rook-cephfs"
+      storageClass: "ceph-filesystem"
       accessMode: ReadWriteMany
       size: 5Gi
     jobservice:
-      storageClass: "rook-cephfs"
+      storageClass: "ceph-filesystem"
       accessMode: ReadWriteMany
       size: 1Gi
     database:
-      storageClass: "rook-cephfs"
+      storageClass: "ceph-filesystem"
       accessMode: ReadWriteMany
       size: 1Gi
     redis:
-      storageClass: "rook-cephfs"
+      storageClass: "ceph-filesystem"
       accessMode: ReadWriteMany
       size: 1Gi
     trivy:
-      storageClass: "rook-cephfs"
+      storageClass: "ceph-filesystem"
       accessMode: ReadWriteMany
       size: 5Gi

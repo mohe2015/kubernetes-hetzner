@@ -16,7 +16,7 @@ ingress:
         - support.selfmade4u.de
 
 persistence:
-  storageClass: rook-cephfs
+  storageClass: ceph-filesystem
   accessModes:
     - ReadWriteMany
 
@@ -24,7 +24,7 @@ elasticsearch:
   enabled: false # EATS ALL RAM + CPU
   enableInitialisation: false
   volumeClaimTemplate:
-    storageClassName: rook-cephfs
+    storageClassName: ceph-filesystem
 
 envConfig:
   zammad:
@@ -40,4 +40,4 @@ envConfig:
 
 # if this works this would be nice https://helm.sh/docs/chart_template_guide/subcharts_and_globals/
 global:
-  storageClass: rook-cephfs
+  storageClass: ceph-filesystem
