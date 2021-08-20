@@ -1,10 +1,16 @@
-```bash
 
-CRITIAL: Do this next:
+# CRITIAL: Do this next:
 # TODO all nodes here should run "guaranteed" as this is a really essential service.
 # TODO https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/
+# https://github.com/rook/rook/blob/fcf634e3b7808e4338e7fd261c047aae4793e99b/design/ceph/resource-constraints.md
+
+# kubectl get priorityclasses.scheduling.k8s.io
+# priorityClassName: system-cluster-critical
 
 # https://github.com/rook/rook
+
+# TODO USE https://github.com/rook/rook/blob/master/Documentation/helm-ceph-cluster.md
+# TODO USE https://github.com/rook/rook/blob/master/Documentation/helm-operator.md
 
 https://rook.io/docs/rook/v1.7/ceph-quickstart.html
 git clone --single-branch --branch v1.7.1 https://github.com/rook/rook.git repos/rook
@@ -153,5 +159,3 @@ https://github.com/rook/rook/issues/5028
 
 
 # Move and resize disk
-
-```
