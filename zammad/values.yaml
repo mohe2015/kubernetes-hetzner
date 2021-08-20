@@ -21,8 +21,8 @@ persistence:
     - ReadWriteMany
 
 elasticsearch:
-  enabled: false # EATS ALL RAM + CPU
-  enableInitialisation: false
+  #enabled: false # EATS ALL RAM + CPU
+  #enableInitialisation: false
   volumeClaimTemplate:
     storageClassName: ceph-filesystem
 

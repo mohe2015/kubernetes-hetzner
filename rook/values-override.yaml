@@ -2,6 +2,11 @@
 cephClusterSpec:
   dashboard:
     ssl: false
+  priorityClassNames:
+    all: system-cluster-critical
+  #   mon: rook-ceph-mon-priority-class
+  #   osd: rook-ceph-osd-priority-class
+  #   mgr: rook-ceph-mgr-priority-class
 
 # https://github.com/rook/rook/blob/master/cluster/charts/rook-ceph-cluster/templates/ingress.yaml
 # doesnt work yet for kubernetes 1.22

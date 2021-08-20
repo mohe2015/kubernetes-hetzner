@@ -6,6 +6,14 @@ now optionally run sonobuoy for conformance tests
 
 now see kubernetes-dashboard, contour, rook, zammad, prometheus, harbor, keycloak, vitess
 
+## Issues
+
+letsencrypt ratelimits
+
+Priority classes and OOM
+
+kubectl get pods --all-namespaces -o custom-columns=NAME:.metadata.name,PRIORITY:.spec.priorityClassName
+
 ## currently available services
 
 https://rook-ceph.selfmade4u.de/

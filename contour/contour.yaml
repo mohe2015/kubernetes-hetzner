@@ -2973,6 +2973,7 @@ spec:
       labels:
         app: contour
     spec:
+      priorityClassName: system-cluster-critical
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
@@ -3076,6 +3077,7 @@ spec:
       labels:
         app: envoy
     spec:
+      priorityClassName: system-cluster-critical
       containers:
       - command:
         - /bin/contour
