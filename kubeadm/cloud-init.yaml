@@ -5,11 +5,12 @@ resize_rootfs: false
 # TODO FIXME create unprivileged user for local kubectl etc.
 bootcmd:
   - "cloud-init-per once setup1 sgdisk -d 1 /dev/sda"
-  - "cloud-init-per once setup2 sgdisk -n 1:0:+20GiB -t 1:8300 /dev/sda"
-  - "cloud-init-per once setup3 sgdisk -n 2:0:0      -t 2:8300 /dev/sda"
+  - "cloud-init-per once setup2 sgdisk -n 1:0:+40GB -t 1:8300 /dev/sda"
+  - "cloud-init-per once setup3 sgdisk -n 2:0:0     -t 2:8300 /dev/sda"
   #- "hdparm -z /dev/sda"
   #- "sgdisk -R /dev/sda" # https://fixyacloud.wordpress.com/2020/01/26/reread-partition-table-without-rebooting/
   - "cloud-init-per once setup4 partx -u /dev/sda" # cat /proc/partitions
+  - "cloud-init-per once setup5 resize2fs /dev/sda1"
 write_files:
   - content: |
         # any text
@@ -169,10 +170,14 @@ write_files:
       # containerd config default
       # [plugins."io.containerd.grpc.v1.cri".containerd.runtimes.runc.options]
       #   SystemdCgroup = true
-  - path: /root/kubeadm-config.yaml
+  - path: /root/kubeadm-config.yaml # https://pkg.go.dev/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta3?utm_source=godoc
     content: |
         kind: InitConfiguration
         apiVersion: kubeadm.k8s.io/v1beta3
+        nodeRegistration:
+          taints: []
+          ignorePreflightErrors:
+            - Swap
         ---
         kind: ClusterConfiguration
         apiVersion: kubeadm.k8s.io/v1beta3
@@ -348,7 +353,7 @@ apt:
       source: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
 swap:
   filename: /swapfile
-  size: 1G
+  size: 2G
 packages:
   - containerd.io
   - kubelet=1.22.0-00
@@ -356,15 +361,13 @@ packages:
   - kubectl=1.22.0-00
   - apparmor-utils # https://github.com/rancher/k3os/issues/702
 runcmd:
-  - "sudo resize2fs /dev/sda1"
   - "shred -v -n 1 /dev/sda2" # unknown if this fixes anything
   - "sudo modprobe br_netfilter"
   - "sudo modprobe overlay"
   - "sudo sysctl --system"
   - "sudo apt-mark hold kubelet kubeadm kubectl"
   - "sudo systemctl restart containerd"
-  # TEMPORARY attempt to fix iptables segfault https://github.com/flannel-io/flannel/issues/1408
-  #- "apt install iptables/buster-backports ebtables/buster-backports"
+  - "kubeadm config images pull"
 final_message: "The system is finally up, after $UPTIME seconds"
 power_state:
   mode: "reboot"

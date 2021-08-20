@@ -1,5 +1,6 @@
 ```bash
 
+CRITIAL: Do this next:
 # TODO all nodes here should run "guaranteed" as this is a really essential service.
 # TODO https://kubernetes.io/docs/concepts/scheduling-eviction/pod-priority-preemption/
 
