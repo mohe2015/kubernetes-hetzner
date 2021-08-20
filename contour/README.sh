@@ -24,8 +24,9 @@ kubectl apply -f contour/contour.yaml
 # https://cert-manager.io/docs/installation/
 kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.1/cert-manager.yaml
 
-# REMEMBER TO CHANGE THE EMAIL-ADRESS IN letsencrypt-prod.yaml
+# REMEMBER TO CHANGE THE EMAIL-ADRESS IN letsencrypt-prod.yaml and letsencrypt-staging.yaml
 
+kubectl apply -f contour/letsencrypt-staging.yaml
 kubectl apply -f contour/letsencrypt-prod.yaml
 
 kubectl -n cert-manager logs -l app=cert-manager -c cert-manager
