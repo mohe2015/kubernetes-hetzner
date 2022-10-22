@@ -50,6 +50,9 @@ hcloud server ssh node-1 -o StrictHostKeyChecking=accept-new tail -f /var/log/cl
 
 # https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/#kubeproxy-free
 hcloud server ssh node-1
+
+./helm/README.md
+
 kubeadm init --skip-phases=addon/kube-proxy --config /root/kubeadm-config.yaml
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
@@ -63,7 +66,6 @@ export KUBECONFIG=/etc/kubernetes/admin.conf
 kubectl taint nodes node-1 node-role.kubernetes.io/control-plane:NoSchedule-
 
 
-./helm/README.md
 
 scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
 
