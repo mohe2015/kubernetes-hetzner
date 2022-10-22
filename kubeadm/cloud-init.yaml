@@ -24,6 +24,7 @@ write_files:
         net.ipv4.ip_forward                 = 1
   - path: /etc/containerd/config.toml
     content: |
+        version = 2
         [plugins]
           [plugins."io.containerd.grpc.v1.cri"]
             [plugins."io.containerd.grpc.v1.cri".containerd]
@@ -36,7 +37,6 @@ write_files:
         kind: InitConfiguration
         apiVersion: kubeadm.k8s.io/v1beta3
         nodeRegistration:
-          taints: []
           ignorePreflightErrors:
             - Swap
         ---
@@ -51,18 +51,8 @@ write_files:
         ---
         kind: KubeletConfiguration
         apiVersion: kubelet.config.k8s.io/v1beta1
-        evictionHard:
-          memory.available: "100Mi"
-        systemReserved:
-          memory: "1Gi"
-        systemReservedCgroup: system.slice
-        enforceNodeAllocatable:
-          - pods
-          - system-reserved
-        cgroupsPerQOS: true
         failSwapOn: false
         featureGates:
-          MemoryQoS: true
           NodeSwap: true
   - path: /etc/apt/trusted.gpg.d/docker.asc
     content: |
@@ -218,7 +208,7 @@ packages:
   - kubectl=1.25.3-00
   - apparmor-utils # still required
 runcmd:
-  - "shred -v -n 1 /dev/sda2"
+  # - "shred -v -n 1 /dev/sda2"
   - "sudo modprobe br_netfilter"
   - "sudo modprobe overlay"
   - "sudo sysctl --system"
@@ -226,5 +216,3 @@ runcmd:
   - "sudo systemctl restart containerd"
   - "kubeadm config images pull"
 final_message: "The system is finally up, after $UPTIME seconds"
-power_state:
-  mode: "reboot"

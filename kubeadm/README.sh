@@ -48,11 +48,20 @@ read
 ssh-keygen -R $(hcloud server ip node-1)
 hcloud server ssh node-1 -o StrictHostKeyChecking=accept-new tail -f /var/log/cloud-init-output.log # TODO FIXME automate reboot detection
 
-hcloud server ssh node-1 kubeadm init --config /root/kubeadm-config.yaml
-hcloud server ssh node-1 mkdir -p /root/.kube/
-hcloud server ssh node-1 cp /etc/kubernetes/admin.conf ~/.kube/config
+# https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/#kubeproxy-free
+hcloud server ssh node-1
+kubeadm init --skip-phases=addon/kube-proxy --config /root/kubeadm-config.yaml
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
+
+kubectl get nodes -o wide
 kubectl get pods --all-namespaces -w
+
+export KUBECONFIG=/etc/kubernetes/admin.conf
+kubectl taint nodes node-1 node-role.kubernetes.io/control-plane:NoSchedule-
+
 
 ./helm/README.md
 

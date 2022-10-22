@@ -4,7 +4,13 @@ https://github.com/cilium/cilium
 https://docs.cilium.io/en/stable/gettingstarted/k8s-install-helm/
 
 helm repo add cilium https://helm.cilium.io/
-helm install cilium cilium/cilium --version 1.12.3 --namespace kube-system
+API_SERVER_IP=control-plane.selfmade4u.de
+API_SERVER_PORT=6443
+helm install cilium cilium/cilium --version 1.12.3 \
+    --namespace kube-system \
+    --set kubeProxyReplacement=strict \
+    --set k8sServiceHost=${API_SERVER_IP} \
+    --set k8sServicePort=${API_SERVER_PORT}
 kubectl get pods --all-namespaces -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,HOSTNETWORK:.spec.hostNetwork --no-headers=true | grep '<none>' | awk '{print "-n "$1" "$2}' | xargs -L 1 -r kubectl delete pod
 
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/master/stable.txt)
