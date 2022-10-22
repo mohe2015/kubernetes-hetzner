@@ -2,16 +2,16 @@
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/
 
-# TODO FIXME is kubernetes + etcd communicating encrypted?
-
 https://github.com/hetznercloud/csi-driver
 https://github.com/hetznercloud/hcloud-cloud-controller-manager
 
 # install hcloud https://github.com/hetznercloud/cli
 # hcloud context create kubernetes
 
-# create three servers of type cx21 (min 40GB disk, min 4G RAM)
-# may be useful to have some 8GB instances as it's still pretty hard to run a few things
+# CX31
+# 2 VCPU
+# 8 GB RAM
+# 80 GB DISK LOKAL
 
 #hcloud server delete node-1
 #hcloud server delete node-2
@@ -24,23 +24,23 @@ https://github.com/hetznercloud/hcloud-cloud-controller-manager
 
 # WARNING: THIS IS EXPENSIVE
 
-hcloud server create --type cx31 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3
-hcloud server create --type cx31 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-2 --datacenter hel1-dc2
-hcloud server create --type cx31 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-3 --datacenter fsn1-dc14
+hcloud server create --type cx31 --image debian-11 --user-data-from-file kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3
+#hcloud server create --type cx31 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-2 --datacenter hel1-dc2
+#hcloud server create --type cx31 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-3 --datacenter fsn1-dc14
 
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/high-availability/#create-load-balancer-for-kube-apiserver
 
-hcloud load-balancer create --name load-balancer --type lb11 --location nbg1
+#hcloud load-balancer create --name load-balancer --type lb11 --location nbg1
 
 echo UPDATE DNS (TODO AUTOMATE) (WARNING IPV6 may change when ipv6 doesnt)
 read
 
-hcloud load-balancer add-target load-balancer --server node-1
-hcloud load-balancer add-target load-balancer --server node-2
-hcloud load-balancer add-target load-balancer --server node-3
+#hcloud load-balancer add-target load-balancer --server node-1
+#hcloud load-balancer add-target load-balancer --server node-2
+#hcloud load-balancer add-target load-balancer --server node-3
 
-hcloud load-balancer add-service load-balancer --listen-port 6443 --destination-port 6443 --protocol tcp
-hcloud load-balancer update-service load-balancer --listen-port 6443 --destination-port 6443 --protocol tcp --health-check-http-domain kube-apiserver.selfmade4u.de --health-check-http-path "/livez?verbose" --health-check-http-response "livez check passed" --health-check-http-status-codes 200 --health-check-interval 3s --health-check-port 6443 --health-check-protocol http --health-check-retries 0 --health-check-timeout 2s --health-check-http-tls
+#hcloud load-balancer add-service load-balancer --listen-port 6443 --destination-port 6443 --protocol tcp
+#hcloud load-balancer update-service load-balancer --listen-port 6443 --destination-port 6443 --protocol tcp --health-check-http-domain kube-apiserver.selfmade4u.de --health-check-http-path "/livez?verbose" --health-check-http-response "livez check passed" --health-check-http-status-codes 200 --health-check-interval 3s --health-check-port 6443 --health-check-protocol http --health-check-retries 0 --health-check-timeout 2s --health-check-http-tls
 
 # wait until all nodes have booted and then rebooted
 
@@ -55,10 +55,19 @@ hcloud server ssh node-1 cp /etc/kubernetes/admin.conf ~/.kube/config
 
 scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
 
+# https://kubernetes.io/docs/concepts/cluster-administration/addons/#networking-and-network-policy
+
+# try cilium because it's an incubated project
+
 # INSTALL CNI HERE - currently calico recommended
-./calico/README.sh
+#./calico/README.sh
+
+https://docs.cilium.io/en/stable/gettingstarted/k8s-install-helm/
+
 
 kubectl get pods --all-namespaces -w
+
+# TODO https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#resilience
 
 # https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/
 
@@ -96,6 +105,8 @@ kubectl get nodes
 kubectl get pods --all-namespaces
 
 
+# test
+https://github.com/vmware-tanzu/sonobuoy
 
 
 # https://github.com/kubernetes-sigs/metrics-server

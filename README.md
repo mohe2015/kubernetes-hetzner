@@ -22,6 +22,8 @@ zammad: is 1.5 should be 0.5
 monitoring: is 1.33 should be 0.5
 rookceph: is 0.1 should be 0.5
 
+TODO https://github.com/kubernetes/node-problem-detector
+
 ## currently available services
 
 https://rook-ceph.selfmade4u.de/
