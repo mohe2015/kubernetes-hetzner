@@ -6,11 +6,25 @@ https://docs.cilium.io/en/stable/gettingstarted/k8s-install-helm/
 helm repo add cilium https://helm.cilium.io/
 API_SERVER_IP=control-plane.selfmade4u.de
 API_SERVER_PORT=6443
+
+helm show values cilium/cilium | grep --color -B 50 "replicas: 2"
+
+
 helm install cilium cilium/cilium --version 1.12.3 \
     --namespace kube-system \
+    --set operator.replicas=1 \
     --set kubeProxyReplacement=strict \
     --set k8sServiceHost=${API_SERVER_IP} \
     --set k8sServicePort=${API_SERVER_PORT}
+
+# upgrade example
+helm upgrade cilium cilium/cilium --version 1.12.3 \
+    --namespace kube-system \
+    --set operator.replicas=1 \
+    --set kubeProxyReplacement=strict \
+    --set k8sServiceHost=${API_SERVER_IP} \
+    --set k8sServicePort=${API_SERVER_PORT}
+
 kubectl get pods --all-namespaces -o custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,HOSTNETWORK:.spec.hostNetwork --no-headers=true | grep '<none>' | awk '{print "-n "$1" "$2}' | xargs -L 1 -r kubectl delete pod
 
 CILIUM_CLI_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/cilium-cli/master/stable.txt)
@@ -21,5 +35,5 @@ sha256sum --check cilium-linux-${CLI_ARCH}.tar.gz.sha256sum
 sudo tar xzvfC cilium-linux-${CLI_ARCH}.tar.gz /usr/local/bin
 rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 
-cilium status --wait
+cilium status
 cilium connectivity test
