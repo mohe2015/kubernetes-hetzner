@@ -9,7 +9,6 @@ API_SERVER_PORT=6443
 
 helm show values cilium/cilium | grep --color -B 50 "replicas: 2"
 
-
 helm install cilium cilium/cilium --version 1.12.3 \
     --namespace kube-system \
     --set operator.replicas=1 \
@@ -37,3 +36,28 @@ rm cilium-linux-${CLI_ARCH}.tar.gz{,.sha256sum}
 
 cilium status
 cilium connectivity test
+
+# https://docs.cilium.io/en/stable/gettingstarted/hubble_setup/
+
+# TODO FIXME switch to help chart completely which should be possible
+cilium hubble disable
+cilium hubble enable --ui
+
+
+export HUBBLE_VERSION=$(curl -s https://raw.githubusercontent.com/cilium/hubble/master/stable.txt)
+HUBBLE_ARCH=amd64
+if [ "$(uname -m)" = "aarch64" ]; then HUBBLE_ARCH=arm64; fi
+curl -L --fail --remote-name-all https://github.com/cilium/hubble/releases/download/$HUBBLE_VERSION/hubble-linux-${HUBBLE_ARCH}.tar.gz{,.sha256sum}
+sha256sum --check hubble-linux-${HUBBLE_ARCH}.tar.gz.sha256sum
+sudo tar xzvfC hubble-linux-${HUBBLE_ARCH}.tar.gz /usr/local/bin
+rm hubble-linux-${HUBBLE_ARCH}.tar.gz{,.sha256sum}
+
+
+cilium hubble port-forward
+hubble status
+hubble observe
+
+https://localhost:4245
+
+
+cilium hubble ui

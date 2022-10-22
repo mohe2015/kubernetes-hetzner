@@ -65,7 +65,7 @@ kubectl get pods --all-namespaces -w
 kubectl taint nodes node-1 node-role.kubernetes.io/control-plane:NoSchedule-
 
 
-
+mkdir -p ~/.kube/
 scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
 
 # https://kubernetes.io/docs/concepts/cluster-administration/addons/#networking-and-network-policy
