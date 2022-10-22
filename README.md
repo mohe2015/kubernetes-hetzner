@@ -4,7 +4,7 @@ see [kubeadm/README.md](kubeadm/README.md)
 
 now optionally run sonobuoy for conformance tests
 
-now see kubernetes-dashboard, cert-manager, istio, rook, zammad, prometheus, harbor, keycloak, vitess
+now see kubernetes-dashboard, linkerd, rook, zammad, prometheus, harbor, keycloak, vitess
 
 ## Issues
 
