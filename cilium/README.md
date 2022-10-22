@@ -61,3 +61,5 @@ https://localhost:4245
 
 
 cilium hubble ui
+
+TODO https://docs.cilium.io/en/stable/gettingstarted/servicemesh/l7-traffic-management/

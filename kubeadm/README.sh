@@ -127,6 +127,8 @@ https://github.com/vmware-tanzu/sonobuoy
 
 # https://github.com/kubernetes-sigs/metrics-server
 
+# TODO https://artifacthub.io/packages/helm/metrics-server/metrics-server
+
 kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
 
 kubectl edit deploy -n kube-system metrics-server
@@ -138,7 +140,7 @@ kubectl -n kube-system logs metrics-server-6dfddc5fb8-mjgpv
 
 kubectl top node
 
-
+# install kubernetes-dashboard
 
 # TODO REALLY IMPORTANT https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/
 # https://github.com/kubernetes/community/blob/master/contributors/design-proposals/node/node-allocatable.md#recommended-cgroups-setup
