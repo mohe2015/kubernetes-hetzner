@@ -24,7 +24,7 @@ https://github.com/hetznercloud/hcloud-cloud-controller-manager
 
 # WARNING: THIS IS EXPENSIVE
 
-hcloud server create --type cx31 --image debian-11 --user-data-from-file kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3
+hcloud server create --type cx31 --image debian-11 --ssh-key Moritz.Hedtke@t-online.de --user-data-from-file kubeadm/cloud-init.yaml --name node-1 --datacenter nbg1-dc3
 #hcloud server create --type cx31 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-2 --datacenter hel1-dc2
 #hcloud server create --type cx31 --image debian-11 --ssh-key moritz@nixos --user-data-from-file kubeadm/cloud-init.yaml --name node-3 --datacenter fsn1-dc14
 
@@ -46,18 +46,24 @@ read
 
 # TODO find out ssh host key in advance by specifying it in cloud-init config
 ssh-keygen -R $(hcloud server ip node-1)
-hcloud server ssh node-1 -o StrictHostKeyChecking=accept-new cat /var/log/cloud-init-output.log # TODO FIXME automate reboot detection
+hcloud server ssh node-1 -o StrictHostKeyChecking=accept-new tail -f /var/log/cloud-init-output.log # TODO FIXME automate reboot detection
 
-# TODO FIXME combine
 hcloud server ssh node-1 kubeadm init --config /root/kubeadm-config.yaml
 hcloud server ssh node-1 mkdir -p /root/.kube/
 hcloud server ssh node-1 cp /etc/kubernetes/admin.conf ~/.kube/config
+
+kubectl get pods --all-namespaces -w
+
+./helm/README.md
 
 scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
 
 # https://kubernetes.io/docs/concepts/cluster-administration/addons/#networking-and-network-policy
 
 # try cilium because it's an incubated project
+./cilium/README.md
+
+tail -f /var/log/*
 
 # INSTALL CNI HERE - currently calico recommended
 #./calico/README.sh

@@ -216,6 +216,7 @@ packages:
   - kubelet=1.25.3-00
   - kubeadm=1.25.3-00
   - kubectl=1.25.3-00
+  - apparmor-utils # still required
 runcmd:
   - "shred -v -n 1 /dev/sda2"
   - "sudo modprobe br_netfilter"
