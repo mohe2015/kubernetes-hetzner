@@ -62,7 +62,6 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl get nodes -o wide
 kubectl get pods --all-namespaces -w
 
-export KUBECONFIG=/etc/kubernetes/admin.conf
 kubectl taint nodes node-1 node-role.kubernetes.io/control-plane:NoSchedule-
 
 
