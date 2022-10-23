@@ -10,21 +10,16 @@ step-cli certificate create root.linkerd.cluster.local ca.crt ca.key --profile r
 
 step-cli certificate create identity.linkerd.cluster.local issuer.crt issuer.key --profile intermediate-ca --not-after 8760h --no-password --insecure --ca ca.crt --ca-key ca.key
 
-helm install linkerd-cni -n linkerd-cni --create-namespace linkerd/linkerd2-cni
+helm upgrade linkerd-cni linkerd/linkerd2-cni --atomic --cleanup-on-fail --create-namespace --dependency-update --install --render-subchart-notes --reset-values --namespace linkerd-cni
 
-linkerd check --pre --linkerd-cni-enabled
+# linkerd check --pre --linkerd-cni-enabled
 
-helm install linkerd-crds linkerd/linkerd-crds -n linkerd --create-namespace --set cniEnabled=true
+helm upgrade linkerd-crds lilinkerd/linkerd-crds --atomic --cleanup-on-fail --create-namespace --dependency-update --install --render-subchart-notes --reset-values --values values-crds.yaml --namespace linkerd
 
-helm install linkerd-base -n linkerd linkerd/linkerd-base
+helm upgrade linkerd-base linkerd/linkerd-base --atomic --cleanup-on-fail --create-namespace --dependency-update --install --render-subchart-notes --reset-values --namespace linkerd
 
-helm install linkerd-control-plane -n linkerd \
-  --set-file identityTrustAnchorsPEM=ca.crt \
-  --set-file identity.issuer.tls.crtPEM=issuer.crt \
-  --set-file identity.issuer.tls.keyPEM=issuer.key \
-  --set cniEnabled=true \
-  linkerd/linkerd-control-plane
 
+helm upgrade linkerd-control-plane linkerd/linkerd-control-plane --atomic --cleanup-on-fail --create-namespace --dependency-update --install --render-subchart-notes --reset-values --values values-control-plane.yaml --set-file identityTrustAnchorsPEM=ca.crt --set-file identity.issuer.tls.crtPEM=issuer.crt  --set-file identity.issuer.tls.keyPEM=issuer.key --namespace linkerd
 
 helm repo update
 
