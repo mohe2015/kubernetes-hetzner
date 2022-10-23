@@ -6,11 +6,11 @@ see [kubeadm/README.sh](kubeadm/README.sh)
 
 see [cilium/README.sh](cilium/README.sh)
 
+see [linkerd/README.md](linkerd/README.md)
+
 see [metrics-server/README.sh](metrics-server/README.sh)
 
 see [kubernetes-dashboard/README.md](kubernetes-dashboard/README.md)
-
-see [linkerd/README.md](linkerd/README.md)
 
 see [rook/README.md](rook/README.md)
 
