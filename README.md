@@ -1,12 +1,10 @@
 # kubernetes-hetzner
 
-https://landscape.cncf.io/card-mode?project=graduated,incubating,sandbox
+https://landscape.cncf.io/?project=graduated,incubating
 
 see [kubeadm/README.sh](kubeadm/README.sh)
 
 see [cilium/README.sh](cilium/README.sh)
-
-see [linkerd/README.md](linkerd/README.md)
 
 see [metrics-server/README.sh](metrics-server/README.sh)
 
