@@ -4,9 +4,13 @@ helm repo add cilium https://helm.cilium.io/
 
 # helm show values cilium/cilium
 
-helm pull cilium/cilium --untar --version 1.13.0-rc1
+# helm pull cilium/cilium --untar --version 1.13.0-rc1
 
 helm upgrade cilium cilium/cilium --atomic --cleanup-on-fail --create-namespace --dependency-update --install --render-subchart-notes --reset-values --values values.yaml --version 1.13.0-rc1 --namespace kube-system
+
+kubectl -n kube-system rollout restart deployment/cilium-operator
+kubectl -n kube-system rollout restart ds/cilium
+
 
 kubectl -n kube-system get pods --watch
 kubectl create ns cilium-test
@@ -34,3 +38,16 @@ https://kubernetes.io/docs/concepts/services-networking/ingress/
 https://docs.cilium.io/en/stable/gettingstarted/servicemesh/l7-traffic-management/
 https://docs.cilium.io/en/stable/gettingstarted/servicemesh/ingress/
 https://docs.cilium.io/en/stable/gettingstarted/servicemesh/http/
+
+
+TEST https://docs.cilium.io/en/stable/gettingstarted/servicemesh/http/
+
+kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/bookinfo/platform/kube/bookinfo.yaml
+
+kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/1.12.3/examples/kubernetes/servicemesh/basic-ingress.yaml
+
+kubectl get svc
+
+kubectl get ingress
+
+kubectl get ingress basic-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}'

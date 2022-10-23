@@ -1,5 +1,7 @@
 # kubernetes-hetzner
 
+https://community.hetzner.com/tutorials/install-kubernetes-cluster
+
 https://landscape.cncf.io/?project=graduated,incubating
 
 see [kubeadm/README.sh](kubeadm/README.sh)
