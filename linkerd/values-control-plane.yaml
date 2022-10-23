@@ -1,1 +1,2 @@
-cniEnabled: true
+proxyInit:
+  runAsRoot: true # Required for docker container runtime.
