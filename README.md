@@ -3,36 +3,10 @@
 https://landscape.cncf.io/card-mode?project=graduated,incubating,sandbox
 
 see [kubeadm/README.md](kubeadm/README.md)
+see [metrics-server/README.md](metrics-server/README.md)
+see [kubernetes-dashboard/README.md](kubernetes-dashboard/README.md)
+see [linkerd/README.md](linkerd/README.md)
+see [rook/README.md](rook/README.md)
+see [nextcloud/README.md](nextcloud/README.md)
 
-now optionally run sonobuoy for conformance tests
-
-now see kubernetes-dashboard, linkerd, rook, zammad, prometheus, harbor, keycloak, vitess
-
-## Issues
-
-letsencrypt ratelimits
-
-Priority classes and OOM
-
-kubectl get pods --all-namespaces -o custom-columns=NAME:.metadata.name,PRIORITY:.spec.priorityClassName
-
-
-
-TODO https://github.com/kubernetes/node-problem-detector
-
-## currently available services
-
-https://rook-ceph.selfmade4u.de/
-
-https://harbor.selfmade4u.de/
-
-https://sso.selfmade4u.de/
-
-
-for later: https://kubernetes.io/docs/tasks/debug-application-cluster/audit/
-for later: https://kubernetes.io/docs/concepts/cluster-administration/logging/
-for later: https://kubernetes.io/docs/tasks/debug-application-cluster/monitor-node-health/
-for later: https://kubernetes.io/docs/concepts/scheduling-eviction/pod-overhead/
-
-for later https://docs.fluentd.org/container-deployment/kubernetes
-hints: https://medium.com/kubernetes-tutorials/cluster-level-logging-in-kubernetes-with-fluentd-e59aa2b6093a
+see [sonobuoy/README.md](sonobuoy/README.md)
