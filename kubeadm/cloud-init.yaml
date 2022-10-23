@@ -34,6 +34,9 @@ write_files:
         kind: InitConfiguration
         apiVersion: kubeadm.k8s.io/v1beta3
         nodeRegistration:
+          taints:
+            - key: node.cilium.io/agent-not-ready
+              effect: NoExecute
           ignorePreflightErrors:
             - Swap
         ---

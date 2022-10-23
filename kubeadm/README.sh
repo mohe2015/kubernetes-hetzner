@@ -51,7 +51,7 @@ hcloud server ssh node-1 -o StrictHostKeyChecking=accept-new tail -f /var/log/cl
 # https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/#kubeproxy-free
 hcloud server ssh node-1
 
-./helm/README.md
+# install helm on your local device
 
 kubeadm init --skip-phases=addon/kube-proxy --config /root/kubeadm-config.yaml
 mkdir -p $HOME/.kube
@@ -62,7 +62,6 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 kubectl get nodes -o wide
 kubectl get pods --all-namespaces -w
 
-kubectl taint nodes node-1 node-role.kubernetes.io/control-plane:NoSchedule-
 
 
 mkdir -p ~/.kube/
@@ -74,11 +73,6 @@ scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
 ./cilium/README.md
 
 tail -f /var/log/*
-
-# INSTALL CNI HERE - currently calico recommended
-#./calico/README.sh
-
-https://docs.cilium.io/en/stable/gettingstarted/k8s-install-helm/
 
 
 kubectl get pods --all-namespaces -w
@@ -129,18 +123,32 @@ https://github.com/vmware-tanzu/sonobuoy
 
 # TODO https://artifacthub.io/packages/helm/metrics-server/metrics-server
 
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
+helm upgrade --install metrics-server metrics-server/metrics-server
 
-kubectl edit deploy -n kube-system metrics-server
-# TODO FIXME
-# spec.template.spec.containers.args
-# - --kubelet-insecure-tls
-
-kubectl -n kube-system logs metrics-server-6dfddc5fb8-mjgpv
-
-kubectl top node
 
 # install kubernetes-dashboard
+
+
+
+# install linkerd
+
+
+
+
+# install rook
+
+
+
+# install nextcloud
+
+
+
+
+
+
+
+
 
 # TODO REALLY IMPORTANT https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/
 # https://github.com/kubernetes/community/blob/master/contributors/design-proposals/node/node-allocatable.md#recommended-cgroups-setup
