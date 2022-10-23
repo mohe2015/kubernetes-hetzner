@@ -1,5 +1,7 @@
 # kubernetes-hetzner
 
+https://landscape.cncf.io/card-mode?project=graduated,incubating,sandbox
+
 see [kubeadm/README.md](kubeadm/README.md)
 
 now optionally run sonobuoy for conformance tests
