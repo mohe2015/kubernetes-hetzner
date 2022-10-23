@@ -4,7 +4,7 @@ helm repo add cilium https://helm.cilium.io/
 
 # helm show values cilium/cilium
 
-helm upgrade cilium cilium/cilium --atomic --cleanup-on-fail --create-namespace --dependency-update --install --render-subchart-notes --reset-values --values cilium-values.yaml --version 1.12.3 --namespace kube-system
+helm upgrade cilium cilium/cilium --atomic --cleanup-on-fail --create-namespace --dependency-update --install --render-subchart-notes --reset-values --values values.yaml --version 1.12.3 --namespace kube-system
 
 kubectl -n kube-system get pods --watch
 kubectl create ns cilium-test

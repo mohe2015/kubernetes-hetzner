@@ -60,16 +60,6 @@ kubectl get nodes -o wide
 kubectl get pods --all-namespaces -w
 
 
-
-# https://kubernetes.io/docs/concepts/cluster-administration/addons/#networking-and-network-policy
-
-./cilium/README.md
-
-tail -f /var/log/*
-
-
-kubectl get pods --all-namespaces -w
-
 # TODO https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#resilience
 
 # https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/
