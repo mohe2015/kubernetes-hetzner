@@ -1,2 +1,0 @@
-proxyInit:
-  runAsRoot: true # Required for docker container runtime.
