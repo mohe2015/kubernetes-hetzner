@@ -45,18 +45,21 @@ hcloud server ssh node-1
 
 # https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/#kubeproxy-free
 kubeadm init --skip-phases=addon/kube-proxy --config /root/kubeadm-config.yaml
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+#mkdir -p $HOME/.kube
+#sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+#sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+# on local machine
+mkdir -p ~/.kube/
+scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
 
 
 kubectl get nodes -o wide
 kubectl get pods --all-namespaces -w
 
 
-
-mkdir -p ~/.kube/
-scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
 
 # https://kubernetes.io/docs/concepts/cluster-administration/addons/#networking-and-network-policy
 
