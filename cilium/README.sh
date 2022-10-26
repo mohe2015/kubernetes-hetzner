@@ -6,6 +6,7 @@ helm repo add cilium https://helm.cilium.io/
 
 # helm pull cilium/cilium --untar --version 1.13.0-rc1
 
+
 helm upgrade cilium cilium/cilium --create-namespace --install --reset-values --values values.yaml --version 1.12.3 --namespace kube-system
 
 kubectl -n kube-system rollout restart deployment/cilium-operator
