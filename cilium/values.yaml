@@ -1,10 +1,10 @@
 operator:
   replicas: 1
-#hubble:
-#  relay:
-#    enabled: true
-#  ui:
-#    enabled: true
-#ingressController:
-#  enabled: true
-#  loadbalancerMode: dedicated
+hubble:
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+ingressController:
+  enabled: true
+  loadbalancerMode: dedicated
