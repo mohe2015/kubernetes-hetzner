@@ -7,47 +7,51 @@ certmanager-issuer:
   email: Moritz.Hedtke@t-online.de
 prometheus:
   install: false
-sidekiq:
-  resources:
-    requests:
-      cpu: 0m
-gitlab-exporter:
-  resources:
-    requests:
-      cpu: 0m
-gitlab-pages:
-  resources:
-    requests:
-      cpu: 0m
-minio:
-  resources:
-    requests:
-      cpu: 0m
 gitlab-runner:
+  install: false
   resources:
     requests:
       cpu: 0m
-kas:
-  resources:
-    requests:
-      cpu: 0m
-mailroom:
-  init:
+nginx-ingress:
+  controller:
     resources:
       requests:
         cpu: 0m
-  resources:
-    requests:
-      cpu: 0m
-migrations:
-  resources:
-    requests:
-      cpu: 0m
-webservice:
-  resources:
-    requests:
-      cpu: 0m
 gitlab:
+  sidekiq:
+    minReplicas: 1
+    maxReplicas: 1
+    resources:
+      requests:
+        cpu: 0m
+  gitlab-exporter:
+    resources:
+      requests:
+        cpu: 0m
+  gitlab-pages:
+    resources:
+      requests:
+        cpu: 0m
+  minio:
+    resources:
+      requests:
+        cpu: 0m
+  kas:
+    resources:
+      requests:
+        cpu: 0m
+  mailroom:
+    init:
+      resources:
+        requests:
+          cpu: 0m
+    resources:
+      requests:
+        cpu: 0m
+  migrations:
+    resources:
+      requests:
+        cpu: 0m
   toolbox:
     backups:
       cron:
@@ -60,9 +64,9 @@ gitlab:
   webservice:
     minReplicas: 1
     maxReplicas: 1
-  sidekiq:
-    minReplicas: 1
-    maxReplicas: 1
+    resources:
+    requests:
+      cpu: 0m
   gitlab-shell:
     minReplicas: 1
     maxReplicas: 1

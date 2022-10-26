@@ -5,7 +5,7 @@ hcloud server create --type cx31 --image debian-11 --ssh-key Moritz.Hedtke@t-onl
 ssh-keygen -R $(hcloud server ip node-1)
 
 hcloud server ssh node-1
-sudo apt update
+sudo apt update && sudo apt upgrade -y
 sudo apt install -y apparmor-utils
 
 curl -sfL https://get.k3s.io | sh - 

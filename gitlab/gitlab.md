@@ -4,4 +4,6 @@ helm upgrade --install gitlab gitlab/gitlab --namespace gitlab --create-namespac
 
 https://docs.gitlab.com/charts/
 
+kubectl -n gitlab get all
+
 kubectl get secret <name>-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo
