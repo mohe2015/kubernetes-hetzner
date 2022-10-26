@@ -56,8 +56,7 @@ mkdir -p ~/.kube/
 scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
 
 
-kubectl get nodes -o wide
-kubectl get pods --all-namespaces -w
+kubectl get all --all-namespaces
 
 
 # TODO https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#resilience

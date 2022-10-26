@@ -6,7 +6,7 @@ helm repo add cilium https://helm.cilium.io/
 
 # helm pull cilium/cilium --untar --version 1.13.0-rc1
 
-helm upgrade cilium cilium/cilium --atomic --cleanup-on-fail --create-namespace --dependency-update --install --render-subchart-notes --reset-values --values values.yaml --version 1.13.0-rc1 --namespace kube-system
+helm upgrade cilium cilium/cilium --create-namespace --install --reset-values --values values.yaml --version 1.13.0-rc1 --namespace kube-system
 
 kubectl -n kube-system rollout restart deployment/cilium-operator
 kubectl -n kube-system rollout restart ds/cilium
@@ -38,6 +38,7 @@ https://kubernetes.io/docs/concepts/services-networking/ingress/
 https://docs.cilium.io/en/stable/gettingstarted/servicemesh/l7-traffic-management/
 https://docs.cilium.io/en/stable/gettingstarted/servicemesh/ingress/
 https://docs.cilium.io/en/stable/gettingstarted/servicemesh/http/
+
 
 
 TEST https://docs.cilium.io/en/stable/gettingstarted/servicemesh/http/
