@@ -5,7 +5,6 @@ hubble:
     enabled: true
   ui:
     enabled: true
-# uncomment for second run?
-#ingressController:
-#  enabled: true
-#  loadbalancerMode: dedicated
+ingressController:
+  enabled: true
+  loadbalancerMode: dedicated

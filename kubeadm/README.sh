@@ -52,9 +52,11 @@ kubeadm init --config /root/kubeadm-config.yaml
 
 
 # on local machine
+rm -R ~/.kube/
 mkdir -p ~/.kube/
 scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
 
+kubectl describe node
 
 kubectl get all --all-namespaces
 

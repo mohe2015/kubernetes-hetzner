@@ -42,6 +42,8 @@ write_files:
         apiVersion: kubeadm.k8s.io/v1beta3
         kubernetesVersion: v1.25.3
         controlPlaneEndpoint: "control-plane.selfmade4u.de:6443"
+        networking:
+          podSubnet: "10.244.0.0/16"
         ---
         kind: KubeletConfiguration
         apiVersion: kubelet.config.k8s.io/v1beta1
@@ -195,6 +197,7 @@ packages:
   - kubeadm=1.25.3-00
   - kubectl=1.25.3-00
   - apparmor-utils # still required
+  - jq
 runcmd:
   # - "shred -v -n 1 /dev/sda2"
   - "sudo modprobe br_netfilter"
