@@ -52,7 +52,7 @@ kubeadm init --config /root/kubeadm-config.yaml
 
 
 # on local machine
-rm -R ~/.kube/
+rm -Rf ~/.kube/
 mkdir -p ~/.kube/
 scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
 
