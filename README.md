@@ -1,40 +1,28 @@
 # kubernetes-hetzner
 
-see [kubeadm/README.md](kubeadm/README.md)
+https://community.hetzner.com/tutorials/install-kubernetes-cluster
 
-now optionally run sonobuoy for conformance tests
+https://landscape.cncf.io/?project=graduated,incubating
 
-now see kubernetes-dashboard, contour, rook, zammad, prometheus, harbor, keycloak, vitess
+see [kubeadm/README.sh](kubeadm/README.sh)
 
-## Issues
+see [metallb/README.md](metallb/README.md)
 
-letsencrypt ratelimits
+see [cilium/README.sh](cilium/README.sh)
 
-Priority classes and OOM
+see [metrics-server/README.sh](metrics-server/README.sh)
 
-kubectl get pods --all-namespaces -o custom-columns=NAME:.metadata.name,PRIORITY:.spec.priorityClassName
+see [kubernetes-dashboard/README.md](kubernetes-dashboard/README.md)
 
+see [rook/README.md](rook/README.md)
 
-cpu quota is usually wrong:
+see [nextcloud/README.md](nextcloud/README.md)
 
-kube-system: is 3 should be 1
-zammad: is 1.5 should be 0.5
-monitoring: is 1.33 should be 0.5
-rookceph: is 0.1 should be 0.5
+see [sonobuoy/README.md](sonobuoy/README.md)
 
-## currently available services
+https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler/
 
-https://rook-ceph.selfmade4u.de/
+# k3s
 
-https://harbor.selfmade4u.de/
+https://k3d.io/v5.4.6/usage/exposing_services/
 
-https://sso.selfmade4u.de/
-
-
-for later: https://kubernetes.io/docs/tasks/debug-application-cluster/audit/
-for later: https://kubernetes.io/docs/concepts/cluster-administration/logging/
-for later: https://kubernetes.io/docs/tasks/debug-application-cluster/monitor-node-health/
-for later: https://kubernetes.io/docs/concepts/scheduling-eviction/pod-overhead/
-
-for later https://docs.fluentd.org/container-deployment/kubernetes
-hints: https://medium.com/kubernetes-tutorials/cluster-level-logging-in-kubernetes-with-fluentd-e59aa2b6093a
