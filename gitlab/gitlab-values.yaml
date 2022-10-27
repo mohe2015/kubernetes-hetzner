@@ -4,9 +4,9 @@ global:
     domain: selfmade4u.de
     externalIP: 23.88.104.23
   ingress:
-    class: none
-    provider:
-      traefik
+    # https://gitlab.com/gitlab-org/charts/gitlab/-/issues/3712
+    class: traefik
+    provider: traefik
 nginx-ingress:
   enabled: false
 certmanager-issuer:
