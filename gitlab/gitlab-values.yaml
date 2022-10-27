@@ -1,3 +1,4 @@
+# https://gitlab.com/gitlab-org/charts/gitlab/-/tree/master/examples
 global:
   edition: ce
   hosts:
@@ -5,7 +6,6 @@ global:
     externalIP: 23.88.104.23
   ingress:
     class: traefik
-    provider: traefik
 nginx-ingress:
   enabled: false
 certmanager-issuer:
@@ -67,6 +67,8 @@ gitlab:
     requests:
       cpu: 0m
   gitlab-shell:
+    service:
+      type: LoadBalancer
     minReplicas: 1
     maxReplicas: 1
 registry:
