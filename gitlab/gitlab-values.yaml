@@ -4,12 +4,9 @@ global:
     domain: selfmade4u.de
     externalIP: 23.88.104.23
   ingress:
-    class:
-      traefik
+    class: none
     provider:
       traefik
-    annotations:
-      kubernetes.io/ingress.class: traefik
 nginx-ingress:
   enabled: false
 certmanager-issuer:
