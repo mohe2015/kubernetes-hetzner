@@ -3,6 +3,15 @@ global:
   hosts:
     domain: selfmade4u.de
     externalIP: 23.88.104.23
+  ingress:
+    class:
+      traefik
+    provider:
+      traefik
+    annotations:
+      kubernetes.io/ingress.class: traefik
+nginx-ingress:
+  enabled: false
 certmanager-issuer:
   email: Moritz.Hedtke@t-online.de
 prometheus:
@@ -12,11 +21,6 @@ gitlab-runner:
   resources:
     requests:
       cpu: 0m
-nginx-ingress:
-  controller:
-    resources:
-      requests:
-        cpu: 0m
 gitlab:
   sidekiq:
     minReplicas: 1
