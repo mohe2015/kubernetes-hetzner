@@ -2,15 +2,18 @@
 mastodon:
   createAdmin:
     enabled: true
-    username: moritz.hedtke
+    username: moritz_hedtke
     email: Moritz.Hedtke@t-online.de
   locale: de
   local_domain: mastodon.selfmade4u.de
   secrets:
     existingSecret: mastodon-secret
+  persistence:
+    assets:
+      storageClassName: ceph-block
+    system:
+      storageClassName: ceph-block
 ingress:
-  annotations:
-    "kubernetes.io/ingress.class": traefik
   tls:
     - hosts:
         - mastodon.selfmade4u.de
@@ -23,9 +26,6 @@ ingress:
 postgresql:
   auth:
     existingSecret: mastodon-secret
-    secretKeys:
-      adminPasswordKey: postgresql-password
-      userPasswordKey: postgresql-password
 redis:
   auth:
     existingSecret: mastodon-secret
