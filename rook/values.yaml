@@ -209,7 +209,27 @@ csi:
           memory: 0
           cpu: 0
 
+
+
+
+
+
+
+
+
+
+
+
+
 # https://github.com/rook/rook/blob/release-1.10/deploy/charts/rook-ceph-cluster/values.yaml
+# https://github.com/rook/rook/blob/release-1.10/deploy/examples/cluster-test.yaml
+configOverride: |
+    [global]
+    osd_pool_default_size = 1
+    mon_warn_on_pool_no_redundancy = false
+    bdev_flock_retry = 20
+    bluefs_buffered_io = false
+    mon_data_avail_warn = 10
 cephClusterSpec:
   mon:
     count: 1
