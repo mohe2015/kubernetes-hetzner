@@ -1,4 +1,10 @@
-git clone --depth 1 git@github.com:mastodon/mastodon.git
+# THIS SEEMS extremely broken, try official instructions:
+
+# https://docs.joinmastodon.org/admin/prerequisites/
+
+# their docker-compose is also broken
+
+git clone --depth 1 --branch v3.5.3 git@github.com:mastodon/mastodon.git
 cd mastodon/chart
 helm dep update
 cd ../..
@@ -11,6 +17,8 @@ export POSTGRES_PASSWORD=$(openssl rand -base64 32)
 kubectl create secret generic mastodon-secret --from-literal=SECRET_KEY_BASE=$(openssl rand -base64 32) --from-literal=OTP_SECRET=$(openssl rand -base64 32) --from-literal=VAPID_PRIVATE_KEY=$(openssl rand -base64 32) --from-literal=VAPID_PUBLIC_KEY=$(openssl rand -base64 32) --from-literal=postgresql-password=$POSTGRES_PASSWORD --from-literal=postgres-password=$POSTGRES_PASSWORD --from-literal=redis-password=$(openssl rand -base64 32)
 
 helm upgrade --install --debug --namespace mastodon --create-namespace mastodon ./mastodon/mastodon/chart -f ./mastodon/values.yaml
+
+kubectl get pods --watch
 
 https://mastodon.selfmade4u.de/
 

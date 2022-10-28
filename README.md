@@ -20,11 +20,13 @@ see [wildcard-certificate/README.sh](wildcard-certificate/README.sh)
 
 see [ingress-nginx/README.sh](ingress-nginx/README.sh)
 
+see [rook/README.md](rook/README.md)
+
+see [mastodon/README.sh](mastodon/README.sh)
+
 see [metrics-server/README.sh](metrics-server/README.sh)
 
 see [kubernetes-dashboard/README.md](kubernetes-dashboard/README.md)
-
-see [rook/README.md](rook/README.md)
 
 see [nextcloud/README.md](nextcloud/README.md)
 

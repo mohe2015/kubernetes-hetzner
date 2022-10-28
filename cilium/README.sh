@@ -22,30 +22,3 @@ kubectl delete ns cilium-test
 echo http://localhost:8081/
 
 kubectl port-forward -n kube-system deployment/hubble-ui 8081
-
-# kubectl port-forward -n kube-system deployment/hubble-relay 50051:4245
-
-https://github.com/cilium/cilium/pull/21386
-
-https://github.com/cilium/cilium/pull/21749
-
-https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/
-https://kubernetes.io/docs/concepts/services-networking/ingress/
-
-https://docs.cilium.io/en/stable/gettingstarted/servicemesh/l7-traffic-management/
-https://docs.cilium.io/en/stable/gettingstarted/servicemesh/ingress/
-https://docs.cilium.io/en/stable/gettingstarted/servicemesh/http/
-
-
-
-TEST https://docs.cilium.io/en/stable/gettingstarted/servicemesh/http/
-
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.11/samples/bookinfo/platform/kube/bookinfo.yaml
-
-kubectl apply -f https://raw.githubusercontent.com/cilium/cilium/1.12.3/examples/kubernetes/servicemesh/basic-ingress.yaml
-
-kubectl get --all-namespaces svc
-
-kubectl get --all-namespaces ingress
-
-kubectl get ingress basic-ingress -o jsonpath='{.status.loadBalancer.ingress[0].ip}'

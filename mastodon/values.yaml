@@ -5,7 +5,7 @@ mastodon:
 #    username: moritz_hedtke
 #    email: Moritz.Hedtke@t-online.de
 #  locale: de
-#  local_domain: mastodon.selfmade4u.de
+  local_domain: mastodon.selfmade4u.de
   secrets:
     existingSecret: mastodon-secret
   persistence:
@@ -16,9 +16,9 @@ mastodon:
 ingress:
   annotations:
     nginx.ingress.kubernetes.io/proxy-body-size: 40m
-    #nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
-    #nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
-    #nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
 
   tls:
     - hosts:
