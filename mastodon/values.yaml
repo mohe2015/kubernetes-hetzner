@@ -1,3 +1,4 @@
+# https://github.com/mastodon/mastodon/blob/main/chart/values.yaml
 mastodon:
   createAdmin:
     enabled: true
@@ -22,6 +23,14 @@ ingress:
 postgresql:
   auth:
     existingSecret: mastodon-secret
+    secretKeys:
+      adminPasswordKey: postgresql-password
+      userPasswordKey: postgresql-password
 redis:
   auth:
     existingSecret: mastodon-secret
+  replica:
+    replicaCount: 0
+elasticsearch:
+  # TODO https://github.com/bitnami/charts/tree/main/bitnami/elasticsearch#parameters
+  enabled: false
