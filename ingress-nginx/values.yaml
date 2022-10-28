@@ -6,3 +6,7 @@ controller:
     default: true
   service:
     enabled: false
+  extraArgs:
+    default-ssl-certificate: default/selfmade4u.de-wildcard-certificate
+  type: Recreate # we can only bind to hostPort with one pod at a time
+# https://kubernetes.github.io/ingress-nginx/user-guide/tls/
