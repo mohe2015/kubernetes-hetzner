@@ -14,6 +14,12 @@ mastodon:
     system:
       storageClassName: ceph-block
 ingress:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: 40m
+    #nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
+    #nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
+    #nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
+
   tls:
     - hosts:
         - mastodon.selfmade4u.de
@@ -29,8 +35,6 @@ postgresql:
 redis:
   auth:
     existingSecret: mastodon-secret
-  replica:
-    replicaCount: 0
 elasticsearch:
   # TODO https://github.com/bitnami/charts/tree/main/bitnami/elasticsearch#parameters
   enabled: false
