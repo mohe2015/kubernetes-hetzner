@@ -3,18 +3,31 @@ image:
 nextcloud:
   host: nextcloud.selfmade4u.de
   password: totallynotchangeme
+  configs:
+    proxy.config.php: |-
+      <?php
+      $CONFIG = array (
+        'trusted_proxies' => array(
+          0 => '127.0.0.1',
+          1 => '10.0.0.0/8',
+        ),
+        'forwarded_for_headers' => array('HTTP_X_FORWARDED_FOR'),
+        'default_phone_region' => 'DE',
+      );
+    #strategy:
+    #  type: RollingUpdate
 ingress:
   enabled: true
   servicePort: https
   annotations:
     "kubernetes.io/ingress.class": traefik
+    traefik.ingress.kubernetes.io/router.middlewares: nextcloud-stsheaders@kubernetescrd,nextcloud-redirectregex@kubernetescrd
   tls:
     - hosts:
         - nextcloud.selfmade4u.de
       secretName: selfmade4u.de-wildcard-certificate
 phpClientHttpsFix:
   enabled: true
-# nginx.enabled
 internalDatabase:
   enabled: false
 postgresql:
@@ -30,3 +43,4 @@ cronjob:
   enabled: true
 redis:
   enabled: true
+replicaCount: 1

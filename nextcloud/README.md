@@ -1,10 +1,13 @@
 https://github.com/nextcloud/helm
 
+
 helm repo add nextcloud https://nextcloud.github.io/helm/
 helm repo update
 
+kubectl apply -f traefik-middleware.yaml
+helm upgrade --debug --create-namespace --namespace nextcloud --install nextcloud nextcloud/nextcloud -f nextcloud-values.yaml
 
-helm upgrade --create-namespace --namespace nextcloud --install nextcloud nextcloud/nextcloud -f nextcloud-values.yaml
+
 kubectl config set-context --current --namespace=nextcloud
 
 export APP_HOST=127.0.0.1

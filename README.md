@@ -1,5 +1,11 @@
 # kubernetes-hetzner
 
+dendrite, element, mumble, mastodon, bigbluebutton, wordpress, seafile, syncthing, peertube, bitwarden?
+
+# https://knative.dev/docs/getting-started/first-autoscale/
+
+https://github.com/awesome-selfhosted/awesome-selfhosted#note-taking--editors
+
 https://community.hetzner.com/tutorials/install-kubernetes-cluster
 
 https://landscape.cncf.io/?project=graduated,incubating
