@@ -44,7 +44,7 @@ hcloud server ssh node-1
 # install helm on your local device
 
 # https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/#kubeproxy-free
-kubeadm init --config /root/kubeadm-config.yaml
+kubeadm init --skip-phases=addon/kube-proxy --config /root/kubeadm-config.yaml
 
 #mkdir -p $HOME/.kube
 #sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config

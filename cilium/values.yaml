@@ -10,8 +10,10 @@ ipv4:
   enabled: true
 ipv6:
   enabled: true
-
-#no support for nodePort
+kubeProxyReplacement: strict
+k8sServiceHost: 23.88.104.23
+k8sServicePort: 6443
+# only supports type LoadBalancer which we can't deploy because we're poor
 #ingressController:
 #  enabled: true
 #  loadbalancerMode: dedicated

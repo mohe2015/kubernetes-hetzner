@@ -1,4 +1,5 @@
 https://kubernetes.github.io/ingress-nginx/
+https://kubernetes.github.io/ingress-nginx/deploy/baremetal/
 
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
@@ -13,6 +14,9 @@ export NODE_IP=$(kubectl --namespace ingress-nginx get nodes -o jsonpath="{.item
   echo "Visit https://$NODE_IP:$HTTPS_NODE_PORT to access your application via HTTPS."
 
 # https://[2a01:4f8:1c1e:4f60::1]:31849/
+http://[2a01:4f8:1c1e:4f60::1]:31065/
+
+http://23.88.104.23:31065
 
 
 
