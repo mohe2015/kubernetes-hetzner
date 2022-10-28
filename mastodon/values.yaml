@@ -1,0 +1,27 @@
+mastodon:
+  createAdmin:
+    enabled: true
+    username: moritz.hedtke
+    email: Moritz.Hedtke@t-online.de
+  locale: de
+  local_domain: mastodon.selfmade4u.de
+  secrets:
+    existingSecret: mastodon-secret
+ingress:
+  annotations:
+    "kubernetes.io/ingress.class": traefik
+  tls:
+    - hosts:
+        - mastodon.selfmade4u.de
+      secretName: selfmade4u.de-wildcard-certificate
+  hosts:
+   - host: mastodon.selfmade4u.de
+     paths:
+      - path: /
+        pathType: Prefix
+postgresql:
+  auth:
+    existingSecret: mastodon-secret
+redis:
+  auth:
+    existingSecret: mastodon-secret

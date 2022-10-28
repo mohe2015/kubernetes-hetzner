@@ -32,3 +32,4 @@ https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler/
 
 https://k3d.io/v5.4.6/usage/exposing_services/
 
+TODO https://kubernetes.io/docs/concepts/configuration/secret/
