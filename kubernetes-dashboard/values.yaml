@@ -4,5 +4,3 @@ ingress:
   enabled: true
   hosts:
     - kubernetes-dashboard.selfmade4u.de
-rbac:
-  create: true
