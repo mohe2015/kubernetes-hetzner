@@ -16,7 +16,7 @@ kubectl get ingressclasses --all-namespaces
 
 helm repo add gitlab https://charts.gitlab.io/
 helm repo update
-helm upgrade --install gitlab gitlab/gitlab --namespace gitlab --create-namespace -f gitlab-values.yaml
+helm upgrade gitlab gitlab/gitlab --atomic --install --namespace gitlab --create-namespace -f gitlab-values.yaml
 
 kubectl get ingress --all-namespaces # check that it shows an address everywhere
 

@@ -1,0 +1,27 @@
+replicaCount: 1
+
+autoscaling:
+  enabled: false
+
+collabora:
+  aliasgroups:
+    groups:
+    - host: "https://nextcloud\\.selfmade4u\\.de/"
+      allow: true
+    - host: "http://[2001:cafe:42::1]/"
+      allow: true
+  server_name: collabora.selfmade4u.de
+
+ingress:
+  enabled: true
+  annotations:
+    "kubernetes.io/ingress.class": traefik
+  tls:
+    - hosts:
+        - collabora.selfmade4u.de
+      secretName: selfmade4u.de-wildcard-certificate
+  hosts:
+   - host: collabora.selfmade4u.de
+     paths:
+      - path: /
+        pathType: Prefix
