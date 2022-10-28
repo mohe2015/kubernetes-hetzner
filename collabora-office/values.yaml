@@ -5,7 +5,7 @@ autoscaling:
 
 collabora:
   # 2001:cafe:42::1
-  extra_params: "-o:ssl.enable=false --o:ssl.termination=true --o:net.post_allow.host[0]=.+ --o:storage.wopi.host[0]=.+"
+  extra_params: "-o:ssl.enable=false --o:ssl.termination=true --o:net.post_allow.host[0]=2001:cafe:42::1 --o:storage.wopi.host[0]=2001:cafe:42::1"
   server_name: collabora.selfmade4u.de
 
 # https://github.com/CollaboraOnline/online/issues/3917
