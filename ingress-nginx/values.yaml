@@ -1,0 +1,7 @@
+# https://github.com/kubernetes/ingress-nginx/tree/main/charts/ingress-nginx
+controller:
+  ingressClassResource:
+    default: true
+  service:
+    type: NodePort
+    ipFamilyPolicy: RequireDualStack

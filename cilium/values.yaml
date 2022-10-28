@@ -1,0 +1,17 @@
+# https://docs.cilium.io/en/v1.12/helm-reference/
+operator:
+  replicas: 1
+hubble:
+  relay:
+    enabled: true
+  ui:
+    enabled: true
+ipv4:
+  enabled: true
+ipv6:
+  enabled: true
+
+#no support for nodePort
+#ingressController:
+#  enabled: true
+#  loadbalancerMode: dedicated

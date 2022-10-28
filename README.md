@@ -14,8 +14,6 @@ https://landscape.cncf.io/?project=graduated,incubating
 
 see [kubeadm/README.sh](kubeadm/README.sh)
 
-see [metallb/README.md](metallb/README.md)
-
 see [cilium/README.sh](cilium/README.sh)
 
 see [metrics-server/README.sh](metrics-server/README.sh)
@@ -37,3 +35,6 @@ https://k3d.io/v5.4.6/usage/exposing_services/
 TODO https://kubernetes.io/docs/concepts/configuration/secret/
 
 https://github.com/k3s-io/klipper-lb/blob/master/entry
+
+https://www.cncf.io/wp-content/uploads/2022/02/CNCF-AR_FINAL-edits-15.2.21.pdf
+https://www.cncf.io/wp-content/uploads/2020/11/CNCF_Survey_Report_2020.pdf

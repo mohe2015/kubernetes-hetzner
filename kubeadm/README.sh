@@ -52,6 +52,7 @@ kubeadm init --config /root/kubeadm-config.yaml
 
 
 # on local machine
+exit
 rm -Rf ~/.kube/
 mkdir -p ~/.kube/
 scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
@@ -60,6 +61,11 @@ kubectl describe node
 
 kubectl get all --all-namespaces
 
+kubectl get nodes k8s-linuxpool1-34450317-0 -o go-template --template='{{range .spec.podCIDRs}}{{printf "%s\n" .}}{{end}}'
+kubectl get nodes k8s-linuxpool1-34450317-0 -o go-template --template='{{range .status.addresses}}{{printf "%s: %s\n" .type .address}}{{end}}'
+kubectl get pods pod01 -o go-template --template='{{range .status.podIPs}}{{printf "%s\n" .ip}}{{end}}'
+kubectl exec -it pod01 -- set | grep MY_POD_IPS
+kubectl exec -it pod01 -- cat /etc/hosts
 
 # TODO https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#resilience
 
