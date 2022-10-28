@@ -1,5 +1,7 @@
 https://k3s.io/
 
+# has no "official" swap support
+
 hcloud server create --type cx31 --image debian-11 --ssh-key Moritz.Hedtke@t-online.de --name node-1 --datacenter nbg1-dc3
 
 ssh-keygen -R $(hcloud server ip node-1)
