@@ -62,7 +62,7 @@ write_files:
         featureGates:
           NodeSwap: true
         memorySwap:
-          SwapBehavior: UnlimitedSwap
+          swapBehavior: UnlimitedSwap
   - path: /etc/apt/trusted.gpg.d/docker.asc
     content: |
           -----BEGIN PGP PUBLIC KEY BLOCK-----
