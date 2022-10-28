@@ -1,0 +1,8 @@
+# https://github.com/kubernetes/dashboard/tree/master/charts/helm-chart/kubernetes-dashboard
+# https://github.com/kubernetes/dashboard/blob/master/charts/helm-chart/kubernetes-dashboard/values.yaml
+ingress:
+  enabled: true
+  hosts:
+    - kubernetes-dashboard.selfmade4u.de
+rbac:
+  create: true

@@ -16,6 +16,10 @@ see [kubeadm/README.sh](kubeadm/README.sh)
 
 see [cilium/README.sh](cilium/README.sh)
 
+see [wildcard-certificate/README.sh](wildcard-certificate/README.sh)
+
+see [ingress-nginx/README.sh](ingress-nginx/README.sh)
+
 see [metrics-server/README.sh](metrics-server/README.sh)
 
 see [kubernetes-dashboard/README.md](kubernetes-dashboard/README.md)
