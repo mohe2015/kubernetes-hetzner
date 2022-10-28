@@ -4,6 +4,8 @@ dendrite, element, mumble, mastodon, bigbluebutton, wordpress, seafile, syncthin
 
 # https://knative.dev/docs/getting-started/first-autoscale/
 
+https://github.com/kedacore/http-add-on/blob/main/docs/walkthrough.md
+
 https://github.com/awesome-selfhosted/awesome-selfhosted#note-taking--editors
 
 https://community.hetzner.com/tutorials/install-kubernetes-cluster
@@ -33,3 +35,5 @@ https://github.com/kubernetes/autoscaler/tree/master/vertical-pod-autoscaler/
 https://k3d.io/v5.4.6/usage/exposing_services/
 
 TODO https://kubernetes.io/docs/concepts/configuration/secret/
+
+https://github.com/k3s-io/klipper-lb/blob/master/entry

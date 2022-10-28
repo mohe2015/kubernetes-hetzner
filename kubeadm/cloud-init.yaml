@@ -37,6 +37,8 @@ write_files:
           taints:
             - key: node.cilium.io/agent-not-ready
               effect: NoExecute
+          ignorePreflightErrors:
+            - Swap
         ---
         kind: ClusterConfiguration
         apiVersion: kubeadm.k8s.io/v1beta3
@@ -47,6 +49,12 @@ write_files:
         ---
         kind: KubeletConfiguration
         apiVersion: kubelet.config.k8s.io/v1beta1
+        # https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/2400-node-swap/README.md
+        failSwapOn: false
+        featureGates:
+          NodeSwap: true
+        MemorySwap:
+          SwapBehavior: UnlimitedSwap
   - path: /etc/apt/trusted.gpg.d/docker.asc
     content: |
           -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -191,6 +199,9 @@ apt:
       source: "deb https://download.docker.com/linux/debian $RELEASE stable"
     kubernetes:
       source: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+swap:
+  filename: /swapfile
+  size: 8G
 packages:
   - containerd.io
   - kubelet=1.25.3-00
