@@ -1,11 +1,11 @@
 # https://github.com/mastodon/mastodon/blob/main/chart/values.yaml
 mastodon:
-  createAdmin:
-    enabled: true
-    username: moritz_hedtke
-    email: Moritz.Hedtke@t-online.de
-  locale: de
-  local_domain: mastodon.selfmade4u.de
+#  createAdmin:
+#    enabled: true
+#    username: moritz_hedtke
+#    email: Moritz.Hedtke@t-online.de
+#  locale: de
+#  local_domain: mastodon.selfmade4u.de
   secrets:
     existingSecret: mastodon-secret
   persistence:
