@@ -1,0 +1,30 @@
+ingress:
+  enabled: true
+  servicePort: https
+  annotations:
+    "kubernetes.io/ingress.class": traefik
+  tls:
+    - hosts:
+        - nextcloud.selfmade4u.de
+      secretName: selfmade4u.de-wildcard-certificate
+nextcloud:
+  host: nextcloud.selfmade4u.de
+  password: totallynotchangeme
+phpClientHttpsFix:
+  enabled: true
+# nginx.enabled
+internalDatabase:
+  enabled: false
+postgresql:
+  enabled: true
+  primary:
+    persistence:
+      enabled: true
+persistence:
+  enabled: true
+  nextcloudData:
+    enabled: true
+cronjob:
+  enabled: true
+redis:
+  enabled: true

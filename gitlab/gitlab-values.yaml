@@ -6,10 +6,11 @@ global:
     externalIP: 23.88.104.23
   ingress:
     class: traefik
+    configureCertmanager: false
+    tls:
+      secretName: selfmade4u.de-wildcard-certificate
 nginx-ingress:
   enabled: false
-certmanager-issuer:
-  email: Moritz.Hedtke@t-online.de
 prometheus:
   install: false
 gitlab-runner:
