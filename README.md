@@ -44,3 +44,6 @@ https://github.com/k3s-io/klipper-lb/blob/master/entry
 
 https://www.cncf.io/wp-content/uploads/2022/02/CNCF-AR_FINAL-edits-15.2.21.pdf
 https://www.cncf.io/wp-content/uploads/2020/11/CNCF_Survey_Report_2020.pdf
+
+
+https://github.com/helm/helm/issues/6422#issuecomment-753620199
