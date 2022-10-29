@@ -1,4 +1,5 @@
 # THIS SEEMS extremely broken, try official instructions:
+# DONT TRY AT ALL FOR NOW
 
 # https://docs.joinmastodon.org/admin/prerequisites/
 

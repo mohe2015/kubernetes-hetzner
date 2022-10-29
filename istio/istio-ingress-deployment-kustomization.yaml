@@ -1,0 +1,12 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istio-ingress
+  namespace: istio-ingress
+spec:
+  template:
+    spec:
+      securityContext:
+          sysctls:
+          - name: net.netfilter.nf_conntrack_tcp_timeout_close_wait
+            value: "10"
