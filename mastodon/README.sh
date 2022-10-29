@@ -4,17 +4,19 @@
 
 # their docker-compose is also broken
 
-git clone --depth 1 --branch v3.5.3 git@github.com:mastodon/mastodon.git
-cd mastodon/chart
+git clone git@github.com:mastodon/mastodon.git
+cd mastodon
+git checkout 7ccf7a73f1c47a8c03712c39f7c591e837cf6d08
+cd chart
 helm dep update
-cd ../..
+cd ../../..
 
 kubectl create namespace mastodon
 
 kubectl config set-context --current --namespace=mastodon
 
-export POSTGRES_PASSWORD=$(openssl rand -base64 32)
-kubectl create secret generic mastodon-secret --from-literal=SECRET_KEY_BASE=$(openssl rand -base64 32) --from-literal=OTP_SECRET=$(openssl rand -base64 32) --from-literal=VAPID_PRIVATE_KEY=$(openssl rand -base64 32) --from-literal=VAPID_PUBLIC_KEY=$(openssl rand -base64 32) --from-literal=postgresql-password=$POSTGRES_PASSWORD --from-literal=postgres-password=$POSTGRES_PASSWORD --from-literal=redis-password=$(openssl rand -base64 32)
+export RANDOm=$(openssl rand -base64 32)
+kubectl create secret generic mastodon-secret --from-literal=SECRET_KEY_BASE=$RANDOM --from-literal=OTP_SECRET=$RANDOM --from-literal=VAPID_PRIVATE_KEY=$RANDOM --from-literal=VAPID_PUBLIC_KEY=$RANDOM --from-literal=postgresql-password=$RANDOM --from-literal=postgres-password=$RANDOM --from-literal=redis-password=$RANDOM --from-literal=password=$RANDOM
 
 helm upgrade --install --debug --namespace mastodon --create-namespace mastodon ./mastodon/mastodon/chart -f ./mastodon/values.yaml
 
