@@ -100,8 +100,8 @@ spec:
             name: http-envoy-prom
           resources:
             limits:
-              cpu: 2000m
-              memory: 1024Mi
+              cpu: "0"
+              memory: "0"
             requests:
-              cpu: 100m
-              memory: 128Mi
+              cpu: "0"
+              memory: "0"
