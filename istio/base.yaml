@@ -38,6 +38,40 @@ subjects:
 - kind: ServiceAccount
   name: istio-ingress
 ---
+# Source: gateway/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: istio-ingress
+  namespace: istio-ingress
+  labels:
+    helm.sh/chart: gateway-1.15.3
+    app: istio-ingress
+    istio: ingress
+    app.kubernetes.io/version: "1.15.3"
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: istio-ingress
+  annotations:
+    {}
+spec:
+  type: ClusterIP
+  ports:
+    - name: status-port
+      port: 15021
+      protocol: TCP
+      targetPort: 15021
+    - name: http2
+      port: 80
+      protocol: TCP
+      targetPort: 80
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+  selector:
+    app: istio-ingress
+    istio: ingress
+---
 # Source: gateway/templates/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
