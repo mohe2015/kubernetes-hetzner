@@ -1,6 +1,5 @@
 # https://istio.io/latest/docs/setup/additional-setup/customize-installation-helm/
-# helm template istio-ingress istio/gateway -f ./istio/ingress-values.yaml --namespace istio-ingress --post-renderer ./istio/kustomize.sh
 resources:
 - base.yaml
-#patchesStrategicMerge:
-#- istio-ingress-deployment-kustomization.yaml
+patchesStrategicMerge:
+- istio-ingress-deployment-kustomization.yaml

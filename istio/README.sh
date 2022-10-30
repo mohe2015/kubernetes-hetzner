@@ -11,11 +11,10 @@ helm upgrade --install istiod istio/istiod -f istio/istiod-values.yaml -n istio-
 kubectl create namespace istio-ingress
 kubectl label namespace istio-ingress istio-injection=enabled
 
-# TODO FIXME
+kubectl config set-context --current --namespace=istio-ingress
 
-helm pull --untar istio/gateway
-
-helm upgrade --install istio-ingress istio/gateway -n istio-ingress --wait
+helm template istio-ingress istio/gateway -f ./istio/ingress-values.yaml --namespace istio-ingress --post-renderer ./istio/kustomize.sh
+helm upgrade --install istio-ingress istio/gateway -f ./istio/ingress-values.yaml --namespace istio-ingress --wait --post-renderer ./istio/kustomize.sh
 
 helm status istiod -n istio-system
 
