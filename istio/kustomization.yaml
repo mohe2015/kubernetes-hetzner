@@ -1,13 +1,5 @@
-# https://github.com/kubernetes-sigs/kustomize/blob/master/examples/chart.md
-# kubectl kustomize --enable-helm istio/
+# https://istio.io/latest/docs/setup/additional-setup/customize-installation-helm/
+# helm template istio-ingress istio/gateway -f ./istio/ingress-values.yaml --namespace istio-ingress --post-renderer ./istio/kustomize.sh
 
-# ALTERNATIVELY do https://istio.io/latest/docs/setup/additional-setup/customize-installation-helm/ because it uses helm
-
-helmCharts:
-- name: gateway
-  namespace: istio-ingress
-  releaseName: istio-ingress
-  valuesFile: ./ingress-values.yaml
-  repo: https://istio-release.storage.googleapis.com/charts
-patchesStrategicMerge:
-- istio-ingress-deployment-kustomization.yaml
+#patchesStrategicMerge:
+#- istio-ingress-deployment-kustomization.yaml
