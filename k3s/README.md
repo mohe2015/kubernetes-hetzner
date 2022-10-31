@@ -59,7 +59,8 @@ nano ~/.kube/config
 # set k3s.selfmade4u.de
 
 
-# Check for Ready node, takes ~30 seconds 
-kubectl get node 
+# will not get Ready because cni not installed yet 
+kubectl get node
+kubectl get all --all-namespaces
 
 https://docs.k3s.io/cluster-access
