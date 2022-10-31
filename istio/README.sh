@@ -1,5 +1,7 @@
 # recommended for knative
 
+# DISABLE IPV6 DNS RECORDS AS IT STILL DOESNT SUPPORT IPV6
+
 helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm repo update
 
@@ -47,14 +49,29 @@ spec:
   gateways:
   - httpbin-gateway
   http:
-  - match:
-    - uri:
-        prefix: /status
-    - uri:
-        prefix: /delay
-    route:
+  - route:
     - destination:
         port:
           number: 8000
         host: httpbin
 EOF
+
+istioctl proxy-status
+
+istioctl proxy-config route httpbin-9dbd644c7-vz8qf.istio-system
+
+istioctl proxy-config route istio-ingressgateway-7b978877cb-dxjns.istio-system
+
+istioctl analyze
+
+# https://istio.io/latest/docs/ops/diagnostic-tools/proxy-cmd/
+
+istioctl proxy-config cluster istio-ingressgateway-7b978877cb-dxjns.istio-system
+
+
+
+# https://istio.io/latest/docs/ops/diagnostic-tools/istioctl-describe/
+
+istioctl x describe pod httpbin-9dbd644c7-vz8qf
+
+curl --verbose http://httpbin.selfmade4u.de/status/418 # works as status code is 418
