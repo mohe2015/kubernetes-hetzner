@@ -51,7 +51,12 @@ cd myfunc
 
 http://myfunc.default.knative.selfmade4u.de/
 
-kubectl -n knative-serving patch gateway knative-ingress-gateway --type=merge --patch-file ./knative/knative-serving-tls.yaml
-
 
 ~/Documents/func/func delete myfunc
+
+
+kubectl config set-context --current --namespace=default
+
+istioctl proxy-config route service/knative-local-gateway.istio-system
+
+istioctl x describe service knative-local-gateway.istio-system

@@ -14,3 +14,5 @@ spec:
       knative.selfmade4u.de: ""
     network:
       http-protocol: enabled
+  additionalManifests:
+    - URL: ./knative-serving-tls.yaml # https://github.com/knative/serving/issues/11335
