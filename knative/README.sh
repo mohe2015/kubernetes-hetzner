@@ -1,5 +1,7 @@
 # https://knative.dev/docs/client/install-kn/
 
+# TODO https://knative.dev/docs/serving/using-auto-tls/ with cert-manager that uses a static secret
+
 docker run --rm -v "$HOME/.kube/config:/root/.kube/config" gcr.io/knative-releases/knative.dev/client/cmd/kn:latest service list
 
 # https://knative.dev/docs/install/yaml-install/
@@ -41,6 +43,7 @@ kubectl config set-context --current --namespace=default
 cd knative
 
 ~/Documents/func/func create --language rust --template http myfunc
+~/Documents/func/func create --language go --template http hello
 
 cd myfunc
 
@@ -55,3 +58,6 @@ http://myfunc.default.knative.selfmade4u.de/
 
 
 ~/Documents/func/func delete myfunc
+
+# has errors
+kubectl -n knative-serving logs replicaset.apps/autoscaler-d97cdddf4 -f
