@@ -31,6 +31,15 @@ spec:
     istio: ingressgateway # use Istio default gateway implementation
   servers:
   - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: selfmade4u.de-wildcard-certificate
+    hosts:
+    - "*.selfmade4u.de"
+  - port:
       number: 80
       name: http
       protocol: HTTP
@@ -75,3 +84,6 @@ istioctl proxy-config cluster istio-ingressgateway-7b978877cb-dxjns.istio-system
 istioctl x describe pod httpbin-9dbd644c7-vz8qf
 
 curl --verbose http://httpbin.selfmade4u.de/status/418 # works as status code is 418
+
+
+# https://istio.io/latest/docs/tasks/traffic-management/ingress/secure-ingress/
