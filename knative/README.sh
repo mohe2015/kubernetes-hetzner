@@ -34,6 +34,8 @@ kubectl -n knative-serving get -o yaml gateway knative-ingress-gateway
 
 # install func by building from source
 
+kubectl config set-context --current --namespace=default
+
 cd knative
 
 ~/Documents/func/func create --language rust --template http myfunc
@@ -45,7 +47,7 @@ cd myfunc
 
 ~/Documents/func/func build
 
-~/Documents/func/func deploy
+~/Documents/func/func deploy --verbose
 
 http://myfunc.default.knative.selfmade4u.de/
 
