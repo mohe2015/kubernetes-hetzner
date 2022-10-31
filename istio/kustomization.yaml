@@ -1,0 +1,5 @@
+# https://istio.io/latest/docs/setup/additional-setup/customize-installation-helm/
+resources:
+- base.yaml
+patchesStrategicMerge:
+- istio-ingress-deployment-kustomization.yaml

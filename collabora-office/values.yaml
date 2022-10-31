@@ -1,0 +1,27 @@
+replicaCount: 1
+
+autoscaling:
+  enabled: false
+
+collabora:
+  # 2001:cafe:42::1
+  extra_params: "-o:ssl.enable=false --o:ssl.termination=true --o:net.post_allow.host[0]=2001:cafe:42::1 --o:storage.wopi.host[0]=2001:cafe:42::1"
+  server_name: collabora.selfmade4u.de
+
+# https://github.com/CollaboraOnline/online/issues/3917
+securityContext:
+  capabilities:
+    add: ["SYS_CHROOT", "MKNOD", "FOWNER", "CHOWN", "SYS_ADMIN"]
+ingress:
+  enabled: true
+  annotations:
+    "kubernetes.io/ingress.class": traefik
+  tls:
+    - hosts:
+        - collabora.selfmade4u.de
+      secretName: selfmade4u.de-wildcard-certificate
+  hosts:
+   - host: collabora.selfmade4u.de
+     paths:
+      - path: /
+        pathType: Prefix

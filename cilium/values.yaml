@@ -1,3 +1,4 @@
+# https://docs.cilium.io/en/v1.12/helm-reference/
 operator:
   replicas: 1
 hubble:
@@ -5,6 +6,10 @@ hubble:
     enabled: true
   ui:
     enabled: true
-ingressController:
+ipv4:
   enabled: true
-  loadbalancerMode: dedicated
+ipv6:
+  enabled: true
+kubeProxyReplacement: strict
+k8sServiceHost: 23.88.104.23
+k8sServicePort: 6443

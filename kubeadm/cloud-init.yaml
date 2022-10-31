@@ -31,22 +31,38 @@ write_files:
             SystemdCgroup = true
   - path: /root/kubeadm-config.yaml # https://pkg.go.dev/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta3?utm_source=godoc
     content: |
+        # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/dual-stack-support/
         kind: InitConfiguration
         apiVersion: kubeadm.k8s.io/v1beta3
+        localAPIEndpoint:
+          advertiseAddress: "23.88.104.23"
+          bindPort: 6443
         nodeRegistration:
+          kubeletExtraArgs:
+            node-ip: 23.88.104.23,2a01:4f8:1c1e:4f60::1
           taints:
             - key: node.cilium.io/agent-not-ready
               effect: NoExecute
+          ignorePreflightErrors:
+            - Swap
         ---
         kind: ClusterConfiguration
         apiVersion: kubeadm.k8s.io/v1beta3
         kubernetesVersion: v1.25.3
         controlPlaneEndpoint: "control-plane.selfmade4u.de:6443"
         networking:
-          podSubnet: "10.244.0.0/16"
+          podSubnet: 10.244.0.0/16,2001:db8:42:0::/56
+          serviceSubnet: 10.96.0.0/16,2001:db8:42:1::/112
         ---
         kind: KubeletConfiguration
         apiVersion: kubelet.config.k8s.io/v1beta1
+        # https://kubernetes.io/docs/reference/config-api/kubelet-config.v1beta1/
+        # https://github.com/kubernetes/enhancements/blob/master/keps/sig-node/2400-node-swap/README.md
+        failSwapOn: false
+        featureGates:
+          NodeSwap: true
+        memorySwap:
+          swapBehavior: UnlimitedSwap
   - path: /etc/apt/trusted.gpg.d/docker.asc
     content: |
           -----BEGIN PGP PUBLIC KEY BLOCK-----
@@ -191,6 +207,9 @@ apt:
       source: "deb https://download.docker.com/linux/debian $RELEASE stable"
     kubernetes:
       source: "deb https://apt.kubernetes.io/ kubernetes-xenial main"
+swap:
+  filename: /swapfile
+  size: 8G
 packages:
   - containerd.io
   - kubelet=1.25.3-00

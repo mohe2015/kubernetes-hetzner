@@ -44,7 +44,7 @@ hcloud server ssh node-1
 # install helm on your local device
 
 # https://docs.cilium.io/en/stable/gettingstarted/kubeproxy-free/#kubeproxy-free
-kubeadm init --config /root/kubeadm-config.yaml
+kubeadm init --skip-phases=addon/kube-proxy --config /root/kubeadm-config.yaml
 
 #mkdir -p $HOME/.kube
 #sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
@@ -52,6 +52,7 @@ kubeadm init --config /root/kubeadm-config.yaml
 
 
 # on local machine
+exit
 rm -Rf ~/.kube/
 mkdir -p ~/.kube/
 scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
@@ -59,7 +60,6 @@ scp root@$(hcloud server ip node-1):/etc/kubernetes/admin.conf ~/.kube/config
 kubectl describe node
 
 kubectl get all --all-namespaces
-
 
 # TODO https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#resilience
 

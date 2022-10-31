@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istio-ingress
+  namespace: istio-ingress
+spec:
+  template:
+    spec:
+      containers:
+        - name: istio-proxy
+          ports:
+            - containerPort: 8080
+              hostPort: 80
+            - containerPort: 8443
+              hostPort: 443
