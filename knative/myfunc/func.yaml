@@ -3,7 +3,7 @@ name: myfunc
 runtime: rust
 registry: docker.io/devmohe
 image: docker.io/devmohe/myfunc:latest
-imageDigest: sha256:ba7910ad05c6523877694af70245b3e3d80f9836a2236c95818f21f6b11aa422
+imageDigest: sha256:c71e931e996a562594d8f98814f2b5ccec214384823ab8c2e6b11cac2607c4fb
 created: 2022-10-31T15:58:18.496383187+01:00
 invocation:
   format: http

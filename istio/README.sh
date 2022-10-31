@@ -65,6 +65,8 @@ spec:
         host: httpbin
 EOF
 
+kubectl label namespace default istio-injection=enabled
+
 istioctl proxy-status
 
 istioctl proxy-config route httpbin-9dbd644c7-vz8qf.istio-system

@@ -10,5 +10,7 @@ metadata:
   namespace: knative-serving
 spec:
   config:
-    domain:
-      "knative.selfmade4u.de": ""
+    domain: # config-domain ConfigMap
+      knative.selfmade4u.de: ""
+    network:
+      http-protocol: enabled

@@ -46,3 +46,12 @@ cd myfunc
 # docker.io/devmohe
 
 ~/Documents/func/func build
+
+~/Documents/func/func deploy
+
+http://myfunc.default.knative.selfmade4u.de/
+
+kubectl -n knative-serving patch gateway knative-ingress-gateway --type=merge --patch-file ./knative/knative-serving-tls.yaml
+
+
+~/Documents/func/func delete myfunc
