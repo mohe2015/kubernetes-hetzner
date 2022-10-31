@@ -20,9 +20,9 @@ see [wildcard-certificate/README.sh](wildcard-certificate/README.sh)
 
 see [istio/README.sh](isto/README.sh) as it's needed for knative
 
-see [rook/README.md](rook/README.md)
-
 see [knative/README.sh](knative/README.sh)
+
+see [rook/README.md](rook/README.md)
 
 see [mastodon/README.sh](mastodon/README.sh)
 
