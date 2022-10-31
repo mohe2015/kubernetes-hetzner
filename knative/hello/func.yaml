@@ -3,7 +3,7 @@ name: hello
 runtime: go
 registry: docker.io/devmohe
 image: docker.io/devmohe/hello:latest
-imageDigest: sha256:48b1fb1a568949891327ea97aea326b48a2a627af7ac39af09836fa132389fd1
+imageDigest: sha256:8c41fc99d1c626775d4b46832bd11e60d18090d5ec6725e09f3179be1e9e8098
 created: 2022-10-31T22:06:03.704459189+01:00
 invocation:
   format: http
