@@ -3,7 +3,7 @@ global:
     requests:
       cpu: "0"
 pilot:
-  autoscaleEnabled: false
+  #autoscaleEnabled: false
   resources:
     requests:
       cpu: "0"
@@ -16,3 +16,9 @@ proxy:
     limits:
       cpu: "0"
       memory: "0"
+telemetry:
+  enabled: false
+  v2:
+    enabled: false
+    prometheus:
+      enabled: false

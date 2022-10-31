@@ -61,3 +61,16 @@ http://myfunc.default.knative.selfmade4u.de/
 
 # has errors
 kubectl -n knative-serving logs replicaset.apps/autoscaler-d97cdddf4 -f
+
+hey -z 30s -c 50 "http://hello.default.knative.selfmade4u.de/"
+
+# knative activator high cpu usage
+# knative queue high cpu usage
+# istio envoy proxy high cpu usage
+
+# -c 50  Requests/sec: 974.5990
+# -c 100 Requests/sec: 905.6401
+
+# TRY KOURIER
+
+https://github.com/knative-sandbox/net-kourier
