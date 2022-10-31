@@ -56,7 +56,15 @@ cd hello
 
 ~/Documents/func/func deploy --verbose
 
-http://myfunc.default.knative.selfmade4u.de/
+kn revisions list
+
+kn service update hello \
+--traffic hello-00002=50 \
+--traffic @latest=50
+
+# https://knative.dev/docs/serving/configuration/rolling-out-latest-revision-configmap/
+
+http://hello.default.knative.selfmade4u.de
 
 
 ~/Documents/func/func delete myfunc
@@ -113,6 +121,8 @@ https://github.com/knative-sandbox/net-kourier
 
 # TRY CONTOUR
 
+# use autotls
+
 # http 100   Requests/sec: 1401.8302
 # http 200   Requests/sec: 1390.6097
 # http 500   Requests/sec: 881.0308
@@ -148,3 +158,6 @@ spec:
   virtualhost:
     tls:
       secretName: selfmade4u.de-wildcard-certificate
+
+
+

@@ -5,3 +5,4 @@ metadata:
   namespace: knative-serving
 data:
   http-protocol: enabled # redirected breaks https service (maybe because of our config?)
+  rollout-duration: "60"  # Value in seconds.

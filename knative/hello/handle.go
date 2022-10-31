@@ -22,6 +22,7 @@ func Handle(ctx context.Context, res http.ResponseWriter, req *http.Request) {
 
 func prettyPrint(req *http.Request) string {
 	b := &strings.Builder{}
+	fmt.Fprintf(b, "This is version 3\n")
 	fmt.Fprintf(b, "%v %v %v %v\n", req.Method, req.URL, req.Proto, req.Host)
 	for k, vv := range req.Header {
 		for _, v := range vv {
