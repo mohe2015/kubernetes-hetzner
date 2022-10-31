@@ -1,5 +1,3 @@
-service:
-  type: ClusterIP # TODO FIXME?
 autoscaling:
   enabled: false
 resources:
