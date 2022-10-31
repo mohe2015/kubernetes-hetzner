@@ -30,6 +30,8 @@ kubectl patch gateway/knative-ingress-gateway \
   --type merge \
   --patch-file ./knative/knative-serving-tls.yaml
 
+kubectl patch configmap/config-network --namespace knative-serving --patch-file ./knative/knative-redirect-https.yaml
+
 kubectl -n knative-serving get -o yaml gateway knative-ingress-gateway
 
 # install func by building from source
