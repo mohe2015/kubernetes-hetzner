@@ -14,6 +14,13 @@
 #   Requests/sec: 1689.7320
 # -c 200   Requests/sec: 1811.4659
 
+# -c 50   Requests/sec: 1840.5495
+# -c 100  Requests/sec: 2245.5058
+# -c 200  Requests/sec: 2429.4241
+# -c 500  Requests/sec: 2686.5199
+# -c 1000 Requests/sec: 2349.4153
+# -c 2000 Requests/sec: 2311.7490
+
 kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.8.0/serving-crds.yaml
 
 kubectl apply -f https://github.com/knative/serving/releases/download/knative-v1.8.0/serving-core.yaml
@@ -41,6 +48,10 @@ kubectl -n knative-serving edit deployment.apps/net-kourier-controller
 CERTS_SECRET_NAMESPACE: knative-serving
 CERTS_SECRET_NAME: selfmade4u.de-wildcard-certificate
 
+# https://knative.dev/docs/serving/load-balancing/target-burst-capacity/
+kubectl -n knative-serving get -o yaml configmap config-autoscaler | grep target-burst
+
+kubectl apply -f ./knative/knative-redirect-https.yaml
 
 https://github.com/knative-sandbox/net-kourier
 
@@ -76,7 +87,7 @@ https://hello.default.knative.selfmade4u.de
 # has errors
 kubectl -n knative-serving logs replicaset.apps/autoscaler-d97cdddf4 -f
 
-hey -z 30s -c 50 "http://hello.default.knative.selfmade4u.de/"
+hey -z 30s -c 50 "https://hello.default.knative.selfmade4u.de/"
 
 # knative activator high cpu usage
 # knative queue high cpu usage

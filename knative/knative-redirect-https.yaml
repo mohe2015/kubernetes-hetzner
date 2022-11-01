@@ -4,5 +4,13 @@ metadata:
   name: config-network
   namespace: knative-serving
 data:
-  http-protocol: enabled # redirected breaks https service (maybe because of our config?)
+  http-protocol: redirected # redirected breaks https service (maybe because of our config?)
   rollout-duration: "60"  # Value in seconds.
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-autoscaler
+  namespace: knative-serving
+data:
+  target-burst-capacity: "0"
