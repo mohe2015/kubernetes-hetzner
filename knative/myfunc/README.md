@@ -1,5 +1,19 @@
 # Rust HTTP Function
 
+https://github.com/kolloch/crate2nix
+nix-env -i -f https://github.com/kolloch/crate2nix/tarball/master
+~/.nix-profile/bin/crate2nix generate
+nix-build Cargo.nix -A rootCrate.build
+./result/bin/${your_crate_name}
+
+
+nix-build myfunc/myfunc.nix
+docker load < result
+docker run -t hello-docker:y74sb4nrhxr975xs7h83izgm8z75x5fc
+docker run -t myfunc-docker:7qydnrsy3sq6v6hsxrrqq7ms0grf8lrp
+
+https://nix.dev/tutorials/building-and-running-docker-images
+
 Welcome to your new Rust function project! The boilerplate
 [actix](https://actix.rs/) web server is in
 [`src/main.rs`](./src/main.rs). It's configured to invoke the `index`
