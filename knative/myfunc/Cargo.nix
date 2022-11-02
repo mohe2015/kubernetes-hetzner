@@ -4,7 +4,7 @@
 # See https://github.com/kolloch/crate2nix for more info.
 
 { nixpkgs ? <nixpkgs>
-, pkgs ? import nixpkgs { config = {}; }
+, pkgs ? (import nixpkgs { config = {}; })
 , lib ? pkgs.lib
 , stdenv ? pkgs.llvmPackages_14.stdenv
 , buildRustCrateForPkgs ? pkgs: pkgs.buildRustCrate.override { stdenv = pkgs.llvmPackages_14.stdenv; }

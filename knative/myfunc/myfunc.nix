@@ -1,4 +1,6 @@
-{ pkgs ? import <nixpkgs> { config = { }; }
+# nix repl
+# :l <nixpkgs>
+{ pkgs ? (import <nixpkgs> { config = { }; }).pkgsCross.musl64
 , generatedCargoNix ? ./Cargo.nix
 }:
 let
@@ -12,4 +14,6 @@ pkgs.dockerTools.buildImage {
   config = {
     Cmd = [ "${submodulePackage}/bin/function" ];
   };
-}
+} # 37.32MB/37.32MB
+
+# nix-build myfunc/myfunc.nix
