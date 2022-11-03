@@ -6,7 +6,10 @@ use log::info;
 pub async fn index(req: HttpRequest, config: web::Data<HandlerConfig>) -> HttpResponse {
     info!("{:#?}", req);
     if req.method() == Method::GET {
-        HttpResponse::Ok().body(format!("Hello! {}!\n", config.name))
+        HttpResponse::Ok().body(format!("Hello {}!\n", config.name))
+
+
+
     } else {
         HttpResponse::Ok().body(format!("Thanks {}!\n", config.name))
     }

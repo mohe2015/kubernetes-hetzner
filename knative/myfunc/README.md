@@ -1,5 +1,12 @@
 # Rust HTTP Function
 
+# RUSTFLAGS='-C target-feature=+crt-static' cargo build --release --target x86_64-unknown-linux-musl
+
+# Maybe just build it locally and create a docker from it for development
+# this should be so much faster
+
+https://github.com/bjorn3/rustc_codegen_cranelift
+
 https://github.com/kolloch/crate2nix
 nix-env -i -f https://github.com/kolloch/crate2nix/tarball/master
 ~/.nix-profile/bin/crate2nix generate
