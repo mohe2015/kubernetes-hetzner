@@ -20,6 +20,8 @@ kubectl create secret generic mastodon-secret --from-literal=SECRET_KEY_BASE=$(o
 
 helm upgrade --install --debug --namespace mastodon --create-namespace mastodon ./mastodon/mastodon/chart -f ./mastodon/values.yaml
 
+kubectl logs job/mastodon-create-admin
+
 kubectl get pods --watch
 
 https://mastodon.selfmade4u.de/
