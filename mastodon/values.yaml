@@ -1,25 +1,21 @@
 # https://github.com/mastodon/mastodon/blob/main/chart/values.yaml
 mastodon:
-#  createAdmin:
-#    enabled: true
-#    username: moritz_hedtke
-#    email: Moritz.Hedtke@t-online.de
-#  locale: de
+  createAdmin:
+    enabled: true
+    username: moritz_hedtke
+    email: Moritz.Hedtke@t-online.de
+  locale: de
   local_domain: mastodon.selfmade4u.de
   secrets:
     existingSecret: mastodon-secret
   persistence:
     assets:
-      storageClassName: ceph-block
+      storageClassName: local-path
     system:
-      storageClassName: ceph-block
+      storageClassName: local-path
 ingress:
   annotations:
-    nginx.ingress.kubernetes.io/proxy-body-size: 40m
-    nginx.ingress.kubernetes.io/proxy-connect-timeout: "180"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "180"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "180"
-
+    kubernetes.io/ingress.class: nginx
   tls:
     - hosts:
         - mastodon.selfmade4u.de
@@ -38,3 +34,5 @@ redis:
 elasticsearch:
   # TODO https://github.com/bitnami/charts/tree/main/bitnami/elasticsearch#parameters
   enabled: false
+jobAnnotations:
+  sidecar.istio.io/inject: "false"

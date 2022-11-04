@@ -14,6 +14,8 @@ https://landscape.cncf.io/?project=graduated,incubating
 
 see [k3s/README.sh](k3s/README.sh) as it has load balancer support
 
+see [wildcard-certificate/README.sh](wildcard-certificate/README.sh)
+
 see [istio/README.sh](istio/README.sh)
 
 see [knative/README.sh](knative/README.sh)

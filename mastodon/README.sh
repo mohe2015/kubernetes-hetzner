@@ -7,12 +7,12 @@
 
 git clone git@github.com:mastodon/mastodon.git
 cd mastodon
-git checkout 7ccf7a73f1c47a8c03712c39f7c591e837cf6d08
 cd chart
 helm dep update
 cd ../../..
 
 kubectl create namespace mastodon
+kubectl label namespace mastodon istio-injection=enabled
 
 kubectl config set-context --current --namespace=mastodon
 

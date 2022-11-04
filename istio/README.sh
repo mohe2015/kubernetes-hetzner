@@ -1,3 +1,5 @@
+# istio's issue stalebot is such a huge fuckup we shouldn't use this
+
 # recommended for knative
 
 # DISABLE IPV6 DNS RECORDS AS IT STILL DOESNT SUPPORT IPV6
@@ -21,9 +23,9 @@ helm upgrade --install istio-ingressgateway istio/gateway -f ./istio/ingress-val
 
 kubectl label namespace default istio-injection=enabled
 
-# https://istio.io/latest/docs/reference/config/networking/gateway/
+kubectl apply -f istio/ingressclass.yaml
 
-kubectl label namespace default istio-injection=enabled
+# https://istio.io/latest/docs/reference/config/networking/gateway/
 
 istioctl proxy-status
 
