@@ -16,8 +16,7 @@ kubectl label namespace mastodon istio-injection=enabled
 
 kubectl config set-context --current --namespace=mastodon
 
-export RANDOm=$(openssl rand -base64 32)
-kubectl create secret generic mastodon-secret --from-literal=SECRET_KEY_BASE=$RANDOM --from-literal=OTP_SECRET=$RANDOM --from-literal=VAPID_PRIVATE_KEY=$RANDOM --from-literal=VAPID_PUBLIC_KEY=$RANDOM --from-literal=postgresql-password=$RANDOM --from-literal=postgres-password=$RANDOM --from-literal=redis-password=$RANDOM --from-literal=password=$RANDOM
+kubectl create secret generic mastodon-secret --from-literal=SECRET_KEY_BASE=$(openssl rand -base64 32) --from-literal=OTP_SECRET=$(openssl rand -base64 32) --from-literal=VAPID_PRIVATE_KEY=$(openssl rand -base64 32) --from-literal=VAPID_PUBLIC_KEY=$(openssl rand -base64 32) --from-literal=postgresql-password=$(openssl rand -base64 32) --from-literal=postgres-password=$(openssl rand -base64 32) --from-literal=redis-password=$(openssl rand -base64 32) --from-literal=password=$(openssl rand -base64 32)
 
 helm upgrade --install --debug --namespace mastodon --create-namespace mastodon ./mastodon/mastodon/chart -f ./mastodon/values.yaml
 

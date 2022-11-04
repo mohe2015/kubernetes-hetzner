@@ -2,23 +2,22 @@ global:
   defaultResources:
     requests:
       cpu: "0"
-pilot:
-  #autoscaleEnabled: false
-  resources:
-    requests:
-      cpu: "0"
-      memory: "0"
-proxy:
- resources:
+  istiod:
+    enableAnalysis: true
+    logLevel: trace
+  proxy:
+    resources:
     requests:
       cpu: "0"
       memory: "0"
     limits:
       cpu: "0"
       memory: "0"
-telemetry:
-  enabled: false
-  v2:
-    enabled: false
-    prometheus:
-      enabled: false
+pilot:
+  #autoscaleEnabled: false
+  resources:
+    requests:
+      cpu: "0"
+      memory: "0"
+meshConfig:
+  accessLogFile: /dev/stdout

@@ -13,7 +13,7 @@ mastodon:
       storageClassName: local-path
     system:
       storageClassName: local-path
-ingress:
+ingress: # https://github.com/istio/istio/issues/26883
   annotations:
     kubernetes.io/ingress.class: istio
   tls:
