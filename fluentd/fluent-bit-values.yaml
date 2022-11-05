@@ -1,8 +1,26 @@
 image:
   tag: "2.0.3"
 
+## https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file
 config:
-  ## https://docs.fluentbit.io/manual/pipeline/filters
+  service: |
+    [SERVICE]
+        Daemon Off
+        Flush {{ .Values.flush }}
+        Log_Level {{ .Values.logLevel }}
+        Parsers_File parsers.conf
+        Parsers_File custom_parsers.conf
+        HTTP_Server On
+        HTTP_Listen 0.0.0.0
+        HTTP_Port {{ .Values.metricsPort }}
+        Health_Check On
+  
+  # kubectl run mycurlpod --image=curlimages/curl -i --tty -- sh
+  # kubectl attach mycurlpod -c mycurlpod -i -t
+  # curl --header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt https://kubernetes.default.svc:443/openapi/v2
+  # curl --header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt https://kubernetes.default.svc:443/api/v1/namespaces/fluentd/pods/
+  # https://docs.fluentbit.io/manual/pipeline/filters
+  # https://docs.fluentbit.io/manual/pipeline/filters/kubernetes
   filters: |
     [FILTER]
         Name kubernetes
@@ -12,6 +30,9 @@ config:
         K8S-Logging.Parser On
         K8S-Logging.Exclude On
         Buffer_Size 1GB
+        tls.debug 2
+        tls.verify Off
+
 
   # https://docs.fluentbit.io/manual/pipeline/outputs
   # https://docs.fluentbit.io/manual/pipeline/outputs/elasticsearch
@@ -46,3 +67,4 @@ config:
         Trace_Error On
         Replace_Dots On
         Generate_ID On
+logLevel: info

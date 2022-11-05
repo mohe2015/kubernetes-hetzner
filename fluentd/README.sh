@@ -73,6 +73,8 @@ helm repo add fluent https://fluent.github.io/helm-charts
 
 helm upgrade --install fluent-bit fluent/fluent-bit -f ./fluentd/fluent-bit-values.yaml --namespace fluentd
 
+kubectl auth can-i list pods --as=system:serviceaccount:fluentd:fluentbit
+
 export POD_NAME=$(kubectl get pods --namespace fluentd -l "app.kubernetes.io/name=fluent-bit,app.kubernetes.io/instance=fluent-bit" -o jsonpath="{.items[0].metadata.name}")
 kubectl --namespace fluentd port-forward $POD_NAME 2020:2020
 curl http://127.0.0.1:2020
@@ -89,3 +91,11 @@ kubectl port-forward service/elasticsearch-master-kb-http 5601
 
 Index pattern: logstash-*
 Timestamp field: @timestamp
+
+helm uninstall fluent-bit # don't simply delete the namespace
+
+# https://github.com/fluent/helm-charts/blob/main/charts/fluent-bit/templates/clusterrolebinding.yaml
+# kubectl get -o yaml ClusterRoleBinding fluent-bit
+kubectl auth can-i list pods --as=system:serviceaccount:fluentd:fluentbit
+
+kubectl apply -f fluentd/permissions.yaml 
