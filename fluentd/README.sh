@@ -1,7 +1,5 @@
 https://fluentbit.io/
 
-helm repo add fluent https://fluent.github.io/helm-charts
-
 kubectl create namespace fluentd
 kubectl label namespace fluentd istio-injection=enabled
 
@@ -72,8 +70,10 @@ kubectl get secret elasticsearch-master-es-elastic-user -o=jsonpath='{.data.elas
 # this is not possible with basic license
 #helm install es-kb-elasticsearch-master elastic/eck-stack -n fluentd --create-namespace
 
-
+kubectl get secret elasticsearch-master-es-elastic-user -o go-template='{{.data.elastic | base64decode}}'
 # edit password in values.yaml - warning this is super insecure
+
+helm repo add fluent https://fluent.github.io/helm-charts
 
 helm upgrade --install fluent-bit fluent/fluent-bit -f ./fluentd/fluent-bit-values.yaml --namespace fluentd
 
@@ -83,7 +83,6 @@ curl http://127.0.0.1:2020
 
 kubectl logs daemonset.apps/fluent-bit -f
 
-kubectl get secret elasticsearch-master-es-elastic-user -o go-template='{{.data.elastic | base64decode}}'
 
 
 # Kibana -> Stack Management -> Kibana -> Data Views -> Create data view

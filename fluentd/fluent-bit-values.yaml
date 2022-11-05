@@ -1,3 +1,6 @@
+image:
+  tag: "2.0.3"
+
 config:
   ## https://docs.fluentbit.io/manual/pipeline/outputs
   # https://docs.fluentbit.io/manual/pipeline/outputs/elasticsearch
@@ -11,9 +14,11 @@ config:
         tls On
         tls.verify Off
         HTTP_User elastic
-        HTTP_Passwd z991Z0GRfBlDPk0aH26893Gn
+        HTTP_Passwd 1MJ52tdIquR6449nt5Bs20cJ
+        Suppress_Type_Name On
         Trace_Error On
-        Buffer_Size False
+        Buffer_Size 1Mb
+        Replace_Dots On
 
     [OUTPUT]
         Name es
@@ -25,6 +30,8 @@ config:
         tls On
         tls.verify Off
         HTTP_User elastic
-        HTTP_Passwd z991Z0GRfBlDPk0aH26893Gn
+        HTTP_Passwd 1MJ52tdIquR6449nt5Bs20cJ
+        Suppress_Type_Name On
         Trace_Error On
-        Buffer_Size False
+        Buffer_Size 1Mb
+        Replace_Dots On
