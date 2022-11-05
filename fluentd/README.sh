@@ -96,6 +96,11 @@ helm uninstall fluent-bit # don't simply delete the namespace
 
 # https://github.com/fluent/helm-charts/blob/main/charts/fluent-bit/templates/clusterrolebinding.yaml
 # kubectl get -o yaml ClusterRoleBinding fluent-bit
-kubectl auth can-i list pods --as=system:serviceaccount:fluentd:fluentbit
+kubectl auth can-i list pods -A --as=system:serviceaccount:fluentd:fluentbit
 
-kubectl apply -f fluentd/permissions.yaml 
+kubectl apply -f fluentd/permissions.yaml
+
+kubectl delete pod/fluent-bit-8vwqt # because logs get rotated quickly
+kubectl logs daemonset.apps/fluent-bit | grep -B 15 -A 15 upstream
+
+https://github.com/istio/istio/issues/11130 reason why kubernetes connections fail at start

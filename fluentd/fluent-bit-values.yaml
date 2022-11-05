@@ -14,7 +14,7 @@ config:
         HTTP_Listen 0.0.0.0
         HTTP_Port {{ .Values.metricsPort }}
         Health_Check On
-  
+
   # kubectl run mycurlpod --image=curlimages/curl -i --tty -- sh
   # kubectl attach mycurlpod -c mycurlpod -i -t
   # curl --header "Authorization: Bearer $(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" --cacert /var/run/secrets/kubernetes.io/serviceaccount/ca.crt https://kubernetes.default.svc:443/openapi/v2
