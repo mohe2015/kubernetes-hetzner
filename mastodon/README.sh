@@ -25,4 +25,4 @@ kubectl get pods --watch
 
 https://mastodon.selfmade4u.de/
 
-# delete all pods
+kubectl exec -it deployment/mastodon-web -- sh

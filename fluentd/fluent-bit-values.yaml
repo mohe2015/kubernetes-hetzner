@@ -5,19 +5,20 @@ config:
     [OUTPUT]
         Name es
         Match kube.*
-        Host elasticsearch-master-es-internal-http
+        Host elasticsearch-master-es-default
         Logstash_Format On
         Retry_Limit False
         tls On
         tls.verify Off
         HTTP_User elastic
         HTTP_Passwd z991Z0GRfBlDPk0aH26893Gn
-        Suppress_Type_Name On
+        Trace_Error On
+        Buffer_Size False
 
     [OUTPUT]
         Name es
         Match host.*
-        Host elasticsearch-master-es-internal-http
+        Host elasticsearch-master-es-default
         Logstash_Format On
         Logstash_Prefix node
         Retry_Limit False
@@ -25,4 +26,5 @@ config:
         tls.verify Off
         HTTP_User elastic
         HTTP_Passwd z991Z0GRfBlDPk0aH26893Gn
-        Suppress_Type_Name On
+        Trace_Error On
+        Buffer_Size False

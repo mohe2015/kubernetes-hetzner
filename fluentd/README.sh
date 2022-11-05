@@ -81,7 +81,7 @@ export POD_NAME=$(kubectl get pods --namespace fluentd -l "app.kubernetes.io/nam
 kubectl --namespace fluentd port-forward $POD_NAME 2020:2020
 curl http://127.0.0.1:2020
 
-kubectl logs daemonset.apps/fluent-bit
+kubectl logs daemonset.apps/fluent-bit -f
 
 kubectl get secret elasticsearch-master-es-elastic-user -o go-template='{{.data.elastic | base64decode}}'
 
