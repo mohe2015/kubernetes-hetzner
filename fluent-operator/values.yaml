@@ -1,0 +1,9 @@
+containerRuntime: containerd
+Kubernetes: true
+fluentd:
+  enable: true
+  output:
+    es:
+      enable: true
+    opensearch:
+      enable: false
