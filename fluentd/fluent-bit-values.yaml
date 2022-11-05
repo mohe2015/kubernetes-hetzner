@@ -20,7 +20,7 @@ config:
         Name es
         Match kube.*
         Host elasticsearch-master-es-default
-        Logstash_Format Off
+        Logstash_Format On
         Retry_Limit False
         tls On
         tls.verify Off
@@ -35,7 +35,7 @@ config:
         Name es
         Match host.*
         Host elasticsearch-master-es-default
-        Logstash_Format Off
+        Logstash_Format On
         Logstash_Prefix node
         Retry_Limit False
         tls On
