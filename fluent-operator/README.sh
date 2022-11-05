@@ -1,10 +1,10 @@
 # https://github.com/fluent/fluent-operator
 
+https://github.com/kubesphere-sigs/fluent-operator-walkthrough CONTAINS VALUABLE CONFIGS
 
 kubectl create namespace fluent
 kubectl label namespace fluent istio-injection=enabled
 kubectl config set-context --current --namespace=fluent
-
 
 
 
