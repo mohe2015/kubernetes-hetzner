@@ -1,3 +1,5 @@
+# DOESN'T WORK PROPERLY
+
 # https://github.com/fluent/fluent-operator
 
 https://github.com/kubesphere-sigs/fluent-operator-walkthrough CONTAINS VALUABLE CONFIGS
@@ -15,7 +17,7 @@ kubectl config set-context --current --namespace=fluent
 helm repo add elastic https://helm.elastic.co
 helm repo update
 # install once per cluster
-helm install elastic-operator elastic/eck-operator -n elastic-system --create-namespace
+helm upgrade --install elastic-operator elastic/eck-operator -n elastic-system --create-namespace
 
 
 kubectl logs -n elastic-system sts/elastic-operator

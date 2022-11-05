@@ -2,36 +2,47 @@ image:
   tag: "2.0.3"
 
 config:
-  ## https://docs.fluentbit.io/manual/pipeline/outputs
+  ## https://docs.fluentbit.io/manual/pipeline/filters
+  filters: |
+    [FILTER]
+        Name kubernetes
+        Match kube.*
+        Merge_Log On
+        Keep_Log Off
+        K8S-Logging.Parser On
+        K8S-Logging.Exclude On
+        Buffer_Size 1GB
+
+  # https://docs.fluentbit.io/manual/pipeline/outputs
   # https://docs.fluentbit.io/manual/pipeline/outputs/elasticsearch
   outputs: |
     [OUTPUT]
         Name es
         Match kube.*
         Host elasticsearch-master-es-default
-        Logstash_Format On
+        Logstash_Format Off
         Retry_Limit False
         tls On
         tls.verify Off
         HTTP_User elastic
-        HTTP_Passwd xc8D3r3JZ3p4o96dl2wMD01A
+        HTTP_Passwd vL4Bm216qJ94sVcS16kMS21X
         Suppress_Type_Name On
         Trace_Error On
-        Buffer_Size 1Mb
         Replace_Dots On
+        Generate_ID On
 
     [OUTPUT]
         Name es
         Match host.*
         Host elasticsearch-master-es-default
-        Logstash_Format On
+        Logstash_Format Off
         Logstash_Prefix node
         Retry_Limit False
         tls On
         tls.verify Off
         HTTP_User elastic
-        HTTP_Passwd xc8D3r3JZ3p4o96dl2wMD01A
+        HTTP_Passwd vL4Bm216qJ94sVcS16kMS21X
         Suppress_Type_Name On
         Trace_Error On
-        Buffer_Size 1Mb
         Replace_Dots On
+        Generate_ID On

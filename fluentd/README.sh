@@ -10,12 +10,13 @@ https://docs.fluentd.org/how-to-guides/free-alternative-to-splunk-by-fluentd
 
 helm repo add elastic https://helm.elastic.co
 helm repo update
-helm install elastic-operator elastic/eck-operator -n fluentd --create-namespace
+# install once per cluster
+helm upgrade --install elastic-operator elastic/eck-operator -n elastic-system --create-namespace
 
 # alternatively don't use operator but https://raw.githubusercontent.com/elastic/helm-charts/master/elasticsearch/examples/minikube/values.yaml
 # https://phoenixnap.com/kb/elasticsearch-helm-chart
 
-kubectl logs -n fluentd sts/elastic-operator
+kubectl logs -n elastic-system sts/elastic-operator
 
 
 # https://www.elastic.co/guide/en/cloud-on-k8s/current/k8s-deploy-elasticsearch.html
@@ -79,10 +80,10 @@ curl http://127.0.0.1:2020
 kubectl logs daemonset.apps/fluent-bit -f
 
 
-kubectl port-forward service/elasticsearch-master-kb-http 5601
 echo https://localhost:5601
 echo username elastic
 kubectl get secret elasticsearch-master-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo
+kubectl port-forward service/elasticsearch-master-kb-http 5601
 # Kibana -> Stack Management -> Kibana -> Data Views -> Create data view
 
 
