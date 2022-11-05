@@ -68,24 +68,26 @@ kubectl get service quickstelasticsearch-masterart-kb-http
 # this is not possible with basic license
 #helm install es-kb-elasticsearch-master elastic/eck-stack -n fluentd --create-namespace
 
-kubectl get secret elasticsearch-master-es-elastic-user -o go-template='{{.data.elastic | base64decode}}'
 # edit password in values.yaml - warning this is super insecure
 
+kubectl create secret generic es-secret --from-literal=username=elastic --from-literal=password=$(kubectl get secret elasticsearch-master-es-elastic-user -o go-template='{{.data.elastic | base64decode}}')
 
 git clone https://github.com/fluent/fluent-operator
 cd fluent-operator
 
+# this can reload config at runtime
 helm upgrade fluent-operator --install -n fluent ./fluent-operator/charts/fluent-operator/ -f values.yaml
 
+kubectl apply -f output-es.yaml 
 
 
 
 
-kubectl port-forward service/elasticsearch-master-kb-http 5601
 echo https://localhost:5601
 echo username elastic
 kubectl get secret elasticsearch-master-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo
 # Kibana -> Stack Management -> Kibana -> Data Views -> Create data view
+kubectl port-forward service/elasticsearch-master-kb-http 5601
 
 
 Index pattern: logstash-*

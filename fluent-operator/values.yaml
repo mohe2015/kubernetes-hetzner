@@ -4,7 +4,19 @@ fluentd:
   enable: true
   output:
     es:
-      enable: true
+      # https://docs.fluentd.org/output/elasticsearch
+      enable: false
       host: elasticsearch-master-es-default
+      scheme: https
+      password:
+        valueFrom:
+          secretKeyRef:
+            key: password
+            name: es-secret
+      user:
+        valueFrom:
+          secretKeyRef:
+            key: username
+            name: es-secret
     opensearch:
       enable: false
