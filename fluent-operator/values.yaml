@@ -5,6 +5,7 @@ fluentd:
   output:
     es:
       # https://docs.fluentd.org/output/elasticsearch
+      # https://github.com/uken/fluent-plugin-elasticsearch
       enable: false
       host: elasticsearch-master-es-default
       scheme: https
@@ -18,5 +19,6 @@ fluentd:
           secretKeyRef:
             key: username
             name: es-secret
+      ssl_verify: false
     opensearch:
       enable: false

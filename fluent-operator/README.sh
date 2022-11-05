@@ -29,6 +29,10 @@ metadata:
   name: elasticsearch-master
 spec:
   version: 8.5.0
+  http:
+    tls:
+      selfSignedCertificate:
+        disabled: true
   nodeSets:
   - name: default
     count: 1
@@ -90,6 +94,6 @@ kubectl get secret elasticsearch-master-es-elastic-user -o=jsonpath='{.data.elas
 kubectl port-forward service/elasticsearch-master-kb-http 5601
 
 
-Index pattern: logstash-*
+Index pattern: ks-logstash-log-*
 Timestamp field: @timestamp
 
