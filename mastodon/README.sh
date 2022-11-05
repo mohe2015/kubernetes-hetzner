@@ -1,5 +1,4 @@
-# THIS SEEMS extremely broken, try official instructions:
-# DONT TRY AT ALL FOR NOW
+# STREAMING ENDPOINT IS STILL BROKEN
 
 # https://docs.joinmastodon.org/admin/prerequisites/
 
