@@ -58,11 +58,6 @@ EOF
 kubectl get kibana --watch
 kubectl get pod --selector='kibana.k8s.elastic.co/name=elasticsearch-master'
 kubectl get service quickstelasticsearch-masterart-kb-http
-kubectl port-forward service/elasticsearch-master-kb-http 5601
-echo https://localhost:5601
-echo username elastic
-kubectl get secret elasticsearch-master-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo
-
 
 
 
@@ -84,7 +79,10 @@ curl http://127.0.0.1:2020
 kubectl logs daemonset.apps/fluent-bit -f
 
 
-
+kubectl port-forward service/elasticsearch-master-kb-http 5601
+echo https://localhost:5601
+echo username elastic
+kubectl get secret elasticsearch-master-es-elastic-user -o=jsonpath='{.data.elastic}' | base64 --decode; echo
 # Kibana -> Stack Management -> Kibana -> Data Views -> Create data view
 
 

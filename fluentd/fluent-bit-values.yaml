@@ -14,7 +14,7 @@ config:
         tls On
         tls.verify Off
         HTTP_User elastic
-        HTTP_Passwd 1MJ52tdIquR6449nt5Bs20cJ
+        HTTP_Passwd xc8D3r3JZ3p4o96dl2wMD01A
         Suppress_Type_Name On
         Trace_Error On
         Buffer_Size 1Mb
@@ -30,7 +30,7 @@ config:
         tls On
         tls.verify Off
         HTTP_User elastic
-        HTTP_Passwd 1MJ52tdIquR6449nt5Bs20cJ
+        HTTP_Passwd xc8D3r3JZ3p4o96dl2wMD01A
         Suppress_Type_Name On
         Trace_Error On
         Buffer_Size 1Mb
