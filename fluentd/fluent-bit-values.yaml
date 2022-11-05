@@ -1,0 +1,28 @@
+config:
+  ## https://docs.fluentbit.io/manual/pipeline/outputs
+  # https://docs.fluentbit.io/manual/pipeline/outputs/elasticsearch
+  outputs: |
+    [OUTPUT]
+        Name es
+        Match kube.*
+        Host elasticsearch-master-es-internal-http
+        Logstash_Format On
+        Retry_Limit False
+        tls On
+        tls.verify Off
+        HTTP_User elastic
+        HTTP_Passwd z991Z0GRfBlDPk0aH26893Gn
+        Suppress_Type_Name On
+
+    [OUTPUT]
+        Name es
+        Match host.*
+        Host elasticsearch-master-es-internal-http
+        Logstash_Format On
+        Logstash_Prefix node
+        Retry_Limit False
+        tls On
+        tls.verify Off
+        HTTP_User elastic
+        HTTP_Passwd z991Z0GRfBlDPk0aH26893Gn
+        Suppress_Type_Name On
