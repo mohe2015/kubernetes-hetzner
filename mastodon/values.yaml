@@ -1,9 +1,11 @@
 # https://github.com/mastodon/mastodon/blob/main/chart/values.yaml
+image:
+  tag: "4.0.0rc2"
 mastodon:
-  createAdmin:
-    enabled: true
-    username: moritz_hedtke
-    email: Moritz.Hedtke@t-online.de
+  #createAdmin:
+  #  enabled: true
+  #  username: moritz_hedtke
+  #  email: Moritz.Hedtke@t-online.de
   locale: de
   local_domain: mastodon.selfmade4u.de
   secrets:
@@ -13,7 +15,7 @@ mastodon:
       storageClassName: local-path
     system:
       storageClassName: local-path
-ingress: # https://github.com/istio/istio/issues/26883
+ingress:
   annotations:
     kubernetes.io/ingress.class: istio
   tls:
@@ -32,7 +34,6 @@ redis:
   auth:
     existingSecret: mastodon-secret
 elasticsearch:
-  # TODO https://github.com/bitnami/charts/tree/main/bitnami/elasticsearch#parameters
   enabled: false
 jobAnnotations:
   sidecar.istio.io/inject: "false"
