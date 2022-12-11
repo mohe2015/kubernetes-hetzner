@@ -1,0 +1,11 @@
+containerRuntime: containerd
+Kubernetes: true
+fluentd:
+  enable: true
+  output:
+    opensearch:
+      enable: false
+fluentbit:
+  input:
+    tail:
+      memBufLimit: 5000MB

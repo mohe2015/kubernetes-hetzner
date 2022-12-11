@@ -19,6 +19,9 @@ kubectl get pods -n cilium-test
 
 kubectl delete ns cilium-test
 
+kubectl get nodes
+kubectl get all --all-namespaces
+
 echo http://localhost:8081/
 
 kubectl port-forward -n kube-system deployment/hubble-ui 8081

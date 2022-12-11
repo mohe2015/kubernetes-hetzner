@@ -1,3 +1,5 @@
+# istio's issue stalebot is such a huge fuckup we shouldn't use this
+
 # recommended for knative
 
 # DISABLE IPV6 DNS RECORDS AS IT STILL DOESNT SUPPORT IPV6
@@ -19,51 +21,11 @@ kubectl label namespace istio-system istio-injection=enabled
 
 helm upgrade --install istio-ingressgateway istio/gateway -f ./istio/ingress-values.yaml --namespace istio-system --wait # --post-renderer ./istio/kustomize.sh
 
-kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.15/samples/httpbin/httpbin.yaml
+kubectl label namespace default istio-injection=enabled
 
-kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: httpbin-gateway
-spec:
-  selector:
-    istio: ingressgateway # use Istio default gateway implementation
-  servers:
-  - port:
-      number: 443
-      name: https
-      protocol: HTTPS
-    tls:
-      mode: SIMPLE
-      credentialName: selfmade4u.de-wildcard-certificate
-    hosts:
-    - "*.selfmade4u.de"
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "httpbin.selfmade4u.de"
-EOF
+kubectl apply -f istio/ingressclass.yaml
 
-kubectl apply -f - <<EOF
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: httpbin
-spec:
-  hosts:
-  - "httpbin.selfmade4u.de"
-  gateways:
-  - httpbin-gateway
-  http:
-  - route:
-    - destination:
-        port:
-          number: 8000
-        host: httpbin
-EOF
+# https://istio.io/latest/docs/reference/config/networking/gateway/
 
 istioctl proxy-status
 

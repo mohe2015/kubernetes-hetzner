@@ -1,0 +1,25 @@
+specVersion: 0.34.0
+name: myfunc
+runtime: rust
+registry: docker.io/devmohe
+image: docker.io/devmohe/myfunc:latest
+imageDigest: sha256:59586a7bb8a99680cd30fec2d15a0c0b4bd29722289df999cd6eefb17e9ff78c
+created: 2022-10-31T15:58:18.496383187+01:00
+invocation:
+  format: http
+build:
+  buildpacks:
+  - docker.io/paketocommunity/rust
+  builder: pack
+  buildEnvs: []
+run:
+  volumes: []
+  envs: []
+deploy:
+  namespace: default
+  annotations: {}
+  options: {}
+  labels: []
+  healthEndpoints:
+    liveness: /health/liveness
+    readiness: /health/readiness

@@ -44,9 +44,10 @@ featureGates:
   NodeSwap: true
 memorySwap:
   swapBehavior: UnlimitedSwap
+containerLogMaxSize: 100Mi
 EOF
 
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --kubelet-arg="config=/root/kubelet-configuration.yaml" --flannel-backend=none --disable-network-policy --disable traefik --node-taint node.cilium.io/agent-not-ready:NoExecute --disable-kube-proxy --disable-helm-controller --node-ip 23.88.104.23,2a01:4f8:1c1e:4f60::1 --cluster-cidr 10.42.0.0/16,2001:cafe:42:0::/56 --service-cidr 10.43.0.0/16,2001:cafe:42:1::/112" sh -s -
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --kubelet-arg="config=/root/kubelet-configuration.yaml" --disable traefik --disable-helm-controller --node-ip 23.88.104.23,2a01:4f8:1c1e:4f60::1 --cluster-cidr 10.42.0.0/16,2001:cafe:42:0::/56 --service-cidr 10.43.0.0/16,2001:cafe:42:1::/112" sh -s -
 
 exit
 
@@ -59,7 +60,8 @@ nano ~/.kube/config
 # set k3s.selfmade4u.de
 
 
-# Check for Ready node, takes ~30 seconds 
-kubectl get node 
+# will not get Ready because cni not installed yet 
+kubectl get node
+kubectl get all --all-namespaces
 
 https://docs.k3s.io/cluster-access
