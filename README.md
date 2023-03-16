@@ -1,5 +1,14 @@
 # kubernetes-hetzner
 
+envoy-gateway, cert-manager, fluxcd, k3s, projektwahl, harbor
+
+
+
+
+
+
+
+
 dendrite, element, mumble, mastodon, bigbluebutton, wordpress, seafile, syncthing, peertube, bitwarden?
 
 # https://knative.dev/docs/getting-started/first-autoscale/
