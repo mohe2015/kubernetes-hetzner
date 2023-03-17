@@ -1,8 +1,10 @@
 # kubernetes-hetzner
 
-wildcard-certificate, envoy-gateway, fluentd-bit, rook, 
+k3s, wildcard-certificate, envoy-gateway, fluentd-bit, cert-manager, jaeger,
 
-fluxcd, rook, k3s, projektwahl, harbor
+ rook, 
+
+fluxcd, projektwahl, harbor
 
 
 
