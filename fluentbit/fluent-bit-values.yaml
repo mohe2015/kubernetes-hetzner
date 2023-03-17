@@ -11,6 +11,9 @@ config:
         HTTP_User admin
         HTTP_Passwd admin
         Suppress_Type_Name On
+        Trace_Error On
+        Replace_Dots On
+        Generate_ID On
     [OUTPUT]
         Name es
         Match host.*
@@ -23,3 +26,6 @@ config:
         HTTP_User admin
         HTTP_Passwd admin
         Suppress_Type_Name On
+        Trace_Error On
+        Replace_Dots On
+        Generate_ID On
