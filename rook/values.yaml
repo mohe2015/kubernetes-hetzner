@@ -7,7 +7,6 @@ resources:
     cpu: 0
     memory: 0
 csi:
-  provisionerReplicas: 2
   csiRBDProvisionerResource: |
     - name : csi-provisioner
       resource:
@@ -65,8 +64,6 @@ csi:
         limits:
           memory: 0
           cpu: 100m
-  # CEPH CSI RBD plugin resource requirement list, Put here list of resource
-  # requests and limits you want to apply for plugin pod
   csiRBDPluginResource: |
     - name : driver-registrar
       resource:
@@ -92,8 +89,6 @@ csi:
         limits:
           memory: 0
           cpu: 0
-  # CEPH CSI CephFS provisioner resource requirement list, Put here list of resource
-  # requests and limits you want to apply for provisioner pod
   csiCephFSProvisionerResource: |
     - name : csi-provisioner
       resource:
@@ -143,8 +138,6 @@ csi:
         limits:
           memory: 0
           cpu: 0
-  # CEPH CSI CephFS plugin resource requirement list, Put here list of resource
-  # requests and limits you want to apply for plugin pod
   csiCephFSPluginResource: |
     - name : driver-registrar
       resource:
@@ -170,8 +163,6 @@ csi:
         limits:
           memory: 0
           cpu: 0
-  # CEPH CSI NFS provisioner resource requirement list, Put here list of resource
-  # requests and limits you want to apply for provisioner pod
   csiNFSProvisionerResource: |
     - name : csi-provisioner
       resource:
@@ -189,8 +180,6 @@ csi:
         limits:
           memory: 0
           cpu: 0
-  # CEPH CSI NFS plugin resource requirement list, Put here list of resource
-  # requests and limits you want to apply for plugin pod
   csiNFSPluginResource: |
     - name : driver-registrar
       resource:
@@ -208,17 +197,6 @@ csi:
         limits:
           memory: 0
           cpu: 0
-
-
-
-
-
-
-
-
-
-
-
 
 
 # https://github.com/rook/rook/blob/release-1.11/deploy/charts/rook-ceph-cluster/values.yaml
@@ -255,7 +233,6 @@ cephClusterSpec:
   storage:
     useAllNodes: true
     useAllDevices: true
-    #deviceFilter:
   healthCheck:
     daemonHealth:
       mon:
@@ -289,8 +266,6 @@ cephClusterSpec:
         cpu: "0"
         memory: "0"
     prepareosd:
-      # limits: It is not recommended to set limits on the OSD prepare job since it's a one-time burst for memory
-      # that must be allowed to complete without an OOM kill
       requests:
         cpu: "0"
         memory: "0"
@@ -340,35 +315,14 @@ cephBlockPools:
       mountOptions: []
       # see https://github.com/rook/rook/blob/master/Documentation/ceph-block.md#provision-storage for available configuration
       parameters:
-        # (optional) mapOptions is a comma-separated list of map options.
-        # For krbd options refer
-        # https://docs.ceph.com/docs/master/man/8/rbd/#kernel-rbd-krbd-options
-        # For nbd options refer
-        # https://docs.ceph.com/docs/master/man/8/rbd-nbd/#options
-        # mapOptions: lock_on_read,queue_depth=1024
-
-        # (optional) unmapOptions is a comma-separated list of unmap options.
-        # For krbd options refer
-        # https://docs.ceph.com/docs/master/man/8/rbd/#kernel-rbd-krbd-options
-        # For nbd options refer
-        # https://docs.ceph.com/docs/master/man/8/rbd-nbd/#options
-        # unmapOptions: force
-
-        # RBD image format. Defaults to "2".
         imageFormat: "2"
-        # RBD image features. Available for imageFormat: "2". CSI RBD currently supports only `layering` feature.
         imageFeatures: layering
-        # The secrets contain Ceph admin credentials.
         csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
         csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
         csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
         csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
         csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
         csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-        # Specify the filesystem type of the volume. If not specified, csi-provisioner
-        # will set default as `ext4`. Note that `xfs` is not recommended due to potential deadlock
-        # in hyperconverged settings where the volume is mounted on the same node as the osds.
-        csi.storage.k8s.io/fstype: ext4
 
 cephFileSystems:
   - name: ceph-filesystem
@@ -383,7 +337,6 @@ cephFileSystems:
           replicated:
             size: 1
             requireSafeReplicaSize: false
-          # Optional and highly recommended, 'data0' by default, see https://github.com/rook/rook/blob/master/Documentation/CRDs/Shared-Filesystem/ceph-filesystem-crd.md#pools
           name: data0
       metadataServer:
         activeCount: 1
@@ -400,24 +353,18 @@ cephFileSystems:
       enabled: true
       isDefault: false
       name: ceph-filesystem
-      # (Optional) specify a data pool to use, must be the name of one of the data pools above, 'data0' by default
       pool: data0
       reclaimPolicy: Delete
       allowVolumeExpansion: true
       mountOptions: []
       # see https://github.com/rook/rook/blob/master/Documentation/ceph-filesystem.md#provision-storage for available configuration
       parameters:
-        # The secrets contain Ceph admin credentials.
         csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
         csi.storage.k8s.io/provisioner-secret-namespace: rook-ceph
         csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
         csi.storage.k8s.io/controller-expand-secret-namespace: rook-ceph
         csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
         csi.storage.k8s.io/node-stage-secret-namespace: rook-ceph
-        # Specify the filesystem type of the volume. If not specified, csi-provisioner
-        # will set default as `ext4`. Note that `xfs` is not recommended due to potential deadlock
-        # in hyperconverged settings where the volume is mounted on the same node as the osds.
-        csi.storage.k8s.io/fstype: ext4
 
 cephFileSystemVolumeSnapshotClass:
   enabled: false
@@ -475,6 +422,3 @@ cephObjectStores:
       name: ceph-bucket
       reclaimPolicy: Delete
       # see https://github.com/rook/rook/blob/master/Documentation/ceph-object-bucket-claim.md#storageclass for available configuration
-      parameters:
-        # note: objectStoreNamespace and objectStoreName are configured by the chart
-        region: us-east-1

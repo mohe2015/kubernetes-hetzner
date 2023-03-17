@@ -8,13 +8,5 @@ kubectl wait --timeout=5m -n gateway-system deployment/gateway-api-admission-ser
 kubectl get all --all-namespaces
 kubectl apply -f envoy-gateway/gateway.yaml
 
-export ENVOY_SERVICE=$(kubectl get svc -n envoy-gateway-system --selector=gateway.envoyproxy.io/owning-gateway-namespace=default,gateway.envoyproxy.io/owning-gateway-name=eg -o jsonpath='{.items[0].metadata.name}')
-kubectl -n envoy-gateway-system port-forward service/${ENVOY_SERVICE} 8888:80 &
-curl --verbose --header "Host: www.example.com" http://localhost:8888/get
-
-export GATEWAY_HOST=$(kubectl get svc/${ENVOY_SERVICE} -n envoy-gateway-system -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-curl --verbose --header "Host: www.example.com" http://$GATEWAY_HOST/get
-
-
-
+# with no routes configured nothing will happen
 ```

@@ -12,15 +12,10 @@ chmod 600 /swapfile
 mkswap /swapfile
 swapon /swapfile
 
-nano /etc/fstab
-/swapfile       none    swap    sw      0       0
+echo "/swapfile       none    swap    sw      0       0" >> /etc/fstab
 
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y apparmor-utils
-
-sudo reboot
-
-hcloud server ssh node-1
 
 # https://www.cisecurity.org/benchmark/kubernetes
 
@@ -38,6 +33,7 @@ featureGates:
   NodeSwap: true
 EOF
 
+# adjust node-ip
 curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --kubelet-arg="config=/root/kubelet-configuration.yaml" --disable traefik --disable-helm-controller --node-ip 5.75.136.69,2a01:4f8:c2c:24f0::1 --cluster-cidr 10.42.0.0/16,2001:cafe:42:0::/56 --service-cidr 10.43.0.0/16,2001:cafe:42:1::/112" sh -s -
 
 exit
