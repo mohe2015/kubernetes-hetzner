@@ -13,4 +13,4 @@ spec:
   - backendRefs:
     - name: rook-ceph-mgr-dashboard
       namespace: rook-ceph
-      port: 8443
+      port: 8080
