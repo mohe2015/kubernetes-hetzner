@@ -6,6 +6,11 @@ config:
         Host opensearch-cluster-master
         Logstash_Format On
         Retry_Limit False
+        tls On
+        tls.verify Off
+        HTTP_User admin
+        HTTP_Passwd admin
+        Suppress_Type_Name On
     [OUTPUT]
         Name es
         Match host.*
@@ -13,3 +18,8 @@ config:
         Logstash_Format On
         Logstash_Prefix node
         Retry_Limit False
+        tls On
+        tls.verify Off
+        HTTP_User admin
+        HTTP_Passwd admin
+        Suppress_Type_Name On
