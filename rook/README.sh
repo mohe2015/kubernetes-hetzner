@@ -1,29 +1,33 @@
 lsblk -f
 
+# Always use a virtual machine when testing Rook. Never use your host system where local devices may mistakenly be consumed.
+
 helm repo add rook-release https://charts.rook.io/release
 
-# https://rook.io/docs/rook/v1.10/Helm-Charts/operator-chart/
+# https://rook.io/docs/rook/v1.11/Helm-Charts/operator-chart/
 helm upgrade --install --create-namespace --namespace rook-ceph rook-ceph rook-release/rook-ceph -f rook/values.yaml
 
 kubectl --namespace rook-ceph get pods -l "app=rook-ceph-operator" --watch
 
-# https://rook.io/docs/rook/v1.10/Helm-Charts/ceph-cluster-chart/
+# https://rook.io/docs/rook/v1.11/Helm-Charts/ceph-cluster-chart/
 helm upgrade --install --create-namespace --namespace rook-ceph rook-ceph-cluster rook-release/rook-ceph-cluster -f rook/values.yaml
 
-kubectl -n rook-ceph get pods --watch
+kubectl --namespace rook-ceph get cephcluster --watch
 
-https://rook.io/docs/rook/v1.10/Storage-Configuration/Monitoring/ceph-dashboard/
+https://rook.io/docs/rook/v1.11/Storage-Configuration/Monitoring/ceph-dashboard/?h=dashboard#enable-the-ceph-dashboard
 
 # username: admin
 kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['data']['password']}" | base64 --decode && echo
+
+kubectl apply -f rook/gateway.yaml
 
 https://ceph-dashboard.selfmade4u.de/
 
 kubectl -n rook-ceph exec -it deploy/rook-ceph-tools -- bash
 
-https://rook.io/docs/rook/v1.10/Troubleshooting/direct-tools/
+https://rook.io/docs/rook/v1.11/Troubleshooting/direct-tools/
 
-kubectl create -f https://raw.githubusercontent.com/rook/rook/release-1.10/deploy/examples/direct-mount.yaml
+kubectl create -f https://raw.githubusercontent.com/rook/rook/release-1.11/deploy/examples/direct-mount.yaml
 
 kubectl -n rook-ceph get pod -l app=rook-direct-mount
 

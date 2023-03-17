@@ -1,4 +1,4 @@
-# https://github.com/rook/rook/blob/release-1.10/deploy/charts/rook-ceph/values.yaml
+# https://github.com/rook/rook/blob/release-1.11/deploy/charts/rook-ceph/values.yaml
 resources:
   limits:
     cpu: 0
@@ -221,8 +221,8 @@ csi:
 
 
 
-# https://github.com/rook/rook/blob/release-1.10/deploy/charts/rook-ceph-cluster/values.yaml
-# https://github.com/rook/rook/blob/release-1.10/deploy/examples/cluster-test.yaml
+# https://github.com/rook/rook/blob/release-1.11/deploy/charts/rook-ceph-cluster/values.yaml
+# https://github.com/rook/rook/blob/release-1.11/deploy/examples/cluster-test.yaml
 configOverride: |
     [global]
     osd_pool_default_size = 1
@@ -248,6 +248,7 @@ cephClusterSpec:
     allowMultiplePerNode: true
   dashboard:
     enabled: true
+    ssl: false
   crashCollector:
     disable: true
   storage:
@@ -320,18 +321,6 @@ cephClusterSpec:
       requests:
         cpu: "0"
         memory: "0"
-ingress:
-  dashboard:
-    annotations:
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-      nginx.ingress.kubernetes.io/server-snippet: |
-        proxy_ssl_verify off;
-    host:
-      name: ceph-dashboard.selfmade4u.de
-    tls:
-      - hosts:
-        - ceph-dashboard.selfmade4u.de
-
 
 cephBlockPools:
   - name: ceph-blockpool

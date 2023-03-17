@@ -38,6 +38,7 @@ metadata:
 spec:
   parentRefs:
   - name: eg
+    namespace: default
   hostnames:
   - "projektwahl.selfmade4u.de"
   rules:
