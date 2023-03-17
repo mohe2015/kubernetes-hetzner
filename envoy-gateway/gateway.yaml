@@ -18,3 +18,15 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+    - name: https
+      protocol: HTTPS
+      port: 443
+      tls:
+        mode: Terminate # If protocol is `TLS`, `Passthrough` is a possible mode
+        certificateRefs:
+        - kind: Secret
+          group: ""
+          name: selfmade4u.de-wildcard-certificate 
+      allowedRoutes:
+        namespaces:
+          from: All

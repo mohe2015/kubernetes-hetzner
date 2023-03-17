@@ -248,6 +248,8 @@ cephClusterSpec:
     allowMultiplePerNode: true
   dashboard:
     enabled: true
+    port: 8080
+    ssl: false
   crashCollector:
     disable: true
   storage:

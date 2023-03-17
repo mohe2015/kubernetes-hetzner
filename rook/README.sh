@@ -21,6 +21,9 @@ kubectl -n rook-ceph get secret rook-ceph-dashboard-password -o jsonpath="{['dat
 
 kubectl apply -f rook/gateway.yaml
 
+# restart the operator if something is broken
+kubectl -n rook-ceph delete pod -l app=rook-ceph-operator
+
 https://ceph-dashboard.selfmade4u.de/
 
 kubectl -n rook-ceph exec -it deploy/rook-ceph-tools -- bash
