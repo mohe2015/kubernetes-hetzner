@@ -1,0 +1,16 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: opensearch-http
+  namespace: fluentd
+spec:
+  parentRefs:
+  - name: eg
+    namespace: default
+  hostnames:
+  - "opensearch.selfmade4u.de"
+  rules:
+  - backendRefs:
+    - name: opensearch-dashboards
+      namespace: fluentd
+      port: 5601
