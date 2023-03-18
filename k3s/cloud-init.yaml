@@ -1,0 +1,31 @@
+#cloud-config
+# https://cloudinit.readthedocs.io/en/latest/topics/examples.html
+# https://cloudinit.readthedocs.io/en/latest/topics/modules.html
+resize_rootfs: false
+bootcmd:
+  - "cloud-init-per once setup1 sgdisk -d 1 /dev/sda"
+  - "cloud-init-per once setup2 sgdisk -n 1:0:+40GB -t 1:8300 /dev/sda"
+  - "cloud-init-per once setup3 sgdisk -n 2:0:0     -t 2:8300 /dev/sda"
+  - "cloud-init-per once setup4 partx -u /dev/sda"
+  - "cloud-init-per once setup5 resize2fs /dev/sda1"
+write_files:
+  - path: /etc/growroot-disabled
+    content: |
+      # any text
+  - path: /root/kubelet-configuration.yaml
+    content: |
+      kind: KubeletConfiguration
+      apiVersion: kubelet.config.k8s.io/v1beta1
+      failSwapOn: false
+      featureGates:
+        NodeSwap: true
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+swap:
+  filename: /swapfile
+  size: 8G
+packages:
+  - apparmor-utils # still required
+runcmd:
+  - 'curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --kubelet-arg="config=/root/kubelet-configuration.yaml" --disable traefik --disable local-storage --disable-helm-controller --node-ip 5.75.136.69,2a01:4f8:c2c:24f0::1 --cluster-cidr 10.42.0.0/16,2001:cafe:42:0::/56 --service-cidr 10.43.0.0/16,2001:cafe:42:1::/112" sh -s -'

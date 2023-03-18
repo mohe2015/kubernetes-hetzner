@@ -1,43 +1,9 @@
 https://k3s.io/
 
 ```
-hcloud server create --type cx31 --image debian-11 --ssh-key Moritz.Hedtke@t-online.de --name node-1 --datacenter nbg1-dc3
+hcloud server create --user-data-from-file k3s/cloud-init.yaml --type cx31 --image debian-11 --ssh-key Moritz.Hedtke@t-online.de --name node-1 --datacenter nbg1-dc3
 
 ssh-keygen -R $(hcloud server ip node-1)
-
-hcloud server ssh node-1
-
-dd if=/dev/zero of=/swapfile bs=1M count=8192
-chmod 600 /swapfile
-mkswap /swapfile
-swapon /swapfile
-
-echo "/swapfile       none    swap    sw      0       0" >> /etc/fstab
-
-sudo apt update && sudo apt upgrade -y
-sudo apt install -y apparmor-utils
-
-# https://www.cisecurity.org/benchmark/kubernetes
-
-# https://docs.k3s.io/reference/server-config
-
-# TODO docs say for VXLAN security we need to enable a firewall
-
-# /usr/local/bin/k3s-uninstall.sh
-
-cat > kubelet-configuration.yaml << EOF
-kind: KubeletConfiguration
-apiVersion: kubelet.config.k8s.io/v1beta1
-failSwapOn: false
-featureGates:
-  NodeSwap: true
-EOF
-
-# adjust node-ip
-curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --kubelet-arg="config=/root/kubelet-configuration.yaml" --disable traefik --disable-helm-controller --node-ip 5.75.136.69,2a01:4f8:c2c:24f0::1 --cluster-cidr 10.42.0.0/16,2001:cafe:42:0::/56 --service-cidr 10.43.0.0/16,2001:cafe:42:1::/112" sh -s -
-
-exit
-
 
 rm -Rf ~/.kube/
 mkdir -p ~/.kube/
