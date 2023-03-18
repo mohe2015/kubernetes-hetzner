@@ -25,3 +25,5 @@ kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.pas
 argocd login argocd.selfmade4u.de
 
 argocd app sync projektwahl --local /kubernetes
+
+https://argocd-image-updater.readthedocs.io/en/stable/

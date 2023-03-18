@@ -3,6 +3,11 @@
 k3s, rook, wildcard-certificate, envoy-gateway, fluentd-bit, cert-manager, jaeger, prometheus (TODO), harbor, argocd, projektwahl
 
 
+https://opensearch.selfmade4u.de/
+https://harbor.selfmade4u.de
+https://argocd.selfmade4u.de
+https://jaeger.selfmade4u.de
+
 
 
 
