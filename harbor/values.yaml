@@ -1,23 +1,9 @@
 expose:
-  type: ingress
+  type: clusterIP # TODO FIXME gateway api
+  clusterIP:
+    name: harbor
   tls:
-    enabled: true
-    certSource: secret
-    secret:
-      secretName: "harbor"
-      notarySecretName: "notary-harbor"
-  ingress:
-    hosts:
-      core: harbor.selfmade4u.de
-      notary: notary-harbor.selfmade4u.de
-    controller: default
-    annotations:
-      ingress.kubernetes.io/ssl-redirect: "true"
-      ingress.kubernetes.io/proxy-body-size: "0"
-      ingress.kubernetes.io/force-ssl-redirect: "true"
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      kubernetes.io/ingress.class: contour
-      kubernetes.io/tls-acme: "true"
+    enabled: false
 
 externalURL: https://harbor.selfmade4u.de
 
@@ -28,24 +14,18 @@ persistence:
     registry:
       storageClass: "ceph-filesystem"
       accessMode: ReadWriteMany
-      size: 5Gi
     chartmuseum:
       storageClass: "ceph-filesystem"
       accessMode: ReadWriteMany
-      size: 5Gi
     jobservice:
       storageClass: "ceph-filesystem"
       accessMode: ReadWriteMany
-      size: 1Gi
     database:
       storageClass: "ceph-filesystem"
       accessMode: ReadWriteMany
-      size: 1Gi
     redis:
       storageClass: "ceph-filesystem"
       accessMode: ReadWriteMany
-      size: 1Gi
     trivy:
       storageClass: "ceph-filesystem"
       accessMode: ReadWriteMany
-      size: 5Gi

@@ -14,3 +14,5 @@ helm upgrade --install \
   --create-namespace \
   --version v1.11.0 \
   -f cert-manager/values.yaml
+
+https://cert-manager.io/docs/usage/gateway/
