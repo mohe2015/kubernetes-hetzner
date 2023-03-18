@@ -4,7 +4,7 @@ https://k3s.io/
 hcloud server create --user-data-from-file k3s/cloud-init.yaml --type cx31 --image debian-11 --ssh-key Moritz.Hedtke@t-online.de --name node-1 --datacenter nbg1-dc3
 
 ssh-keygen -R $(hcloud server ip node-1)
-hcloud server ssh node-1 -o StrictHostKeyChecking=accept-new tail -f /var/log/cloud-init-output.log # TODO FIXME automate reboot detection
+hcloud server ssh node-1 -o StrictHostKeyChecking=accept-new tail -f /var/log/cloud-init-output.log
 
 rm -Rf ~/.kube/
 mkdir -p ~/.kube/

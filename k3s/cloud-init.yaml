@@ -28,4 +28,4 @@ swap:
 packages:
   - apparmor-utils # still required
 runcmd:
-  - curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --kubelet-arg=\"config=/root/kubelet-configuration.yaml\" --disable traefik --disable local-storage --disable-helm-controller --node-ip $(hostname -I | awk '{print $1}'),$(hostname -I | awk '{print $2}') --cluster-cidr 10.42.0.0/16,2001:cafe:42:0::/56 --service-cidr 10.43.0.0/16,2001:cafe:42:1::/112" sh -s -
+  - curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --kubelet-arg=config=/root/kubelet-configuration.yaml --disable traefik --disable local-storage --disable-helm-controller --node-ip $(hostname -I | awk '{print $1}'),$(hostname -I | awk '{print $2}') --cluster-cidr 10.42.0.0/16,2001:cafe:42:0::/56 --service-cidr 10.43.0.0/16,2001:cafe:42:1::/112" sh -s -
