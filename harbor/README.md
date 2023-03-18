@@ -1,7 +1,6 @@
 ```bash
 
 # https://goharbor.io/docs/2.7.0/install-config/harbor-ha-helm/
-# https://goharbor.io/docs/2.7.0/install-config/configure-https/
 
 helm repo add harbor https://helm.goharbor.io
 helm repo update
@@ -23,25 +22,11 @@ https://goharbor.io/docs/2.7.0/administration/configure-authentication/db-auth/
 
 https://goharbor.io/docs/2.7.0/working-with-projects/create-projects/
 
-docker login https://harbor.selfmade4u.de/
+podman login https://harbor.selfmade4u.de/
 
-docker pull debian
-docker tag debian:latest harbor.selfmade4u.de/library/debian
-docker push harbor.selfmade4u.de/library/debian
-
-
-docker build -t not-grocy-server .
-docker tag not-grocy-server:latest harbor.selfmade4u.de/library/not-grocy-server
-docker push harbor.selfmade4u.de/library/not-grocy-server
-
-https://github.com/aquasecurity/trivy/issues/67
-https://github.com/aquasecurity/trivy/issues/160
-
-trivy --clear-cache
-
-helm --namespace harbor uninstall harbor
-kubectl delete namespace harbor
-
+podman pull docker.io/library/debian:latest
+podman tag docker.io/library/debian:latest harbor.selfmade4u.de/library/debian:latest
+podman push harbor.selfmade4u.de/library/debian:latest
 
 
 ```
