@@ -10,9 +10,15 @@ helm repo update
 
 helm upgrade --install --namespace fluent-bit -f fluentbit/opensearch-values.yaml opensearch opensearch/opensearch
 
+kubectl get pods --namespace=fluent-bit -l app.kubernetes.io/component=opensearch-cluster-master -w
+
 helm upgrade --install --namespace fluent-bit -f fluentbit/opensearch-values.yaml opensearch-dashboards opensearch/opensearch-dashboards
 
 kubectl apply -f fluentbit/gateway.yaml
+
+kubectl delete pod/opensearch-dashboards-577cc5484f-24txq # weird bug
+
+# https://opensearch.selfmade4u.de
 
 # username: admin
 # password: admin
