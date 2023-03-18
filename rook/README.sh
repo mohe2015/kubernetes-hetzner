@@ -28,6 +28,8 @@ https://ceph-dashboard.selfmade4u.de/
 # restart the operator if something is broken
 kubectl -n rook-ceph delete pod -l app=rook-ceph-operator
 
+kubectl -n rook-ceph logs -f -l app=rook-ceph-operator
+
 # debug tools
 
 kubectl -n rook-ceph exec -it deploy/rook-ceph-tools -- bash
