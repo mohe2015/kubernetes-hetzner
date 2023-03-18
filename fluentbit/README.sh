@@ -16,13 +16,13 @@ helm upgrade --install --namespace fluent-bit -f fluentbit/opensearch-values.yam
 
 kubectl apply -f fluentbit/gateway.yaml
 
-kubectl delete pod/opensearch-dashboards-577cc5484f-24txq # weird bug
+# PATIENCE
 
 # https://opensearch.selfmade4u.de
 
 # username: admin
 # password: admin
-# RESET PASSWORD
+# TODO FIXME RESET PASSWORD
 
 helm repo add fluent https://fluent.github.io/helm-charts
 
@@ -34,7 +34,7 @@ kubectl -n fluent-bit logs -f service/opensearch-cluster-master
 
 # Stack Management -> Index Patterns
 Index pattern: logstash-*
-Timestamp field: @timestamp
+Timestamp field: time
 
 # Discover
 
@@ -42,3 +42,5 @@ Timestamp field: @timestamp
 # logstash-*
 # Detector interval 10 minute
 # Window Delay 1 minute
+# response time
+# url as bucket
