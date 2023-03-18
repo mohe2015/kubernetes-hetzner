@@ -22,4 +22,6 @@ kubectl apply -f argocd/gateway.yaml
 admin
 kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
 
-argocd login
+argocd login argocd.selfmade4u.de
+
+argocd app sync projektwahl --local /kubernetes
