@@ -31,3 +31,7 @@ https://argocd-image-updater.readthedocs.io/en/stable/
 # TODO FIXME declaratively create projektwahl project
 
 kubectl apply -k argocd/github
+
+https://argo-cd.readthedocs.io/en/stable/user-guide/ci_automation/
+
+https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/services/github/

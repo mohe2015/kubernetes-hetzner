@@ -15,14 +15,12 @@ spec:
     spec:
       source:
         repoURL: 'https://github.com/projektwahl/projektwahl-lit.git'
-        targetRevision: '{{head_sha}}'
-        path: kubernetes/
-        kustomize:
-          nameSuffix: '{{branch}}'
-          commonLabels:
-            app.kubernetes.io/instance: '{{branch}}-{{number}}'
-          images:
-          - ghcr.io/projektwahl/projektwahl-lit:{{head_sha}}
+        targetRevision: '{{head_sha}}' # for security use `main` here
+        path: helm/
+        helm:
+          parameters:
+          - name: "image.tag"
+            value: "pull-{{head_sha}}"
       project: "projektwahl"
       destination:
         server: https://kubernetes.default.svc
