@@ -22,7 +22,7 @@ spec:
           - name: "image.tag"
             value: "pull-{{head_sha}}"
           - name: "gateway.hostnames[0]"
-            value: "projektwahl-2.selfmade4u.de"
+            value: "projektwahl-{{branch}}.selfmade4u.de"
       project: "projektwahl"
       destination:
         server: https://kubernetes.default.svc
