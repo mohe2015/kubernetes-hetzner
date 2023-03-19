@@ -35,3 +35,13 @@ kubectl apply -f argocd/github.yaml
 https://argo-cd.readthedocs.io/en/stable/user-guide/ci_automation/
 
 https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/services/github/
+
+# github webhook
+
+https://argocd.selfmade4u.de/api/webhook
+
+application/json
+
+Let me select individual events. 
+
+Pull Requests
