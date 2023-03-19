@@ -30,7 +30,7 @@ https://argocd-image-updater.readthedocs.io/en/stable/
 
 # TODO FIXME declaratively create projektwahl project
 
-kubectl apply -k argocd/github
+kubectl apply -f argocd/github.yaml
 
 https://argo-cd.readthedocs.io/en/stable/user-guide/ci_automation/
 
