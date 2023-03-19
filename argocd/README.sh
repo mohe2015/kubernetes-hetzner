@@ -27,3 +27,7 @@ argocd login argocd.selfmade4u.de
 argocd app sync projektwahl --local /kubernetes
 
 https://argocd-image-updater.readthedocs.io/en/stable/
+
+# TODO FIXME declaratively create projektwahl project
+
+kubectl apply -k argocd/github

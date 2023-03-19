@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: projektwahl
+  namespace: argocd
+spec:
+  generators:
+  - pullRequest:
+      github:
+        owner: projektwahl
+        repo: projektwahl-lit
+  template:
+    metadata:
+      name: 'projektwahl-{{branch}}-{{number}}'
+    spec:
+      source:
+        repoURL: 'https://github.com/projektwahl/projektwahl-lit.git'
+        targetRevision: '{{head_sha}}'
+        path: kubernetes/
+        kustomize:
+          nameSuffix: '{{branch}}'
+          commonLabels:
+            app.kubernetes.io/instance: '{{branch}}-{{number}}'
+          images:
+          - ghcr.io/projektwahl/projektwahl-lit:{{head_sha}}
+      project: "projektwahl"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: projektwahl
