@@ -6,6 +6,9 @@ hcloud server create --user-data-from-file k3s/cloud-init.yaml --type cx31 --ima
 ssh-keygen -R $(hcloud server ip node-1)
 hcloud server ssh node-1 -o StrictHostKeyChecking=accept-new tail -f /var/log/cloud-init-output.log
 
+sysctl -w fs.inotify.max_user_watches=100000
+sysctl -w fs.inotify.max_user_instances=100000
+
 rm -Rf ~/.kube/
 mkdir -p ~/.kube/
 scp root@$(hcloud server ip node-1):/etc/rancher/k3s/k3s.yaml ~/.kube/config

@@ -38,7 +38,15 @@ https://argo-cd.readthedocs.io/en/stable/operator-manual/notifications/services/
 
 # github webhook
 
-https://argocd.selfmade4u.de/api/webhook
+# TODO FIXME this probably needs the insecure option
+
+# https://argo-cd.readthedocs.io/en/stable/operator-manual/tls/
+
+kubectl -n argocd port-forward svc/argo-cd-argocd-applicationset-controller 7000:7000
+
+127.0.0.1:7000
+
+https://argocd-applicationsets.selfmade4u.de/api/webhook
 
 application/json
 
