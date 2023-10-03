@@ -1,0 +1,31 @@
+config:
+  outputs: |
+    [OUTPUT]
+        Name es
+        Match kube.*
+        Host opensearch-cluster-master
+        Logstash_Format On
+        Retry_Limit False
+        tls On
+        tls.verify Off
+        HTTP_User admin
+        HTTP_Passwd admin
+        Suppress_Type_Name On
+        Trace_Error On
+        Replace_Dots On
+        Generate_ID On
+    [OUTPUT]
+        Name es
+        Match host.*
+        Host opensearch-cluster-master
+        Logstash_Format On
+        Logstash_Prefix node
+        Retry_Limit False
+        tls On
+        tls.verify Off
+        HTTP_User admin
+        HTTP_Passwd admin
+        Suppress_Type_Name On
+        Trace_Error On
+        Replace_Dots On
+        Generate_ID On

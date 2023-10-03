@@ -1,0 +1,6 @@
+{
+    "yaml.schemas": {
+        "kubernetes://schema/gateway.networking.k8s.io/v1beta1%40gateway": "file:///home/moritz/Documents/kubernetes-hetzner/envoy-gateway/gateway.yaml",
+        "https://json.schemastore.org/kustomization.json": "file:///home/moritz/Documents/kubernetes-hetzner/argocd/github.yaml"
+    }
+}

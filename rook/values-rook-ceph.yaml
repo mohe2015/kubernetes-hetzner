@@ -1,0 +1,199 @@
+# https://github.com/rook/rook/blob/release-1.11/deploy/charts/rook-ceph/values.yaml
+resources:
+  limits:
+    cpu: 0
+    memory: 0
+  requests:
+    cpu: 0
+    memory: 0
+csi:
+  csiRBDProvisionerResource: |
+    - name : csi-provisioner
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : csi-resizer
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : csi-attacher
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : csi-snapshotter
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : csi-rbdplugin
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : csi-omap-generator
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : liveness-prometheus
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 100m
+  csiRBDPluginResource: |
+    - name : driver-registrar
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : csi-rbdplugin
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : liveness-prometheus
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+  csiCephFSProvisionerResource: |
+    - name : csi-provisioner
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : csi-resizer
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : csi-attacher
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : csi-snapshotter
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : csi-cephfsplugin
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : liveness-prometheus
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+  csiCephFSPluginResource: |
+    - name : driver-registrar
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : csi-cephfsplugin
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : liveness-prometheus
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+  csiNFSProvisionerResource: |
+    - name : csi-provisioner
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : csi-nfsplugin
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+  csiNFSPluginResource: |
+    - name : driver-registrar
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0
+    - name : csi-nfsplugin
+      resource:
+        requests:
+          memory: 0
+          cpu: 0
+        limits:
+          memory: 0
+          cpu: 0

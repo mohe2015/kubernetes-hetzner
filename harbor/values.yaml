@@ -1,0 +1,31 @@
+expose:
+  type: clusterIP # TODO FIXME gateway api
+  clusterIP:
+    name: harbor
+  tls:
+    enabled: false
+
+externalURL: https://harbor.selfmade4u.de
+
+persistence:
+  enabled: true
+  resourcePolicy: "keep"
+  persistentVolumeClaim:
+    registry:
+      storageClass: "ceph-filesystem"
+      accessMode: ReadWriteMany
+    chartmuseum:
+      storageClass: "ceph-filesystem"
+      accessMode: ReadWriteMany
+    jobservice:
+      storageClass: "ceph-filesystem"
+      accessMode: ReadWriteMany
+    database:
+      storageClass: "ceph-filesystem"
+      accessMode: ReadWriteMany
+    redis:
+      storageClass: "ceph-filesystem"
+      accessMode: ReadWriteMany
+    trivy:
+      storageClass: "ceph-filesystem"
+      accessMode: ReadWriteMany
